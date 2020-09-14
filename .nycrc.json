@@ -1,0 +1,10 @@
+{
+  "extends": "@istanbuljs/nyc-config-babel",
+  "all": true,
+  "include": ["src"],
+  "exclude": ["**/*.spec.ts", "**/*.spec.js", "**/*.test.ts", "**/*.test.js"],
+  "check-coverage": true,
+  "reporter": ["text", "lcov"],
+  "report-dir": "./coverage",
+  "timeout": 6000
+}

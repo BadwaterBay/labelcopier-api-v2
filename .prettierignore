@@ -1,5 +1,5 @@
 # .prettierignore
 
-/node_modules
-/dist-server
-/build
+**/node_modules
+**/.nyc_output
+**/coverage
