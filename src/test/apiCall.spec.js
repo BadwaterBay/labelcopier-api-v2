@@ -1,188 +1,104 @@
 import { expect } from 'chai';
+import nock from 'nock';
+import 'regenerator-runtime';
 
-import {
-  getLoginInfo,
-  apiPaginationLimit,
-  getRepoOwnerFromLoginInfo,
-  getRepoNameFromLoginInfo,
-  composeUrlForFetchingEntriesFromServer,
-} from '../core/apiCall';
+import { httpAcceptHeader, httpGet, makeApiCallToListEntries } from '../core/apiCall';
 
-describe('Test apiPaginationLimit', () => {
-  it('Test it is a number', () => {
-    expect(apiPaginationLimit).to.be.a('number');
+describe('Test httpGet', () => {
+  before(() => {
+    nock.disableNetConnect();
   });
 
-  it('Test it is >= 1 and <= 100', () => {
-    expect(apiPaginationLimit).to.be.within(1, 100);
+  beforeEach(() => {
+    nock('https://api.github.com')
+      .get(/\/repos\/.*/)
+      .reply(200, function (uri) {
+        return {
+          requestedUri: uri,
+          method: this.req.method,
+          requestHeader: this.req.headers,
+        };
+      });
   });
 
-  it('Test it is 100', () => {
-    expect(apiPaginationLimit).to.deep.equal(100);
-  });
-});
-
-describe('Test getRepoOwnerFromLoginInfo', () => {
-  it("Test with mode 'list'", () => {
-    const loginInfo = getLoginInfo();
-
-    const mode = 'list';
-
-    const output = getRepoOwnerFromLoginInfo(loginInfo, mode);
-
-    const answerKey = 'home-repo-owner';
-
-    expect(output).to.deep.equal(answerKey);
+  after(() => {
+    nock.cleanAll();
+    nock.enableNetConnect();
   });
 
-  it("Test with mode 'copy'", () => {
-    const loginInfo = getLoginInfo();
-
-    const mode = 'copy';
-
-    const output = getRepoOwnerFromLoginInfo(loginInfo, mode);
-
-    const answerKey = 'template-repo-owner';
-
-    expect(output).to.deep.equal(answerKey);
-  });
-});
-
-describe('Test getRepoNameFromLoginInfo', () => {
-  it("Test with mode 'list'", () => {
-    const loginInfo = getLoginInfo();
-
-    const mode = 'list';
-
-    const output = getRepoNameFromLoginInfo(loginInfo, mode);
-
-    const answerKey = 'home-repo-name';
-
-    expect(output).to.deep.equal(answerKey);
+  it('Returns a function of fetch API', () => {
+    expect(httpGet).to.be.a('function');
   });
 
-  it("Test with mode 'copy'", () => {
-    const loginInfo = getLoginInfo();
+  it('Call the function, make an HTTP request and receives an OK status', async () => {
+    try {
+      const response = await httpGet();
+      const okStatus = response.ok;
+      expect(okStatus).to.be.true;
+    } catch (err) {
+      expect(err, 'Something went wrong with mocking HTTP requests').to.not.throw();
+    }
+  });
 
-    const mode = 'copy';
+  it("The HTTP request used the 'GET' method", async () => {
+    try {
+      const response = await httpGet();
+      const responseBody = await response.json();
 
-    const output = getRepoNameFromLoginInfo(loginInfo, mode);
+      const acceptHeaderSent = responseBody.method;
+      const answerKey = 'GET';
+      expect(acceptHeaderSent).to.deep.equal(answerKey);
+    } catch (err) {
+      expect(err, 'Something went wrong with mocking HTTP requests').to.not.throw();
+    }
+  });
 
-    const answerKey = 'template-repo-name';
+  it('The HTTP request sent the correct Accept header', async () => {
+    try {
+      const response = await httpGet();
+      const responseBody = await response.json();
 
-    expect(output).to.deep.equal(answerKey);
+      const acceptHeaderSent = responseBody.requestHeader.accept[0];
+      const answerKey = httpAcceptHeader;
+      expect(acceptHeaderSent).to.deep.equal(answerKey);
+    } catch (err) {
+      expect(err, 'Something went wrong with mocking HTTP requests').to.not.throw();
+    }
   });
 });
 
-describe('Test composeUrlForFetchingEntriesFromServer', () => {
-  it('Test the return value is a string', () => {
-    const output = composeUrlForFetchingEntriesFromServer();
-
-    expect(output).to.be.a('string');
+describe('Test makeApiCallToListEntries', () => {
+  before(() => {
+    nock.disableNetConnect();
   });
 
-  it('Test the return value has a length greater than 56', () => {
-    const output = composeUrlForFetchingEntriesFromServer();
-
-    expect(output).to.have.lengthOf.above(56);
+  beforeEach(() => {
+    nock('https://api.github.com')
+      .get(/\/repos\/.*/)
+      .reply(200, [1, 2]);
   });
 
-  it('Test the return value with default arguments', () => {
-    const output = composeUrlForFetchingEntriesFromServer();
-
-    const answerKey =
-      'https://api.github.com/repos/home-repo-owner/home-repo-name/labels?per_page=100&page=1';
-
-    expect(output).to.deep.equal(answerKey);
+  after(() => {
+    nock.cleanAll();
+    nock.enableNetConnect();
   });
 
-  it("Test the return value with argument ('labels')", () => {
-    const output = composeUrlForFetchingEntriesFromServer('labels');
-
-    const answerKey =
-      'https://api.github.com/repos/home-repo-owner/home-repo-name/labels?per_page=100&page=1';
-
-    expect(output).to.deep.equal(answerKey);
+  it('Make a GET HTTP request and receives an array', async () => {
+    try {
+      const fetchedArray = await makeApiCallToListEntries();
+      expect(fetchedArray).to.be.an('array');
+    } catch (err) {
+      expect(err, 'Something went wrong with mocking HTTP requests').to.not.throw();
+    }
   });
 
-  it("Test the return value with argument ('milestones')", () => {
-    const output = composeUrlForFetchingEntriesFromServer('milestones');
-
-    const answerKey =
-      'https://api.github.com/repos/home-repo-owner/home-repo-name/milestones?per_page=100&page=1&state=all';
-
-    expect(output).to.deep.equal(answerKey);
-  });
-
-  it("Test the return value with argument ('labels', 1)", () => {
-    const output = composeUrlForFetchingEntriesFromServer('labels', 1);
-
-    const answerKey =
-      'https://api.github.com/repos/home-repo-owner/home-repo-name/labels?per_page=100&page=1';
-
-    expect(output).to.deep.equal(answerKey);
-  });
-
-  it("Test the return value with argument ('labels', 23)", () => {
-    const output = composeUrlForFetchingEntriesFromServer('labels', 23);
-
-    const answerKey =
-      'https://api.github.com/repos/home-repo-owner/home-repo-name/labels?per_page=100&page=23';
-
-    expect(output).to.deep.equal(answerKey);
-  });
-
-  it("Test the return value with argument ('milestones', 1)", () => {
-    const output = composeUrlForFetchingEntriesFromServer('milestones', 1);
-
-    const answerKey =
-      'https://api.github.com/repos/home-repo-owner/home-repo-name/milestones?per_page=100&page=1&state=all';
-
-    expect(output).to.deep.equal(answerKey);
-  });
-
-  it("Test the return value with argument ('milestones', 29)", () => {
-    const output = composeUrlForFetchingEntriesFromServer('milestones', 29);
-
-    const answerKey =
-      'https://api.github.com/repos/home-repo-owner/home-repo-name/milestones?per_page=100&page=29&state=all';
-
-    expect(output).to.deep.equal(answerKey);
-  });
-
-  it("Test the return value with argument ('labels', 23, 'list')", () => {
-    const output = composeUrlForFetchingEntriesFromServer('labels', 23, 'list');
-
-    const answerKey =
-      'https://api.github.com/repos/home-repo-owner/home-repo-name/labels?per_page=100&page=23';
-
-    expect(output).to.deep.equal(answerKey);
-  });
-
-  it("Test the return value with argument ('labels', 23, 'copy')", () => {
-    const output = composeUrlForFetchingEntriesFromServer('labels', 23, 'copy');
-
-    const answerKey =
-      'https://api.github.com/repos/template-repo-owner/template-repo-name/labels?per_page=100&page=23';
-
-    expect(output).to.deep.equal(answerKey);
-  });
-
-  it("Test the return value with argument ('milestones', 29, 'list')", () => {
-    const output = composeUrlForFetchingEntriesFromServer('milestones', 29, 'list');
-
-    const answerKey =
-      'https://api.github.com/repos/home-repo-owner/home-repo-name/milestones?per_page=100&page=29&state=all';
-
-    expect(output).to.deep.equal(answerKey);
-  });
-
-  it("Test the return value with argument ('milestones', 29, 'copy')", () => {
-    const output = composeUrlForFetchingEntriesFromServer('milestones', 29, 'copy');
-
-    const answerKey =
-      'https://api.github.com/repos/template-repo-owner/template-repo-name/milestones?per_page=100&page=29&state=all';
-
-    expect(output).to.deep.equal(answerKey);
+  it('Verify the content of the array', async () => {
+    try {
+      const fetchedArray = await makeApiCallToListEntries();
+      const answerKey = [1, 2];
+      expect(fetchedArray).to.deep.equal(answerKey);
+    } catch (err) {
+      expect(err, 'Something went wrong with mocking HTTP requests').to.not.throw();
+    }
   });
 });
