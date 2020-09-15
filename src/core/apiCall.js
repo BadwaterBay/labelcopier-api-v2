@@ -1,60 +1,71 @@
+import fetch from 'node-fetch';
+
 import { validateKind, validateMode } from './dataValidation';
+import { dummyLoginInfo } from '../test/dummyData';
 
 export const getLoginInfo = () => {
-  return {
-    homeRepoOwner: 'home-repo-owner',
-    homeRepoName: 'home-repo-name',
-    templateRepoOwner: 'template-repo-owner',
-    templateRepoName: 'template-repo-name',
-  };
+  return dummyLoginInfo;
 };
 
 export const apiPaginationLimit = 100;
 
 export const httpAcceptHeader = 'application/vnd.github.v3+json';
 
-export const getRepoOwnerFromLoginInfo = (loginInfo, mode) => {
-  const lookupTable = {
-    list: loginInfo.homeRepoOwner,
-    copy: loginInfo.templateRepoOwner,
-  };
-
-  return lookupTable[mode];
+export const loginInfoLookupTable = {
+  list: {
+    owner: 'homeRepoOwner',
+    name: 'homeRepoName',
+  },
+  copy: {
+    owner: 'templateRepoOwner',
+    name: 'templateRepoName',
+  },
 };
 
-export const getRepoNameFromLoginInfo = (loginInfo, mode) => {
-  const lookupTable = {
-    list: loginInfo.homeRepoName,
-    copy: loginInfo.templateRepoName,
-  };
-
-  return lookupTable[mode];
+export const getRepoInfoFromLoginInfo = (loginInfo, mode, ownerOrName) => {
+  const key = loginInfoLookupTable[mode][ownerOrName];
+  return loginInfo[key];
 };
 
-export const composeUrlForFetchingEntriesFromServer = (
+export const composeUrlForListingEntries = (
   kind = 'labels',
   pageNum = 1,
   mode = 'list'
 ) => {
   validateKind(kind);
-
   validateMode(mode);
 
   const loginInfo = getLoginInfo();
+  const repoOwner = getRepoInfoFromLoginInfo(loginInfo, mode, 'owner');
+  const repoName = getRepoInfoFromLoginInfo(loginInfo, mode, 'name');
 
-  const repoOwner = getRepoOwnerFromLoginInfo(loginInfo, mode);
-
-  const repoName = getRepoNameFromLoginInfo(loginInfo, mode);
-
-  let url =
+  let urlToBeReturned =
     'https://api.github.com/repos/' +
     `${repoOwner}/${repoName}/${kind}` +
     `?per_page=${apiPaginationLimit}` +
     `&page=${pageNum}`;
 
   if (kind === 'milestones') {
-    url += '&state=all';
+    urlToBeReturned += '&state=all';
   }
 
-  return url;
+  return urlToBeReturned;
+};
+
+export const httpGet = (kind = 'labels', pageNum = 1, mode = 'list') => {
+  const url = composeUrlForListingEntries(kind, pageNum, mode);
+
+  return fetch(url, {
+    method: 'GET',
+    headers: {
+      Accept: httpAcceptHeader,
+      Authorization: `token`,
+    },
+  });
+};
+
+export const makeApiCallToListEntries = async (kind = 'labels') => {
+  const response = await httpGet(kind);
+  const fetchedArray = await response.json();
+  return fetchedArray;
 };

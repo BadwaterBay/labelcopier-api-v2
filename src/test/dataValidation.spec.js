@@ -8,29 +8,29 @@ import {
 } from '../core/dataValidation';
 
 describe('Test validKinds', () => {
-  it('Test validKinds is non-empty', () => {
+  it('It is non-empty', () => {
     expect(validKinds).to.not.be.empty;
   });
 
-  it('Test validKinds has a size of 2', () => {
+  it('It has a size of 2', () => {
     expect(validKinds).to.have.lengthOf(2);
   });
 
-  it("Test validKinds has 'labels'", () => {
+  it("It has 'labels'", () => {
     expect(validKinds).to.include('labels');
   });
 
-  it("Test validKinds has 'milestones'", () => {
+  it("It has 'milestones'", () => {
     expect(validKinds).to.include('milestones');
   });
 
-  it('Test valiKinds with an invalid kind', () => {
+  it('Test it with an invalid kind, expecting an error to be thrown', () => {
     expect(validKinds).to.not.include('nonexistence-kind');
   });
 });
 
 describe('Test validateKind', () => {
-  it("Test if 'labels' is valid", () => {
+  it("'labels' is valid", () => {
     const input = 'labels';
 
     const output = validateKind(input);
@@ -38,7 +38,7 @@ describe('Test validateKind', () => {
     expect(output).to.be.true;
   });
 
-  it("Test if 'milestones' is valid", () => {
+  it("'milestones' is valid", () => {
     const input = 'milestones';
 
     const output = validateKind(input);
@@ -46,7 +46,7 @@ describe('Test validateKind', () => {
     expect(output).to.be.true;
   });
 
-  it('Test an invalid kind, expecting an error to be thrown', () => {
+  it('Test it with an invalid kind, expecting an error to be thrown', () => {
     const input = 'nonexistence-kind';
 
     expect(() => validateKind(input)).to.throw();
@@ -54,29 +54,29 @@ describe('Test validateKind', () => {
 });
 
 describe('Test validModes', () => {
-  it('Test validModes is non-empty', () => {
+  it('It is non-empty', () => {
     expect(validModes).to.not.be.empty;
   });
 
-  it('Test validModes has a size of 2', () => {
+  it('It has a size of 2', () => {
     expect(validModes).to.have.lengthOf(2);
   });
 
-  it("Test validModes has 'list'", () => {
+  it("'list' is valid", () => {
     expect(validModes).to.include('list');
   });
 
-  it("Test validModes has 'copy'", () => {
+  it("'copy' is valid", () => {
     expect(validModes).to.include('copy');
   });
 
-  it('Test valiModes with an invalid mode', () => {
+  it('Test it with an invalid mode, expecting an error to be thrown', () => {
     expect(validModes).to.not.include('nonexistence-mode');
   });
 });
 
 describe('Test validateMode', () => {
-  it("Test if 'list' is valid", () => {
+  it("'list' is valid", () => {
     const input = 'list';
 
     const output = validateMode(input);
@@ -84,7 +84,7 @@ describe('Test validateMode', () => {
     expect(output).to.be.true;
   });
 
-  it("Test if 'copy' is valid", () => {
+  it("'copy' is valid", () => {
     const input = 'copy';
 
     const output = validateMode(input);
@@ -92,7 +92,7 @@ describe('Test validateMode', () => {
     expect(output).to.be.true;
   });
 
-  it('Test an invalid mode, expecting an error to be thrown', () => {
+  it('Test it with an invalid mode, expecting an error to be thrown', () => {
     const input = 'nonexistence-mode';
 
     expect(() => validateMode(input)).to.throw();

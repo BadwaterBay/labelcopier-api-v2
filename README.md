@@ -4,6 +4,7 @@ Repository: [https://github.com/BadwaterBay/labelcopier-core](https://github.com
 
 ![Node.js CI](https://github.com/BadwaterBay/labelcopier-core/workflows/Node.js%20CI/badge.svg)
 [![codecov](https://codecov.io/gh/BadwaterBay/labelcopier-core/branch/main/graph/badge.svg)](https://codecov.io/gh/BadwaterBay/labelcopier-core)
+[![Maintainability](https://api.codeclimate.com/v1/badges/e810f6b097f568a52114/maintainability)](https://codeclimate.com/github/BadwaterBay/labelcopier-core/maintainability)
 [![CodeFactor](https://www.codefactor.io/repository/github/badwaterbay/labelcopier-core/badge)](https://www.codefactor.io/repository/github/badwaterbay/labelcopier-core)
 [![DeepScan grade](https://deepscan.io/api/teams/9440/projects/13813/branches/242923/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=9440&pid=13813&bid=242923)
 
