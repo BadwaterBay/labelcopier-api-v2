@@ -2,21 +2,23 @@ import { expect } from 'chai';
 
 import { validModes, validateModeOrThrowError } from '../core/validateMode';
 
-describe('validModes', () => {
-  it('should not be empty', () => {
-    expect(validModes).to.not.be.empty;
-  });
+describe('Test validModes', () => {
+  describe('the return value', () => {
+    it('should not be empty', () => {
+      expect(validModes).to.not.be.empty;
+    });
 
-  it('should have a size of 2', () => {
-    expect(validModes).to.have.lengthOf(2);
-  });
+    it('should have a size of 2', () => {
+      expect(validModes).to.have.lengthOf(2);
+    });
 
-  it("should contain 'list'", () => {
-    expect(validModes).to.include('list');
-  });
+    it("should contain 'list'", () => {
+      expect(validModes).to.include('list');
+    });
 
-  it("should contain 'copy'", () => {
-    expect(validModes).to.include('copy');
+    it("should contain 'copy'", () => {
+      expect(validModes).to.include('copy');
+    });
   });
 
   describe('when tested against an invalid value', () => {

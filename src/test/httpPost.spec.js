@@ -4,7 +4,7 @@ import nock from 'nock';
 import { httpAcceptHeader, httpUriBase } from '../core/apiCallOptions';
 import { httpPost } from '../core/apiCallToCreate';
 
-describe('httpPost', () => {
+describe('Test httpPost', () => {
   before(() => {
     nock.disableNetConnect();
   });
@@ -27,8 +27,10 @@ describe('httpPost', () => {
     nock.enableNetConnect();
   });
 
-  it('should return a function of fetch API', () => {
-    expect(httpPost).to.be.a('function');
+  describe('the return value', () => {
+    it('should be a function', () => {
+      expect(httpPost).to.be.a('function');
+    });
   });
 
   describe('when the function is called', () => {

@@ -4,7 +4,7 @@ import nock from 'nock';
 import { httpAcceptHeader, httpUriBase } from '../core/apiCallOptions';
 import { httpGet } from '../core/apiCallToList';
 
-describe('httpGet', () => {
+describe('Test httpGet', () => {
   before(() => {
     nock.disableNetConnect();
   });
@@ -26,8 +26,10 @@ describe('httpGet', () => {
     nock.enableNetConnect();
   });
 
-  it('should return a function of fetch API', () => {
-    expect(httpGet).to.be.a('function');
+  describe('the return value', () => {
+    it('should return a function', () => {
+      expect(httpGet).to.be.a('function');
+    });
   });
 
   describe('when the function is called', () => {

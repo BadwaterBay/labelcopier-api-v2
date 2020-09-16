@@ -1,11 +1,11 @@
 module.exports = {
-  require: ['@babel/register', 'src/test/setup.spec.js'],
+  require: ['@babel/register', 'src/test/setup.test.js'],
   extension: ['js'],
   spec: ['src/test/**/*.{spec,test}.js'],
   recursive: false,
   sort: false,
   watch: false,
-  ignore: ['src/test/setup.spec.js'],
+  ignore: ['src/test/setup.test.js'],
   parallel: true,
   jobs: 1,
   slow: 50,

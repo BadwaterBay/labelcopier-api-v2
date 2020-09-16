@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import { httpAcceptHeader } from '../core/apiCallOptions';
 
-describe('httpAcceptHeader', () => {
+describe('The httpAcceptHeader', () => {
   it('should be a string', () => {
     expect(httpAcceptHeader).to.be.a('string');
   });

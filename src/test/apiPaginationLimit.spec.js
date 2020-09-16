@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import { apiPaginationLimit } from '../core/apiCallOptions';
 
-describe('apiPaginationLimit', () => {
+describe('The apiPaginationLimit', () => {
   it('shoud be a number', () => {
     expect(apiPaginationLimit).to.be.a('number');
   });
