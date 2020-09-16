@@ -29,7 +29,7 @@ describe('Test getRepoInfoFromLoginInfo', () => {
     const mode = 'list';
     const ownerOrName = 'owner';
 
-    const output = getRepoInfoFromLoginInfo(loginInfo, mode, ownerOrName);
+    const output = getRepoInfoFromLoginInfo(loginInfo, ownerOrName, mode);
 
     expect(output).to.be.a('string');
   });
@@ -38,7 +38,7 @@ describe('Test getRepoInfoFromLoginInfo', () => {
     const mode = 'list';
     const ownerOrName = 'owner';
 
-    const output = getRepoInfoFromLoginInfo(loginInfo, mode, ownerOrName);
+    const output = getRepoInfoFromLoginInfo(loginInfo, ownerOrName, mode);
 
     expect(output).to.deep.equal('home-repo-owner');
   });
@@ -47,7 +47,7 @@ describe('Test getRepoInfoFromLoginInfo', () => {
     const mode = 'list';
     const ownerOrName = 'name';
 
-    const output = getRepoInfoFromLoginInfo(loginInfo, mode, ownerOrName);
+    const output = getRepoInfoFromLoginInfo(loginInfo, ownerOrName, mode);
 
     expect(output).to.be.a('string');
   });
@@ -56,7 +56,7 @@ describe('Test getRepoInfoFromLoginInfo', () => {
     const mode = 'list';
     const ownerOrName = 'name';
 
-    const output = getRepoInfoFromLoginInfo(loginInfo, mode, ownerOrName);
+    const output = getRepoInfoFromLoginInfo(loginInfo, ownerOrName, mode);
 
     expect(output).to.deep.equal('home-repo-name');
   });
@@ -65,7 +65,7 @@ describe('Test getRepoInfoFromLoginInfo', () => {
     const mode = 'copy';
     const ownerOrName = 'owner';
 
-    const output = getRepoInfoFromLoginInfo(loginInfo, mode, ownerOrName);
+    const output = getRepoInfoFromLoginInfo(loginInfo, ownerOrName, mode);
 
     expect(output).to.be.a('string');
   });
@@ -74,7 +74,7 @@ describe('Test getRepoInfoFromLoginInfo', () => {
     const mode = 'copy';
     const ownerOrName = 'owner';
 
-    const output = getRepoInfoFromLoginInfo(loginInfo, mode, ownerOrName);
+    const output = getRepoInfoFromLoginInfo(loginInfo, ownerOrName, mode);
 
     expect(output).to.deep.equal('template-repo-owner');
   });
@@ -83,7 +83,7 @@ describe('Test getRepoInfoFromLoginInfo', () => {
     const mode = 'copy';
     const ownerOrName = 'name';
 
-    const output = getRepoInfoFromLoginInfo(loginInfo, mode, ownerOrName);
+    const output = getRepoInfoFromLoginInfo(loginInfo, ownerOrName, mode);
 
     expect(output).to.be.a('string');
   });
@@ -92,7 +92,7 @@ describe('Test getRepoInfoFromLoginInfo', () => {
     const mode = 'copy';
     const ownerOrName = 'name';
 
-    const output = getRepoInfoFromLoginInfo(loginInfo, mode, ownerOrName);
+    const output = getRepoInfoFromLoginInfo(loginInfo, ownerOrName, mode);
 
     expect(output).to.deep.equal('template-repo-name');
   });

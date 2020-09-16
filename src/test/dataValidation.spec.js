@@ -2,9 +2,9 @@ import { expect } from 'chai';
 
 import {
   validKinds,
-  validateKind,
+  validateKindOrThrowError,
   validModes,
-  validateMode,
+  validateModeOrThrowError,
 } from '../core/dataValidation';
 
 describe('Test validKinds', () => {
@@ -29,11 +29,11 @@ describe('Test validKinds', () => {
   });
 });
 
-describe('Test validateKind', () => {
+describe('Test validateKindOrThrowError', () => {
   it("'labels' is valid", () => {
     const input = 'labels';
 
-    const output = validateKind(input);
+    const output = validateKindOrThrowError(input);
 
     expect(output).to.be.true;
   });
@@ -41,7 +41,7 @@ describe('Test validateKind', () => {
   it("'milestones' is valid", () => {
     const input = 'milestones';
 
-    const output = validateKind(input);
+    const output = validateKindOrThrowError(input);
 
     expect(output).to.be.true;
   });
@@ -49,7 +49,7 @@ describe('Test validateKind', () => {
   it('Test it with an invalid kind, expecting an error to be thrown', () => {
     const input = 'nonexistence-kind';
 
-    expect(() => validateKind(input)).to.throw();
+    expect(() => validateKindOrThrowError(input)).to.throw();
   });
 });
 
@@ -75,11 +75,11 @@ describe('Test validModes', () => {
   });
 });
 
-describe('Test validateMode', () => {
+describe('Test validateModeOrThrowError', () => {
   it("'list' is valid", () => {
     const input = 'list';
 
-    const output = validateMode(input);
+    const output = validateModeOrThrowError(input);
 
     expect(output).to.be.true;
   });
@@ -87,7 +87,7 @@ describe('Test validateMode', () => {
   it("'copy' is valid", () => {
     const input = 'copy';
 
-    const output = validateMode(input);
+    const output = validateModeOrThrowError(input);
 
     expect(output).to.be.true;
   });
@@ -95,6 +95,6 @@ describe('Test validateMode', () => {
   it('Test it with an invalid mode, expecting an error to be thrown', () => {
     const input = 'nonexistence-mode';
 
-    expect(() => validateMode(input)).to.throw();
+    expect(() => validateModeOrThrowError(input)).to.throw();
   });
 });

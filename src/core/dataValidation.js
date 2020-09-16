@@ -1,6 +1,6 @@
 export const validKinds = new Set(['labels', 'milestones']);
 
-export const validateKind = (kindToBeValidated) => {
+export const validateKindOrThrowError = (kindToBeValidated) => {
   if (validKinds.has(kindToBeValidated)) {
     return true;
   }
@@ -10,7 +10,7 @@ export const validateKind = (kindToBeValidated) => {
 
 export const validModes = new Set(['list', 'copy']);
 
-export const validateMode = (modeToBeValidated) => {
+export const validateModeOrThrowError = (modeToBeValidated) => {
   if (validModes.has(modeToBeValidated)) {
     return true;
   }
