@@ -1,31 +1,9 @@
 import fetch from 'node-fetch';
 
-import { validateKindOrThrowError, validateModeOrThrowError } from './dataValidation';
-import { dummyLoginInfo } from '../test/dummyData';
-
-export const getLoginInfo = () => {
-  return dummyLoginInfo;
-};
-
-export const apiPaginationLimit = 100;
-
-export const httpAcceptHeader = 'application/vnd.github.v3+json';
-
-export const loginInfoLookupTable = {
-  list: {
-    owner: 'homeRepoOwner',
-    name: 'homeRepoName',
-  },
-  copy: {
-    owner: 'templateRepoOwner',
-    name: 'templateRepoName',
-  },
-};
-
-export const getRepoInfoFromLoginInfo = (loginInfo, ownerOrName, mode = 'list') => {
-  const key = loginInfoLookupTable[mode][ownerOrName];
-  return loginInfo[key];
-};
+import { apiPaginationLimit, httpAcceptHeader } from './apiCallOptions';
+import { getLoginInfo, getRepoInfoFromLoginInfo } from './getApiLoginInfo';
+import { validateKindOrThrowError } from './validateKind';
+import { validateModeOrThrowError } from './validateMode';
 
 export const composeUrlForListingEntries = (
   kind = 'labels',

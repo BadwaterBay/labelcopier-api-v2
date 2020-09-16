@@ -36,6 +36,7 @@
     ]
   },
   "dependencies": {
+    "dotenv": "^8.2.0",
     "node-fetch": "^2.6.1"
   },
   "devDependencies": {
@@ -59,6 +60,7 @@
     "nock": "^13.0.4",
     "nyc": "^15.1.0",
     "prettier": "^2.1.2",
-    "regenerator-runtime": "^0.13.7"
+    "regenerator-runtime": "^0.13.7",
+    "sinon": "^9.0.3"
   }
 }

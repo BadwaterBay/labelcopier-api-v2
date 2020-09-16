@@ -1,7 +1,8 @@
 import fetch from 'node-fetch';
 
-import { validateKindOrThrowError } from './dataValidation';
-import { httpAcceptHeader, getLoginInfo, getRepoInfoFromLoginInfo } from './apiCall';
+import { httpAcceptHeader } from './apiCallOptions';
+import { validateKindOrThrowError } from './validateKind';
+import { getLoginInfo, getRepoInfoFromLoginInfo } from './getApiLoginInfo';
 
 export const composeUrlForCreatingEntries = (kind = 'labels') => {
   validateKindOrThrowError(kind);
