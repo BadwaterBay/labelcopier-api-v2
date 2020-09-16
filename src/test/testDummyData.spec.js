@@ -5,7 +5,7 @@ import { loadHomeRepoOwnerFromEnv, loadHomeRepoNameFromEnv } from './dummyData';
 import * as loadEnvVarsModule from './loadEnvVars';
 
 describe('Test loadHomeRepoOwnerFromEnv', () => {
-  describe('When environmental variables are absent', () => {
+  describe('when .env file is absent', () => {
     let stubLoadEnvVarsModule;
 
     before(() => {
@@ -21,14 +21,14 @@ describe('Test loadHomeRepoOwnerFromEnv', () => {
       stubLoadEnvVarsModule.restore();
     });
 
-    it('Expect fallback value to be returned', () => {
+    it('should return its fallback value', () => {
       const output = loadHomeRepoOwnerFromEnv();
       const answerKey = 'home-repo-owner';
       expect(output).to.deep.equal(answerKey);
     });
   });
 
-  describe('When environmental variables are present', () => {
+  describe('when .env file is present', () => {
     let stubLoadEnvVarsModule;
     const homeRepoOwner = 'dummy-home-repo-owner';
 
@@ -47,7 +47,7 @@ describe('Test loadHomeRepoOwnerFromEnv', () => {
       stubLoadEnvVarsModule.restore();
     });
 
-    it('Expect stub value to be returned', () => {
+    it('should return the stubbed value', () => {
       const output = loadHomeRepoOwnerFromEnv();
       const answerKey = homeRepoOwner;
       expect(output).to.deep.equal(answerKey);
@@ -56,7 +56,7 @@ describe('Test loadHomeRepoOwnerFromEnv', () => {
 });
 
 describe('Test loadHomeRepoNameFromEnv', () => {
-  describe('When environmental variables are absent', () => {
+  describe('when .env file is absent', () => {
     let stubLoadEnvVarsModule;
 
     before(() => {
@@ -72,14 +72,14 @@ describe('Test loadHomeRepoNameFromEnv', () => {
       stubLoadEnvVarsModule.restore();
     });
 
-    it('Expect fallback value to be returned', () => {
+    it('should return its fallback value', () => {
       const output = loadHomeRepoNameFromEnv();
       const answerKey = 'home-repo-name';
       expect(output).to.deep.equal(answerKey);
     });
   });
 
-  describe('When environmental variables are present', () => {
+  describe('when .env file is present', () => {
     let stubLoadEnvVarsModule;
     const homeRepoName = 'dummy-home-repo-name';
 
@@ -98,7 +98,7 @@ describe('Test loadHomeRepoNameFromEnv', () => {
       stubLoadEnvVarsModule.restore();
     });
 
-    it('Expect stub value to be returned', () => {
+    it('should return the stubbed value', () => {
       const output = loadHomeRepoNameFromEnv();
       const answerKey = homeRepoName;
       expect(output).to.deep.equal(answerKey);

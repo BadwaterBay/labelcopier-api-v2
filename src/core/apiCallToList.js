@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-import { apiPaginationLimit, httpAcceptHeader } from './apiCallOptions';
+import { apiPaginationLimit, httpAcceptHeader, httpUriBase } from './apiCallOptions';
 import { getLoginInfo, getRepoInfoFromLoginInfo } from './getApiLoginInfo';
 import { validateKindOrThrowError } from './validateKind';
 import { validateModeOrThrowError } from './validateMode';
@@ -17,17 +17,16 @@ export const composeUrlForListingEntries = (
   const repoOwner = getRepoInfoFromLoginInfo(loginInfo, 'owner', mode);
   const repoName = getRepoInfoFromLoginInfo(loginInfo, 'name', mode);
 
-  let urlToBeReturned =
-    'https://api.github.com/repos/' +
-    `${repoOwner}/${repoName}/${kind}` +
+  let url =
+    `${httpUriBase}${repoOwner}/${repoName}/${kind}` +
     `?per_page=${apiPaginationLimit}` +
     `&page=${pageNum}`;
 
   if (kind === 'milestones') {
-    urlToBeReturned += '&state=all';
+    url += '&state=all';
   }
 
-  return urlToBeReturned;
+  return url;
 };
 
 export const httpGet = (kind = 'labels', pageNum = 1, mode = 'list') => {

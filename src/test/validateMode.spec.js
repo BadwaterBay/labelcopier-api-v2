@@ -2,48 +2,51 @@ import { expect } from 'chai';
 
 import { validModes, validateModeOrThrowError } from '../core/validateMode';
 
-describe('Test validModes', () => {
-  it('It is non-empty', () => {
+describe('validModes', () => {
+  it('should not be empty', () => {
     expect(validModes).to.not.be.empty;
   });
 
-  it('It has a size of 2', () => {
+  it('should have a size of 2', () => {
     expect(validModes).to.have.lengthOf(2);
   });
 
-  it("'list' is valid", () => {
+  it("should contain 'list'", () => {
     expect(validModes).to.include('list');
   });
 
-  it("'copy' is valid", () => {
+  it("should contain 'copy'", () => {
     expect(validModes).to.include('copy');
   });
 
-  it('Test it with an invalid mode, expecting an error to be thrown', () => {
-    expect(validModes).to.not.include('nonexistence-mode');
+  describe('when tested against an invalid value', () => {
+    it('should throw an error', () => {
+      expect(validModes).to.not.include('nonexistence-mode');
+    });
   });
 });
 
 describe('Test validateModeOrThrowError', () => {
-  it("'list' is valid", () => {
-    const input = 'list';
-
-    const output = validateModeOrThrowError(input);
-
-    expect(output).to.be.true;
+  describe("with 'list'", () => {
+    it('should be valid', () => {
+      const input = 'list';
+      const output = validateModeOrThrowError(input);
+      expect(output).to.be.true;
+    });
   });
 
-  it("'copy' is valid", () => {
-    const input = 'copy';
-
-    const output = validateModeOrThrowError(input);
-
-    expect(output).to.be.true;
+  describe("with 'copy'", () => {
+    it('should be valid', () => {
+      const input = 'copy';
+      const output = validateModeOrThrowError(input);
+      expect(output).to.be.true;
+    });
   });
 
-  it('Test it with an invalid mode, expecting an error to be thrown', () => {
-    const input = 'nonexistence-mode';
-
-    expect(() => validateModeOrThrowError(input)).to.throw();
+  describe('with an invalid value', () => {
+    it('should throw an error', () => {
+      const input = 'nonexistence-mode';
+      expect(() => validateModeOrThrowError(input)).to.throw();
+    });
   });
 });
