@@ -4,127 +4,185 @@ import { apiPaginationLimit, httpUriBase } from '../core/apiCallOptions';
 import { composeUrlForListingEntries } from '../core/apiCallToList';
 import { loadHomeRepoOwnerFromEnv, loadHomeRepoNameFromEnv } from './dummyData';
 
-suite('Test composeUrlForListingEntries', () => {
+describe('Test composeUrlForListingEntries', () => {
   const homeRepoOwner = loadHomeRepoOwnerFromEnv();
   const homeRepoName = loadHomeRepoNameFromEnv();
 
-  suite('Test with no arguments specified (use default values)', () => {
-    test('Test the return value is a string', () => {
-      const output = composeUrlForListingEntries();
-      expect(output).to.be.a('string');
-    });
+  const templateRepoOwner = 'template-repo-owner';
+  const templateRepoName = 'template-repo-name';
 
-    test('Test the return value has a length greater than 56', () => {
-      const output = composeUrlForListingEntries();
-      expect(output).to.have.lengthOf.above(56);
-    });
+  describe('with no arguments specified', () => {
+    describe('the return value', () => {
+      it('should be a string', () => {
+        const output = composeUrlForListingEntries();
+        expect(output).to.be.a('string');
+      });
 
-    test('Test the return value with default arguments', () => {
-      const output = composeUrlForListingEntries();
+      it('should have a length > 56', () => {
+        const output = composeUrlForListingEntries();
+        expect(output).to.have.lengthOf.above(56);
+      });
 
-      const answerKey = `${httpUriBase}${homeRepoOwner}/${homeRepoName}/labels?per_page=${apiPaginationLimit}&page=1`;
+      it('should match the expected value', () => {
+        const output = composeUrlForListingEntries();
 
-      expect(output).to.deep.equal(answerKey);
+        const answerKey = `${httpUriBase}${homeRepoOwner}/${homeRepoName}/labels?per_page=${apiPaginationLimit}&page=1`;
+
+        expect(output).to.deep.equal(answerKey);
+      });
     });
   });
 
-  suite("Test with the first argument being 'labels'", () => {
-    const kind = 'labels';
+  describe("with the first argument being 'labels'", () => {
+    const firstArgument = 'labels';
+    const kind = firstArgument;
 
-    test("Test the return value with argument ('labels')", () => {
-      const output = composeUrlForListingEntries('labels');
+    it('should match the expected value', () => {
+      const output = composeUrlForListingEntries(firstArgument);
 
       const answerKey = `${httpUriBase}${homeRepoOwner}/${homeRepoName}/${kind}?per_page=${apiPaginationLimit}&page=1`;
 
       expect(output).to.deep.equal(answerKey);
     });
 
-    test("Test the return value with argument ('labels', 1)", () => {
-      const output = composeUrlForListingEntries('labels', 1);
+    describe('with the second argument being 1', () => {
+      const secondArgument = 1;
+      const pageNum = secondArgument;
 
-      const answerKey = `${httpUriBase}${homeRepoOwner}/${homeRepoName}/${kind}?per_page=${apiPaginationLimit}&page=1`;
+      it('should match the expected value', () => {
+        const output = composeUrlForListingEntries(firstArgument, secondArgument);
 
-      expect(output).to.deep.equal(answerKey);
+        const answerKey = `${httpUriBase}${homeRepoOwner}/${homeRepoName}/${kind}?per_page=${apiPaginationLimit}&page=${pageNum}`;
+
+        expect(output).to.deep.equal(answerKey);
+      });
     });
 
-    test("Test the return value with argument ('labels', 23)", () => {
-      const output = composeUrlForListingEntries('labels', 23);
+    describe('with the second argument being 12', () => {
+      const secondArgument = 12;
+      const pageNum = secondArgument;
 
-      const answerKey = `${httpUriBase}${homeRepoOwner}/${homeRepoName}/${kind}?per_page=${apiPaginationLimit}&page=23`;
+      it('should match the expected value', () => {
+        const output = composeUrlForListingEntries(firstArgument, secondArgument);
 
-      expect(output).to.deep.equal(answerKey);
-    });
+        const answerKey = `${httpUriBase}${homeRepoOwner}/${homeRepoName}/${kind}?per_page=${apiPaginationLimit}&page=${pageNum}`;
 
-    test("Test the return value with argument ('labels', 23, 'list')", () => {
-      const output = composeUrlForListingEntries('labels', 23, 'list');
+        expect(output).to.deep.equal(answerKey);
+      });
 
-      const answerKey = `${httpUriBase}${homeRepoOwner}/${homeRepoName}/${kind}?per_page=${apiPaginationLimit}&page=23`;
+      describe("with the third argument being 'list'", () => {
+        const thirdArgument = 'list';
 
-      expect(output).to.deep.equal(answerKey);
-    });
+        it('should match the expected value', () => {
+          const output = composeUrlForListingEntries(
+            firstArgument,
+            secondArgument,
+            thirdArgument
+          );
 
-    test("Test the return value with argument ('labels', 23, 'copy')", () => {
-      const output = composeUrlForListingEntries('labels', 23, 'copy');
+          const answerKey = `${httpUriBase}${homeRepoOwner}/${homeRepoName}/${kind}?per_page=${apiPaginationLimit}&page=${pageNum}`;
 
-      const answerKey = `${httpUriBase}template-repo-owner/template-repo-name/${kind}?per_page=${apiPaginationLimit}&page=23`;
+          expect(output).to.deep.equal(answerKey);
+        });
+      });
 
-      expect(output).to.deep.equal(answerKey);
+      describe("with the third argument being 'copy'", () => {
+        const thirdArgument = 'copy';
+
+        it('should match the expected value', () => {
+          const output = composeUrlForListingEntries(
+            firstArgument,
+            secondArgument,
+            thirdArgument
+          );
+
+          const answerKey = `${httpUriBase}${templateRepoOwner}/${templateRepoName}/${kind}?per_page=${apiPaginationLimit}&page=${pageNum}`;
+
+          expect(output).to.deep.equal(answerKey);
+        });
+      });
     });
   });
 
-  suite("Test with the first argument being 'milestones'", () => {
-    const kind = 'milestones';
+  describe("with the first argument being 'milestones'", () => {
+    const firstArgument = 'milestones';
+    const kind = firstArgument;
 
-    test("Test the return value with argument ('milestones')", () => {
-      const output = composeUrlForListingEntries('milestones');
+    it('should match the expected value', () => {
+      const output = composeUrlForListingEntries(firstArgument);
 
       const answerKey = `${httpUriBase}${homeRepoOwner}/${homeRepoName}/${kind}?per_page=${apiPaginationLimit}&page=1&state=all`;
 
       expect(output).to.deep.equal(answerKey);
     });
 
-    test("Test the return value with argument ('milestones', 1)", () => {
-      const output = composeUrlForListingEntries('milestones', 1);
+    describe('with the second argument being 1', () => {
+      const secondArgument = 1;
+      const pageNum = secondArgument;
 
-      const answerKey = `${httpUriBase}${homeRepoOwner}/${homeRepoName}/${kind}?per_page=${apiPaginationLimit}&page=1&state=all`;
+      it('should match the expected value', () => {
+        const output = composeUrlForListingEntries(firstArgument, secondArgument);
 
-      expect(output).to.deep.equal(answerKey);
+        const answerKey = `${httpUriBase}${homeRepoOwner}/${homeRepoName}/${kind}?per_page=${apiPaginationLimit}&page=${pageNum}&state=all`;
+
+        expect(output).to.deep.equal(answerKey);
+      });
     });
 
-    test("Test the return value with argument ('milestones', 29)", () => {
-      const output = composeUrlForListingEntries('milestones', 29);
+    describe('with the second argument being 12', () => {
+      const secondArgument = 12;
+      const pageNum = secondArgument;
 
-      const answerKey = `${httpUriBase}${homeRepoOwner}/${homeRepoName}/${kind}?per_page=${apiPaginationLimit}&page=29&state=all`;
+      it('should match the expected value', () => {
+        const output = composeUrlForListingEntries(firstArgument, secondArgument);
 
-      expect(output).to.deep.equal(answerKey);
-    });
+        const answerKey = `${httpUriBase}${homeRepoOwner}/${homeRepoName}/${kind}?per_page=${apiPaginationLimit}&page=${pageNum}&state=all`;
 
-    test("Test the return value with argument ('milestones', 29, 'list')", () => {
-      const output = composeUrlForListingEntries('milestones', 29, 'list');
+        expect(output).to.deep.equal(answerKey);
+      });
 
-      const answerKey = `${httpUriBase}${homeRepoOwner}/${homeRepoName}/${kind}?per_page=${apiPaginationLimit}&page=29&state=all`;
+      describe("with the third argument being 'list'", () => {
+        const thirdArgument = 'list';
 
-      expect(output).to.deep.equal(answerKey);
-    });
+        it('should match the expected value', () => {
+          const output = composeUrlForListingEntries(
+            firstArgument,
+            secondArgument,
+            thirdArgument
+          );
 
-    test("Test the return value with argument ('milestones', 29, 'copy')", () => {
-      const output = composeUrlForListingEntries('milestones', 29, 'copy');
+          const answerKey = `${httpUriBase}${homeRepoOwner}/${homeRepoName}/${kind}?per_page=${apiPaginationLimit}&page=${pageNum}&state=all`;
 
-      const answerKey = `${httpUriBase}template-repo-owner/template-repo-name/${kind}?per_page=${apiPaginationLimit}&page=29&state=all`;
+          expect(output).to.deep.equal(answerKey);
+        });
+      });
 
-      expect(output).to.deep.equal(answerKey);
+      describe("with the third argument being 'copy'", () => {
+        const thirdArgument = 'copy';
+        it('should match the expected value', () => {
+          const output = composeUrlForListingEntries(
+            firstArgument,
+            secondArgument,
+            thirdArgument
+          );
+
+          const answerKey = `${httpUriBase}${templateRepoOwner}/${templateRepoName}/${kind}?per_page=${apiPaginationLimit}&page=${pageNum}&state=all`;
+
+          expect(output).to.deep.equal(answerKey);
+        });
+      });
     });
   });
 
-  suite('Test invalid cases', () => {
-    test('Test with an invalid kind, expecting an error to be thrown', () => {
+  describe('with an invalid argument', () => {
+    it('should throw an error', () => {
       expect(() => composeUrlForListingEntries('invalid-kind')).to.throw(
         Error,
         /invalid kind/i
       );
     });
 
-    test('Test with an invalid mode, expecting an error to be thrown', () => {
+    it('should throw an error', () => {
       expect(() => composeUrlForListingEntries('labels', 1, 'invalid-mode')).to.throw(
         Error,
         /invalid mode/i

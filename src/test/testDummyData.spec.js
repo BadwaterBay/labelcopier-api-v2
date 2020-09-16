@@ -4,11 +4,11 @@ import sinon from 'sinon';
 import { loadHomeRepoOwnerFromEnv, loadHomeRepoNameFromEnv } from './dummyData';
 import * as loadEnvVarsModule from './loadEnvVars';
 
-suite('Test loadHomeRepoOwnerFromEnv', () => {
-  suite('When environmental variables are absent', () => {
+describe('Test loadHomeRepoOwnerFromEnv', () => {
+  describe('when .env file is absent', () => {
     let stubLoadEnvVarsModule;
 
-    suiteSetup(() => {
+    before(() => {
       const stubEnvVars = {
         error: {},
       };
@@ -17,22 +17,22 @@ suite('Test loadHomeRepoOwnerFromEnv', () => {
       stubLoadEnvVarsModule.returns(stubEnvVars);
     });
 
-    suiteTeardown(() => {
+    after(() => {
       stubLoadEnvVarsModule.restore();
     });
 
-    test('Expect fallback value to be returned', () => {
+    it('should return its fallback value', () => {
       const output = loadHomeRepoOwnerFromEnv();
       const answerKey = 'home-repo-owner';
       expect(output).to.deep.equal(answerKey);
     });
   });
 
-  suite('When environmental variables are present', () => {
+  describe('when .env file is present', () => {
     let stubLoadEnvVarsModule;
     const homeRepoOwner = 'dummy-home-repo-owner';
 
-    suiteSetup(() => {
+    before(() => {
       const stubEnvVars = {
         parsed: {
           HOME_REPO_OWNER: homeRepoOwner,
@@ -43,11 +43,11 @@ suite('Test loadHomeRepoOwnerFromEnv', () => {
       stubLoadEnvVarsModule.returns(stubEnvVars);
     });
 
-    suiteTeardown(() => {
+    after(() => {
       stubLoadEnvVarsModule.restore();
     });
 
-    test('Expect stub value to be returned', () => {
+    it('should return the stubbed value', () => {
       const output = loadHomeRepoOwnerFromEnv();
       const answerKey = homeRepoOwner;
       expect(output).to.deep.equal(answerKey);
@@ -55,11 +55,11 @@ suite('Test loadHomeRepoOwnerFromEnv', () => {
   });
 });
 
-suite('Test loadHomeRepoNameFromEnv', () => {
-  suite('When environmental variables are absent', () => {
+describe('Test loadHomeRepoNameFromEnv', () => {
+  describe('when .env file is absent', () => {
     let stubLoadEnvVarsModule;
 
-    suiteSetup(() => {
+    before(() => {
       const stubEnvVars = {
         error: {},
       };
@@ -68,22 +68,22 @@ suite('Test loadHomeRepoNameFromEnv', () => {
       stubLoadEnvVarsModule.returns(stubEnvVars);
     });
 
-    suiteTeardown(() => {
+    after(() => {
       stubLoadEnvVarsModule.restore();
     });
 
-    test('Expect fallback value to be returned', () => {
+    it('should return its fallback value', () => {
       const output = loadHomeRepoNameFromEnv();
       const answerKey = 'home-repo-name';
       expect(output).to.deep.equal(answerKey);
     });
   });
 
-  suite('When environmental variables are present', () => {
+  describe('when .env file is present', () => {
     let stubLoadEnvVarsModule;
     const homeRepoName = 'dummy-home-repo-name';
 
-    suiteSetup(() => {
+    before(() => {
       const stubEnvVars = {
         parsed: {
           HOME_REPO_NAME: homeRepoName,
@@ -94,11 +94,11 @@ suite('Test loadHomeRepoNameFromEnv', () => {
       stubLoadEnvVarsModule.returns(stubEnvVars);
     });
 
-    suiteTeardown(() => {
+    after(() => {
       stubLoadEnvVarsModule.restore();
     });
 
-    test('Expect stub value to be returned', () => {
+    it('should return the stubbed value', () => {
       const output = loadHomeRepoNameFromEnv();
       const answerKey = homeRepoName;
       expect(output).to.deep.equal(answerKey);

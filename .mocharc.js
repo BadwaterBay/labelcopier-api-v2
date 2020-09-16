@@ -12,7 +12,7 @@ module.exports = {
   timeout: 2000,
   fullTrace: false,
   exit: true,
-  ui: 'tdd',
+  ui: 'bdd',
   reporter: 'spec',
   diff: true,
   inlineDiff: false,
