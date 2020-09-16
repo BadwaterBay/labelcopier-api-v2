@@ -1,26 +1,24 @@
 import { expect } from 'chai';
 import nock from 'nock';
-import 'regenerator-runtime';
 
+import { httpUriBase } from '../core/apiCallOptions';
 import { makeApiCallToListEntries } from '../core/apiCallToList';
 
-describe('Test makeApiCallToListEntries', () => {
-  before(() => {
+suite('Test makeApiCallToListEntries', () => {
+  suiteSetup(() => {
     nock.disableNetConnect();
   });
 
-  beforeEach(() => {
-    nock('https://api.github.com')
-      .get(/\/repos\/.*/)
-      .reply(200, [1, 2]);
+  setup(() => {
+    nock(httpUriBase).get(/\/.*/).reply(200, [1, 2]);
   });
 
-  after(() => {
+  suiteTeardown(() => {
     nock.cleanAll();
     nock.enableNetConnect();
   });
 
-  it('Make a GET HTTP request and receives an array', async () => {
+  test('Make a GET HTTP request and receives an array', async () => {
     try {
       const fetchedArray = await makeApiCallToListEntries();
       expect(fetchedArray).to.be.an('array');
@@ -29,7 +27,7 @@ describe('Test makeApiCallToListEntries', () => {
     }
   });
 
-  it('Verify the content of the array', async () => {
+  test('Verify the content of the array', async () => {
     try {
       const fetchedArray = await makeApiCallToListEntries();
       const answerKey = [1, 2];

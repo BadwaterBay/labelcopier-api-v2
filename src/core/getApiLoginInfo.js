@@ -1,9 +1,5 @@
 import { dummyLoginInfo } from '../test/dummyData';
 
-// export const apiPaginationLimit = 100;
-
-// export const httpAcceptHeader = 'application/vnd.github.v3+json';
-
 export const loginInfoLookupTable = {
   list: {
     owner: 'homeRepoOwner',

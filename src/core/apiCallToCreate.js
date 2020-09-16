@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-import { httpAcceptHeader } from './apiCallOptions';
+import { httpAcceptHeader, httpUriBase } from './apiCallOptions';
 import { validateKindOrThrowError } from './validateKind';
 import { getLoginInfo, getRepoInfoFromLoginInfo } from './getApiLoginInfo';
 
@@ -11,9 +11,9 @@ export const composeUrlForCreatingEntries = (kind = 'labels') => {
   const repoOwner = getRepoInfoFromLoginInfo(loginInfo, 'owner');
   const repoName = getRepoInfoFromLoginInfo(loginInfo, 'name');
 
-  const urlToBeReturned = `https://api.github.com/repos/${repoOwner}/${repoName}/${kind}`;
+  const url = `${httpUriBase}${repoOwner}/${repoName}/${kind}`;
 
-  return urlToBeReturned;
+  return url;
 };
 
 export const httpPost = () => {

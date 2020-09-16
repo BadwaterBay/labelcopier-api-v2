@@ -1,18 +1,17 @@
 import { expect } from 'chai';
 import nock from 'nock';
-import 'regenerator-runtime';
 
-import { httpAcceptHeader } from '../core/apiCallOptions';
+import { httpAcceptHeader, httpUriBase } from '../core/apiCallOptions';
 import { httpPost } from '../core/apiCallToCreate';
 
-describe('Test httpPost', () => {
-  before(() => {
+suite('Test httpPost', () => {
+  suiteSetup(() => {
     nock.disableNetConnect();
   });
 
-  beforeEach(() => {
-    nock('https://api.github.com')
-      .post(/\/repos\/.*/)
+  setup(() => {
+    nock(httpUriBase)
+      .post(/\/.*/)
       .reply(200, function (uri, requestBody) {
         return {
           requestUri: uri,
@@ -23,16 +22,16 @@ describe('Test httpPost', () => {
       });
   });
 
-  after(() => {
+  suiteTeardown(() => {
     nock.cleanAll();
     nock.enableNetConnect();
   });
 
-  it('Returns a function of fetch API', () => {
+  test('Returns a function of fetch API', () => {
     expect(httpPost).to.be.a('function');
   });
 
-  it('Call the function, make an HTTP request and receives an OK status', async () => {
+  test('Call the function, make an HTTP request and receives an OK status', async () => {
     try {
       const response = await httpPost();
       const okStatus = response.ok;
@@ -42,7 +41,7 @@ describe('Test httpPost', () => {
     }
   });
 
-  it("The HTTP request used the 'POST' method", async () => {
+  test("The HTTP request used the 'POST' method", async () => {
     try {
       const response = await httpPost();
       const responseBody = await response.json();
@@ -54,7 +53,7 @@ describe('Test httpPost', () => {
     }
   });
 
-  it('The HTTP request sent the correct Accept header', async () => {
+  test('The HTTP request sent the correct Accept header', async () => {
     try {
       const response = await httpPost();
       const responseBody = await response.json();
@@ -66,7 +65,7 @@ describe('Test httpPost', () => {
     }
   });
 
-  it('The sent HTTP request body is a string', async () => {
+  test('The sent HTTP request body is a string', async () => {
     try {
       const response = await httpPost();
       const responseBody = await response.json();

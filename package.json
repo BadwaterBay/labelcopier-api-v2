@@ -9,7 +9,7 @@
   "scripts": {
     "format": "prettier '**/*.{js,ts,json}' --write",
     "lint": "eslint '**/*.{js,ts}' --cache --fix",
-    "test": "mocha --config .mocharc.js -r @babel/register src/test/**/*.{spec,test}.js",
+    "test": "mocha --config '.mocharc.js'",
     "coverage": "nyc yarn test"
   },
   "babel": {

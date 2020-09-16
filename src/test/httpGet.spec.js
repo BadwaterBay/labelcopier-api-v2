@@ -1,18 +1,17 @@
 import { expect } from 'chai';
 import nock from 'nock';
-import 'regenerator-runtime';
 
-import { httpAcceptHeader } from '../core/apiCallOptions';
+import { httpAcceptHeader, httpUriBase } from '../core/apiCallOptions';
 import { httpGet } from '../core/apiCallToList';
 
-describe('Test httpGet', () => {
-  before(() => {
+suite('Test httpGet', () => {
+  suiteSetup(() => {
     nock.disableNetConnect();
   });
 
-  beforeEach(() => {
-    nock('https://api.github.com')
-      .get(/\/repos\/.*/)
+  setup(() => {
+    nock(httpUriBase)
+      .get(/\/.*/)
       .reply(200, function (uri) {
         return {
           requestUri: uri,
@@ -22,16 +21,16 @@ describe('Test httpGet', () => {
       });
   });
 
-  after(() => {
+  suiteTeardown(() => {
     nock.cleanAll();
     nock.enableNetConnect();
   });
 
-  it('Returns a function of fetch API', () => {
+  test('Returns a function of fetch API', () => {
     expect(httpGet).to.be.a('function');
   });
 
-  it('Call the function, make an HTTP request and receives an OK status', async () => {
+  test('Call the function, make an HTTP request and receives an OK status', async () => {
     try {
       const response = await httpGet();
       const okStatus = response.ok;
@@ -41,7 +40,7 @@ describe('Test httpGet', () => {
     }
   });
 
-  it("The HTTP request used the 'GET' method", async () => {
+  test("The HTTP request used the 'GET' method", async () => {
     try {
       const response = await httpGet();
       const responseBody = await response.json();
@@ -53,7 +52,7 @@ describe('Test httpGet', () => {
     }
   });
 
-  it('The HTTP request sent the correct Accept header', async () => {
+  test('The HTTP request sent the correct Accept header', async () => {
     try {
       const response = await httpGet();
       const responseBody = await response.json();
