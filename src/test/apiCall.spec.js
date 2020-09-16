@@ -14,7 +14,7 @@ describe('Test httpGet', () => {
       .get(/\/repos\/.*/)
       .reply(200, function (uri) {
         return {
-          requestedUri: uri,
+          requestUri: uri,
           method: this.req.method,
           requestHeader: this.req.headers,
         };
@@ -44,7 +44,6 @@ describe('Test httpGet', () => {
     try {
       const response = await httpGet();
       const responseBody = await response.json();
-
       const acceptHeaderSent = responseBody.method;
       const answerKey = 'GET';
       expect(acceptHeaderSent).to.deep.equal(answerKey);
@@ -57,7 +56,6 @@ describe('Test httpGet', () => {
     try {
       const response = await httpGet();
       const responseBody = await response.json();
-
       const acceptHeaderSent = responseBody.requestHeader.accept[0];
       const answerKey = httpAcceptHeader;
       expect(acceptHeaderSent).to.deep.equal(answerKey);

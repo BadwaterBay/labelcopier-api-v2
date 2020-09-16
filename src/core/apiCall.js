@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-import { validateKind, validateMode } from './dataValidation';
+import { validateKindOrThrowError, validateModeOrThrowError } from './dataValidation';
 import { dummyLoginInfo } from '../test/dummyData';
 
 export const getLoginInfo = () => {
@@ -22,7 +22,7 @@ export const loginInfoLookupTable = {
   },
 };
 
-export const getRepoInfoFromLoginInfo = (loginInfo, mode, ownerOrName) => {
+export const getRepoInfoFromLoginInfo = (loginInfo, ownerOrName, mode = 'list') => {
   const key = loginInfoLookupTable[mode][ownerOrName];
   return loginInfo[key];
 };
@@ -32,12 +32,12 @@ export const composeUrlForListingEntries = (
   pageNum = 1,
   mode = 'list'
 ) => {
-  validateKind(kind);
-  validateMode(mode);
+  validateKindOrThrowError(kind);
+  validateModeOrThrowError(mode);
 
   const loginInfo = getLoginInfo();
-  const repoOwner = getRepoInfoFromLoginInfo(loginInfo, mode, 'owner');
-  const repoName = getRepoInfoFromLoginInfo(loginInfo, mode, 'name');
+  const repoOwner = getRepoInfoFromLoginInfo(loginInfo, 'owner', mode);
+  const repoName = getRepoInfoFromLoginInfo(loginInfo, 'name', mode);
 
   let urlToBeReturned =
     'https://api.github.com/repos/' +
@@ -55,13 +55,17 @@ export const composeUrlForListingEntries = (
 export const httpGet = (kind = 'labels', pageNum = 1, mode = 'list') => {
   const url = composeUrlForListingEntries(kind, pageNum, mode);
 
-  return fetch(url, {
+  const headers = {
+    Accept: httpAcceptHeader,
+    Authorization: 'token',
+  };
+
+  const options = {
     method: 'GET',
-    headers: {
-      Accept: httpAcceptHeader,
-      Authorization: `token`,
-    },
-  });
+    headers,
+  };
+
+  return fetch(url, options);
 };
 
 export const makeApiCallToListEntries = async (kind = 'labels') => {
