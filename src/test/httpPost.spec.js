@@ -2,21 +2,23 @@ import { expect } from 'chai';
 import nock from 'nock';
 import 'regenerator-runtime';
 
-import { httpAcceptHeader, httpGet, makeApiCallToListEntries } from '../core/apiCall';
+import { httpAcceptHeader } from '../core/apiCallOptions';
+import { httpPost } from '../core/apiCallToCreate';
 
-describe('Test httpGet', () => {
+describe('Test httpPost', () => {
   before(() => {
     nock.disableNetConnect();
   });
 
   beforeEach(() => {
     nock('https://api.github.com')
-      .get(/\/repos\/.*/)
-      .reply(200, function (uri) {
+      .post(/\/repos\/.*/)
+      .reply(200, function (uri, requestBody) {
         return {
           requestUri: uri,
           method: this.req.method,
           requestHeader: this.req.headers,
+          requestBody,
         };
       });
   });
@@ -27,12 +29,12 @@ describe('Test httpGet', () => {
   });
 
   it('Returns a function of fetch API', () => {
-    expect(httpGet).to.be.a('function');
+    expect(httpPost).to.be.a('function');
   });
 
   it('Call the function, make an HTTP request and receives an OK status', async () => {
     try {
-      const response = await httpGet();
+      const response = await httpPost();
       const okStatus = response.ok;
       expect(okStatus).to.be.true;
     } catch (err) {
@@ -40,12 +42,12 @@ describe('Test httpGet', () => {
     }
   });
 
-  it("The HTTP request used the 'GET' method", async () => {
+  it("The HTTP request used the 'POST' method", async () => {
     try {
-      const response = await httpGet();
+      const response = await httpPost();
       const responseBody = await response.json();
       const acceptHeaderSent = responseBody.method;
-      const answerKey = 'GET';
+      const answerKey = 'POST';
       expect(acceptHeaderSent).to.deep.equal(answerKey);
     } catch (err) {
       expect(err, 'Something went wrong with mocking HTTP requests').to.not.throw();
@@ -54,7 +56,7 @@ describe('Test httpGet', () => {
 
   it('The HTTP request sent the correct Accept header', async () => {
     try {
-      const response = await httpGet();
+      const response = await httpPost();
       const responseBody = await response.json();
       const acceptHeaderSent = responseBody.requestHeader.accept[0];
       const answerKey = httpAcceptHeader;
@@ -63,38 +65,13 @@ describe('Test httpGet', () => {
       expect(err, 'Something went wrong with mocking HTTP requests').to.not.throw();
     }
   });
-});
 
-describe('Test makeApiCallToListEntries', () => {
-  before(() => {
-    nock.disableNetConnect();
-  });
-
-  beforeEach(() => {
-    nock('https://api.github.com')
-      .get(/\/repos\/.*/)
-      .reply(200, [1, 2]);
-  });
-
-  after(() => {
-    nock.cleanAll();
-    nock.enableNetConnect();
-  });
-
-  it('Make a GET HTTP request and receives an array', async () => {
+  it('The sent HTTP request body is a string', async () => {
     try {
-      const fetchedArray = await makeApiCallToListEntries();
-      expect(fetchedArray).to.be.an('array');
-    } catch (err) {
-      expect(err, 'Something went wrong with mocking HTTP requests').to.not.throw();
-    }
-  });
-
-  it('Verify the content of the array', async () => {
-    try {
-      const fetchedArray = await makeApiCallToListEntries();
-      const answerKey = [1, 2];
-      expect(fetchedArray).to.deep.equal(answerKey);
+      const response = await httpPost();
+      const responseBody = await response.json();
+      const requestBodySent = responseBody.requestBody;
+      expect(requestBodySent).to.be.a('string');
     } catch (err) {
       expect(err, 'Something went wrong with mocking HTTP requests').to.not.throw();
     }

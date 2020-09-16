@@ -1,4 +1,4 @@
-import { validateKindOrThrowError } from './dataValidation';
+import { validateKindOrThrowError } from './validateKind';
 
 export const composeHttpRequestBodyForLabels = () => {
   const body = {
