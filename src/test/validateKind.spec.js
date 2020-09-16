@@ -2,21 +2,23 @@ import { expect } from 'chai';
 
 import { validKinds, validateKindOrThrowError } from '../core/validateKind';
 
-describe('validKinds', () => {
-  it('should not be empty', () => {
-    expect(validKinds).to.not.be.empty;
-  });
+describe('Test validKinds', () => {
+  describe('the return value', () => {
+    it('should not be empty', () => {
+      expect(validKinds).to.not.be.empty;
+    });
 
-  it('should have a size of 2', () => {
-    expect(validKinds).to.have.lengthOf(2);
-  });
+    it('should have a size of 2', () => {
+      expect(validKinds).to.have.lengthOf(2);
+    });
 
-  it("should contain 'labels'", () => {
-    expect(validKinds).to.include('labels');
-  });
+    it("should contain 'labels'", () => {
+      expect(validKinds).to.include('labels');
+    });
 
-  it("should contain 'milestones'", () => {
-    expect(validKinds).to.include('milestones');
+    it("should contain 'milestones'", () => {
+      expect(validKinds).to.include('milestones');
+    });
   });
 
   describe('when tested against an invalid value', () => {

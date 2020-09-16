@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import { httpUriBase } from '../core/apiCallOptions';
 
-describe('httpUriBase', () => {
+describe('The httpUriBase', () => {
   it('should be a string', () => {
     expect(httpUriBase).to.be.a('string');
   });
