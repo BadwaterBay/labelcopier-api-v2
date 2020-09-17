@@ -1,8 +1,5 @@
 import dotenv from 'dotenv';
 
-const loadEnvVars = () => {
-  const envVars = dotenv.config();
-  return envVars;
-};
+const loadEnvVars = () => dotenv.config();
 
 export default loadEnvVars;

@@ -5,8 +5,6 @@ import { validateKindOrThrowError } from './validateKind';
 import { getLoginInfo, getRepoInfoFromLoginInfo } from './getApiLoginInfo';
 
 export const composeUrlForCreatingEntries = (kind = 'labels') => {
-  validateKindOrThrowError(kind);
-
   const loginInfo = getLoginInfo();
   const repoOwner = getRepoInfoFromLoginInfo(loginInfo, 'owner');
   const repoName = getRepoInfoFromLoginInfo(loginInfo, 'name');
@@ -16,8 +14,8 @@ export const composeUrlForCreatingEntries = (kind = 'labels') => {
   return url;
 };
 
-export const httpPost = () => {
-  const url = composeUrlForCreatingEntries();
+export const httpPost = (kind = 'labels') => {
+  validateKindOrThrowError(kind);
 
   const headers = {
     Accept: httpAcceptHeader,
@@ -31,6 +29,8 @@ export const httpPost = () => {
     headers,
     body,
   };
+
+  const url = composeUrlForCreatingEntries(kind);
 
   return fetch(url, options);
 };

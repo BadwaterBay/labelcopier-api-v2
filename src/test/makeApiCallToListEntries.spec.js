@@ -4,41 +4,35 @@ import nock from 'nock';
 import { httpUriBase } from '../core/apiCallOptions';
 import { makeApiCallToListEntries } from '../core/apiCallToList';
 
-describe('Test makeApiCallToListEntries', () => {
-  const sampleArray = [1, 2];
+describe('Test makeApiCallToListEntries', function () {
+  describe('when the function is called', function () {
+    const sampleArray = [1, 2];
 
-  before(() => {
-    nock.disableNetConnect();
-  });
-
-  beforeEach(() => {
-    nock(httpUriBase).get(/\/.*/).reply(200, sampleArray);
-  });
-
-  after(() => {
-    nock.cleanAll();
-    nock.enableNetConnect();
-  });
-
-  describe('when the function is called', () => {
-    it('should return an array', async () => {
-      try {
-        const fetchedArray = await makeApiCallToListEntries();
-        expect(fetchedArray).to.be.an('array');
-      } catch (err) {
-        expect(err, 'Something went wrong with mocking HTTP requests').to.not.throw();
-      }
+    before(function () {
+      nock.disableNetConnect();
     });
 
-    describe('the received array', () => {
-      it('should match the expected value', async () => {
-        try {
-          const fetchedArray = await makeApiCallToListEntries();
-          const answerKey = sampleArray;
-          expect(fetchedArray).to.deep.equal(answerKey);
-        } catch (err) {
-          expect(err, 'Something went wrong with mocking HTTP requests').to.not.throw();
-        }
+    beforeEach(function () {
+      nock(httpUriBase).get(/\/.*/).reply(200, sampleArray);
+    });
+
+    after(function () {
+      nock.cleanAll();
+      nock.enableNetConnect();
+    });
+
+    it('should not throw an error', function () {
+      expect(() => makeApiCallToListEntries()).to.not.throw();
+    });
+
+    describe('the return value', function () {
+      it('should be an array', async function () {
+        expect(await makeApiCallToListEntries()).to.be.an('array');
+      });
+
+      it('should match the expected value', async function () {
+        const answerKey = sampleArray;
+        expect(await makeApiCallToListEntries()).to.deep.equal(answerKey);
       });
     });
   });

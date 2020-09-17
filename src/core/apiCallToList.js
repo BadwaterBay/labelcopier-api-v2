@@ -10,9 +10,6 @@ export const composeUrlForListingEntries = (
   pageNum = 1,
   mode = 'list'
 ) => {
-  validateKindOrThrowError(kind);
-  validateModeOrThrowError(mode);
-
   const loginInfo = getLoginInfo();
   const repoOwner = getRepoInfoFromLoginInfo(loginInfo, 'owner', mode);
   const repoName = getRepoInfoFromLoginInfo(loginInfo, 'name', mode);
@@ -30,7 +27,7 @@ export const composeUrlForListingEntries = (
 };
 
 export const httpGet = (kind = 'labels', pageNum = 1, mode = 'list') => {
-  const url = composeUrlForListingEntries(kind, pageNum, mode);
+  validateModeOrThrowError(mode);
 
   const headers = {
     Accept: httpAcceptHeader,
@@ -42,11 +39,16 @@ export const httpGet = (kind = 'labels', pageNum = 1, mode = 'list') => {
     headers,
   };
 
+  const url = composeUrlForListingEntries(kind, pageNum, mode);
+
   return fetch(url, options);
 };
 
 export const makeApiCallToListEntries = async (kind = 'labels') => {
+  validateKindOrThrowError(kind);
+
   const response = await httpGet(kind);
   const fetchedArray = await response.json();
+
   return fetchedArray;
 };
