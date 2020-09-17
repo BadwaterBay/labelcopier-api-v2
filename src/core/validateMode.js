@@ -1,7 +1,7 @@
 export const validModes = new Set(['list', 'copy']);
 
-export const validateModeOrThrowError = (modeToBeValidated) => {
-  if (validModes.has(modeToBeValidated)) {
+export const validateModeOrThrowError = (mode) => {
+  if (validModes.has(mode)) {
     return true;
   }
 

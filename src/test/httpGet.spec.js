@@ -4,12 +4,12 @@ import nock from 'nock';
 import { httpAcceptHeader, httpUriBase } from '../core/apiCallOptions';
 import { httpGet } from '../core/apiCallToList';
 
-describe('Test httpGet', () => {
-  before(() => {
+describe('Test httpGet', function () {
+  before(function () {
     nock.disableNetConnect();
   });
 
-  beforeEach(() => {
+  beforeEach(function () {
     nock(httpUriBase)
       .get(/\/.*/)
       .reply(200, function (uri) {
@@ -21,50 +21,53 @@ describe('Test httpGet', () => {
       });
   });
 
-  after(() => {
+  after(function () {
     nock.cleanAll();
     nock.enableNetConnect();
   });
 
-  describe('the return value', () => {
-    it('should return a function', () => {
+  describe('the return value', function () {
+    it('should return a function', function () {
       expect(httpGet).to.be.a('function');
     });
   });
 
-  describe('when the function is called', () => {
-    it('should make an HTTP request and receives an OK status', async () => {
-      try {
-        const response = await httpGet();
+  describe('when the function is called', function () {
+    it('should not throw an error', function () {
+      expect(() => httpGet()).to.not.throw();
+    });
+
+    describe('waiting for the HTTP response', function () {
+      let response;
+
+      before(async function () {
+        response = await httpGet();
+      });
+
+      it('should receives an OK status', async function () {
         const okStatus = response.ok;
         expect(okStatus).to.be.true;
-      } catch (err) {
-        expect(err, 'Something went wrong with mocking HTTP requests').to.not.throw();
-      }
-    });
+      });
 
-    it('should have used the HTTP GET method', async () => {
-      try {
-        const response = await httpGet();
-        const responseBody = await response.json();
-        const acceptHeaderSent = responseBody.method;
-        const answerKey = 'GET';
-        expect(acceptHeaderSent).to.deep.equal(answerKey);
-      } catch (err) {
-        expect(err, 'Something went wrong with mocking HTTP requests').to.not.throw();
-      }
-    });
+      describe('the parsed response body', function () {
+        let responseBody;
 
-    it('should have sent the correct HTTP Accept header', async () => {
-      try {
-        const response = await httpGet();
-        const responseBody = await response.json();
-        const acceptHeaderSent = responseBody.requestHeader.accept[0];
-        const answerKey = httpAcceptHeader;
-        expect(acceptHeaderSent).to.deep.equal(answerKey);
-      } catch (err) {
-        expect(err, 'Something went wrong with mocking HTTP requests').to.not.throw();
-      }
+        before(async function () {
+          responseBody = await response.json();
+        });
+
+        it('should have used the HTTP GET method', async function () {
+          const httpMethodUsed = responseBody.method;
+          const answerKey = 'GET';
+          expect(httpMethodUsed).to.deep.equal(answerKey);
+        });
+
+        it('should have sent the correct HTTP Accept header', async function () {
+          const acceptHeaderSent = responseBody.requestHeader.accept[0];
+          const answerKey = httpAcceptHeader;
+          expect(acceptHeaderSent).to.deep.equal(answerKey);
+        });
+      });
     });
   });
 });

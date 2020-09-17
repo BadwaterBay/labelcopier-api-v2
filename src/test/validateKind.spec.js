@@ -2,53 +2,52 @@ import { expect } from 'chai';
 
 import { validKinds, validateKindOrThrowError } from '../core/validateKind';
 
-describe('Test validKinds', () => {
-  describe('the return value', () => {
-    it('should not be empty', () => {
+describe('Test validKinds', function () {
+  describe('the return value', function () {
+    it('should not be empty', function () {
       expect(validKinds).to.not.be.empty;
     });
 
-    it('should have a size of 2', () => {
+    it('should have a size of 2', function () {
       expect(validKinds).to.have.lengthOf(2);
     });
 
-    it("should contain 'labels'", () => {
+    it("should contain 'labels'", function () {
       expect(validKinds).to.include('labels');
     });
 
-    it("should contain 'milestones'", () => {
+    it("should contain 'milestones'", function () {
       expect(validKinds).to.include('milestones');
     });
   });
 
-  describe('when tested against an invalid value', () => {
-    it('should throw an error', () => {
+  describe('when tested against an invalid value', function () {
+    it('should throw an error', function () {
       expect(validKinds).to.not.include('nonexistence-kind');
     });
   });
 });
 
-describe('Test validateKindOrThrowError', () => {
-  describe("with 'labels", () => {
-    it('should be valid', () => {
+describe('Test validateKindOrThrowError', function () {
+  describe("with 'labels'", function () {
+    it('should be valid', function () {
       const input = 'labels';
       const output = validateKindOrThrowError(input);
       expect(output).to.be.true;
     });
   });
 
-  describe("with 'milestones'", () => {
-    it('should be valid', () => {
+  describe("with 'milestones'", function () {
+    it('should be valid', function () {
       const input = 'milestones';
       const output = validateKindOrThrowError(input);
       expect(output).to.be.true;
     });
   });
 
-  describe('with an invalid value', () => {
-    it('should throw an error', () => {
+  describe('with an invalid value', function () {
+    it('should throw an error', function () {
       const input = 'nonexistence-kind';
-
       expect(() => validateKindOrThrowError(input)).to.throw();
     });
   });

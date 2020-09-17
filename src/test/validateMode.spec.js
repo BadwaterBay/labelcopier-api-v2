@@ -2,51 +2,51 @@ import { expect } from 'chai';
 
 import { validModes, validateModeOrThrowError } from '../core/validateMode';
 
-describe('Test validModes', () => {
-  describe('the return value', () => {
-    it('should not be empty', () => {
+describe('Test validModes', function () {
+  describe('the return value', function () {
+    it('should not be empty', function () {
       expect(validModes).to.not.be.empty;
     });
 
-    it('should have a size of 2', () => {
+    it('should have a size of 2', function () {
       expect(validModes).to.have.lengthOf(2);
     });
 
-    it("should contain 'list'", () => {
+    it("should contain 'list'", function () {
       expect(validModes).to.include('list');
     });
 
-    it("should contain 'copy'", () => {
+    it("should contain 'copy'", function () {
       expect(validModes).to.include('copy');
     });
   });
 
-  describe('when tested against an invalid value', () => {
-    it('should throw an error', () => {
+  describe('when tested against an invalid value', function () {
+    it('should throw an error', function () {
       expect(validModes).to.not.include('nonexistence-mode');
     });
   });
 });
 
-describe('Test validateModeOrThrowError', () => {
-  describe("with 'list'", () => {
-    it('should be valid', () => {
+describe('Test validateModeOrThrowError', function () {
+  describe("with 'list'", function () {
+    it('should be valid', function () {
       const input = 'list';
       const output = validateModeOrThrowError(input);
       expect(output).to.be.true;
     });
   });
 
-  describe("with 'copy'", () => {
-    it('should be valid', () => {
+  describe("with 'copy'", function () {
+    it('should be valid', function () {
       const input = 'copy';
       const output = validateModeOrThrowError(input);
       expect(output).to.be.true;
     });
   });
 
-  describe('with an invalid value', () => {
-    it('should throw an error', () => {
+  describe('with an invalid value', function () {
+    it('should throw an error', function () {
       const input = 'nonexistence-mode';
       expect(() => validateModeOrThrowError(input)).to.throw();
     });

@@ -4,7 +4,7 @@ export const composeHttpRequestBodyForLabels = () => {
   const body = {
     name: 'dummy',
     color: '001122',
-    description: '',
+    description: 'Dummy description',
   };
 
   return body;
@@ -14,7 +14,7 @@ export const composeHttpRequestBodyForMilestones = () => {
   const body = {
     title: 'title',
     state: 'closed',
-    description: '',
+    description: 'Dummy description',
     due_on: '2002-02-15T16:38:04Z',
   };
 
@@ -32,7 +32,5 @@ export const composeHttpRequestBody = (kind) => {
     body = composeHttpRequestBodyForMilestones();
   }
 
-  const stringifiedBody = JSON.stringify(body);
-
-  return stringifiedBody;
+  return JSON.stringify(body);
 };

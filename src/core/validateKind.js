@@ -1,7 +1,7 @@
 export const validKinds = new Set(['labels', 'milestones']);
 
-export const validateKindOrThrowError = (kindToBeValidated) => {
-  if (validKinds.has(kindToBeValidated)) {
+export const validateKindOrThrowError = (kind) => {
+  if (validKinds.has(kind)) {
     return true;
   }
 

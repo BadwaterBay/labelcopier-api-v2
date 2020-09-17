@@ -4,12 +4,12 @@ import nock from 'nock';
 import { httpAcceptHeader, httpUriBase } from '../core/apiCallOptions';
 import { httpPost } from '../core/apiCallToCreate';
 
-describe('Test httpPost', () => {
-  before(() => {
+describe('Test httpPost', function () {
+  before(function () {
     nock.disableNetConnect();
   });
 
-  beforeEach(() => {
+  beforeEach(function () {
     nock(httpUriBase)
       .post(/\/.*/)
       .reply(200, function (uri, requestBody) {
@@ -22,61 +22,58 @@ describe('Test httpPost', () => {
       });
   });
 
-  after(() => {
+  after(function () {
     nock.cleanAll();
     nock.enableNetConnect();
   });
 
-  describe('the return value', () => {
-    it('should be a function', () => {
+  describe('the return value', function () {
+    it('should be a function', function () {
       expect(httpPost).to.be.a('function');
     });
   });
 
-  describe('when the function is called', () => {
-    it('should make an HTTP request and receives an OK status', async () => {
-      try {
-        const response = await httpPost();
+  describe('when the function is called', function () {
+    it('should not throw an error', function () {
+      expect(() => httpPost()).to.not.throw();
+    });
+
+    describe('waiting for the HTTP response', function () {
+      let response;
+
+      before(async function () {
+        response = await httpPost();
+      });
+
+      it('should receive an OK status', async function () {
         const okStatus = response.ok;
         expect(okStatus).to.be.true;
-      } catch (err) {
-        expect(err, 'Something went wrong with mocking HTTP requests').to.not.throw();
-      }
-    });
+      });
 
-    it('should have used the HTTP POST method', async () => {
-      try {
-        const response = await httpPost();
-        const responseBody = await response.json();
-        const acceptHeaderSent = responseBody.method;
-        const answerKey = 'POST';
-        expect(acceptHeaderSent).to.deep.equal(answerKey);
-      } catch (err) {
-        expect(err, 'Something went wrong with mocking HTTP requests').to.not.throw();
-      }
-    });
+      describe('the parsed response body', function () {
+        let responseBody;
 
-    it('should have sent the correct HTTP Accept header', async () => {
-      try {
-        const response = await httpPost();
-        const responseBody = await response.json();
-        const acceptHeaderSent = responseBody.requestHeader.accept[0];
-        const answerKey = httpAcceptHeader;
-        expect(acceptHeaderSent).to.deep.equal(answerKey);
-      } catch (err) {
-        expect(err, 'Something went wrong with mocking HTTP requests').to.not.throw();
-      }
-    });
+        before(async function () {
+          responseBody = await response.json();
+        });
 
-    it('should have sent the HTTP body as a string', async () => {
-      try {
-        const response = await httpPost();
-        const responseBody = await response.json();
-        const requestBodySent = responseBody.requestBody;
-        expect(requestBodySent).to.be.a('string');
-      } catch (err) {
-        expect(err, 'Something went wrong with mocking HTTP requests').to.not.throw();
-      }
+        it('should have used the HTTP POST method', function () {
+          const acceptHeaderSent = responseBody.method;
+          const answerKey = 'POST';
+          expect(acceptHeaderSent).to.deep.equal(answerKey);
+        });
+
+        it('should have sent the correct HTTP Accept header', function () {
+          const httpMethodUsed = responseBody.requestHeader.accept[0];
+          const answerKey = httpAcceptHeader;
+          expect(httpMethodUsed).to.deep.equal(answerKey);
+        });
+
+        it('should have sent the HTTP body as a string', function () {
+          const requestBodySent = responseBody.requestBody;
+          expect(requestBodySent).to.be.a('string');
+        });
+      });
     });
   });
 });
