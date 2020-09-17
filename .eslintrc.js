@@ -1,11 +1,10 @@
 module.exports = {
   env: {
     browser: true,
-    es2020: true,
     node: true,
+    es2020: true,
     mocha: true,
   },
-  extends: ['airbnb-base', 'prettier'],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
@@ -14,10 +13,16 @@ module.exports = {
     ecmaVersion: 2020,
     sourceType: 'module',
   },
-  plugins: ['mocha', 'chai-friendly', 'prettier'],
   rules: {
-    'no-unused-expressions': 0,
-    'chai-friendly/no-unused-expressions': 2,
+    'func-names': 0,
     'prettier/prettier': 2,
   },
+  plugins: ['mocha', 'chai-friendly', 'prettier'],
+  extends: [
+    'airbnb-base',
+    'plugin:mocha/recommended',
+    'plugin:chai-friendly/recommended',
+    'plugin:prettier/recommended',
+    'prettier',
+  ],
 };

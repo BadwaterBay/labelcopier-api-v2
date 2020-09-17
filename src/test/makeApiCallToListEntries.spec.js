@@ -4,16 +4,16 @@ import nock from 'nock';
 import { httpUriBase } from '../core/apiCallOptions';
 import { makeApiCallToListEntries } from '../core/apiCallToList';
 
-describe('Test makeApiCallToListEntries', function () {
-  describe('when the function is called', function () {
-    const sampleArray = [1, 2];
+import mockHttpResponse from './dummyResponseBodyOfListingLabels';
 
+describe('Test makeApiCallToListEntries', function () {
+  describe('when the function is called with mocking HTTP server', function () {
     before(function () {
       nock.disableNetConnect();
     });
 
     beforeEach(function () {
-      nock(httpUriBase).get(/\/.*/).reply(200, sampleArray);
+      nock(httpUriBase).get(/\/.*/).reply(200, mockHttpResponse);
     });
 
     after(function () {
@@ -27,12 +27,14 @@ describe('Test makeApiCallToListEntries', function () {
 
     describe('the return value', function () {
       it('should be an array', async function () {
-        expect(await makeApiCallToListEntries()).to.be.an('array');
+        const responseBody = await makeApiCallToListEntries();
+        expect(responseBody).to.be.an('array');
       });
 
       it('should match the expected value', async function () {
-        const answerKey = sampleArray;
-        expect(await makeApiCallToListEntries()).to.deep.equal(answerKey);
+        const answerKey = mockHttpResponse;
+        const responseBody = await makeApiCallToListEntries();
+        expect(responseBody).to.deep.equal(answerKey);
       });
     });
   });

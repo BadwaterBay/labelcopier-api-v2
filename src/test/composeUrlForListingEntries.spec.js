@@ -5,10 +5,17 @@ import { composeUrlForListingEntries } from '../core/apiCallToList';
 import { loadHomeRepoOwnerFromEnv, loadHomeRepoNameFromEnv } from './dummyData';
 
 describe('Test composeUrlForListingEntries', function () {
-  const homeRepoOwner = loadHomeRepoOwnerFromEnv();
-  const homeRepoName = loadHomeRepoNameFromEnv();
-  const templateRepoOwner = 'template-repo-owner';
-  const templateRepoName = 'template-repo-name';
+  let homeRepoOwner;
+  let homeRepoName;
+  let templateRepoOwner;
+  let templateRepoName;
+
+  before(function () {
+    homeRepoOwner = loadHomeRepoOwnerFromEnv();
+    homeRepoName = loadHomeRepoNameFromEnv();
+    templateRepoOwner = 'template-repo-owner';
+    templateRepoName = 'template-repo-name';
+  });
 
   describe('with no arguments specified', function () {
     describe('the return value', function () {
