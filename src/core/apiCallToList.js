@@ -29,9 +29,12 @@ export const composeUrlForListingEntries = (
 export const httpGet = (kind = 'labels', pageNum = 1, mode = 'list') => {
   validateModeOrThrowError(mode);
 
+  const loginInfo = getLoginInfo();
+  const { token } = loginInfo;
+
   const headers = {
     Accept: httpAcceptHeader,
-    Authorization: 'token',
+    Authorization: `token ${token}`,
   };
 
   const options = {

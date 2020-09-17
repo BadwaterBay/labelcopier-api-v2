@@ -17,11 +17,14 @@ export const loadHomeRepoOwnerFromEnv = () =>
 export const loadHomeRepoNameFromEnv = () =>
   loadAndParseEnvVars('HOME_REPO_NAME') || 'home-repo-name';
 
+export const loadTokenFromEnv = () => loadAndParseEnvVars('LABELCOPIER_TOKEN') || '';
+
 export const dummyLoginInfo = (() => {
   return {
     homeRepoOwner: loadHomeRepoOwnerFromEnv(),
     homeRepoName: loadHomeRepoNameFromEnv(),
     templateRepoOwner: 'template-repo-owner',
     templateRepoName: 'template-repo-name',
+    token: loadTokenFromEnv(),
   };
 })();

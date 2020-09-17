@@ -1,6 +1,8 @@
 import { dummyLoginInfo } from '../test/dummyData';
 import { validateModeOrThrowError } from './validateMode';
 
+export const getLoginInfo = () => dummyLoginInfo;
+
 export const loginInfoLookupTable = {
   list: {
     owner: 'homeRepoOwner',
@@ -11,8 +13,6 @@ export const loginInfoLookupTable = {
     name: 'templateRepoName',
   },
 };
-
-export const getLoginInfo = () => dummyLoginInfo;
 
 export const getRepoInfoFromLoginInfo = (loginInfo, ownerOrName, mode = 'list') => {
   validateModeOrThrowError(mode);
