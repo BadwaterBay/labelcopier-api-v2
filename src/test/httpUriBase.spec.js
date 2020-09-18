@@ -1,18 +1,18 @@
 import { expect } from 'chai';
 
-import { httpUriBase } from '../core/apiCallOptions';
+import { apiUriBaseRepos } from '../core/apiCallOptions';
 
-describe('The httpUriBase', function () {
+describe('The apiUriBaseRepos', function () {
   it('should be a string', function () {
-    expect(httpUriBase).to.be.a('string');
+    expect(apiUriBaseRepos).to.be.a('string');
   });
 
   it('should have a length > 0', function () {
-    expect(httpUriBase).to.have.lengthOf.above(0);
+    expect(apiUriBaseRepos).to.have.lengthOf.above(0);
   });
 
   it('should match the expected value', function () {
-    const answerKey = 'https://api.github.com/repos/';
-    expect(httpUriBase).to.deep.equal(answerKey);
+    const answerKey = 'https://api.github.com/repos';
+    expect(apiUriBaseRepos).to.deep.equal(answerKey);
   });
 });

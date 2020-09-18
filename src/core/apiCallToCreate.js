@@ -1,17 +1,17 @@
 import fetch from 'node-fetch';
 
-import { httpAcceptHeader, httpUriBase } from './apiCallOptions';
+import { httpAcceptHeader, apiUriBaseRepos } from './apiCallOptions';
 import { validateKindOrThrowError } from './validateKind';
 import { getLoginInfo, getRepoInfoFromLoginInfo } from './getApiLoginInfo';
 
-export const composeUrlForCreatingEntries = (kind = 'labels') => {
+export const composeUriForCreatingEntries = (kind = 'labels') => {
   const loginInfo = getLoginInfo();
   const repoOwner = getRepoInfoFromLoginInfo(loginInfo, 'owner');
   const repoName = getRepoInfoFromLoginInfo(loginInfo, 'name');
 
-  const url = `${httpUriBase}${repoOwner}/${repoName}/${kind}`;
+  const uri = `${apiUriBaseRepos}/${repoOwner}/${repoName}/${kind}`;
 
-  return url;
+  return uri;
 };
 
 export const httpPost = (kind = 'labels') => {
@@ -30,7 +30,7 @@ export const httpPost = (kind = 'labels') => {
     body,
   };
 
-  const url = composeUrlForCreatingEntries(kind);
+  const uri = composeUriForCreatingEntries(kind);
 
-  return fetch(url, options);
+  return fetch(uri, options);
 };

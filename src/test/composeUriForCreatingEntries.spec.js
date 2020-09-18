@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 
-import { httpUriBase } from '../core/apiCallOptions';
-import { composeUrlForCreatingEntries } from '../core/apiCallToCreate';
+import { apiUriBaseRepos } from '../core/apiCallOptions';
+import { composeUriForCreatingEntries } from '../core/apiCallToCreate';
 import { loadHomeRepoOwnerFromEnv, loadHomeRepoNameFromEnv } from './dummyData';
 
-describe('Test composeUrlForCreatingEntries', function () {
+describe('Test composeUriForCreatingEntries', function () {
   let homeRepoOwner;
   let homeRepoName;
 
@@ -15,23 +15,23 @@ describe('Test composeUrlForCreatingEntries', function () {
 
   describe('with no arguments specified', function () {
     describe('the return value', function () {
-      let url;
+      let uri;
 
       before(function () {
-        url = composeUrlForCreatingEntries();
+        uri = composeUriForCreatingEntries();
       });
 
       it('should be a string', function () {
-        expect(url).to.be.a('string');
+        expect(uri).to.be.a('string');
       });
 
       it('should have a length > 42', function () {
-        expect(url).to.have.lengthOf.above(42);
+        expect(uri).to.have.lengthOf.above(42);
       });
 
       it('should match the expected value', function () {
-        const answerKey = `${httpUriBase}${homeRepoOwner}/${homeRepoName}/labels`;
-        expect(url).to.deep.equal(answerKey);
+        const answerKey = `${apiUriBaseRepos}/${homeRepoOwner}/${homeRepoName}/labels`;
+        expect(uri).to.deep.equal(answerKey);
       });
     });
   });
@@ -39,9 +39,9 @@ describe('Test composeUrlForCreatingEntries', function () {
   describe("with argument 'labels'", function () {
     describe('the return value', function () {
       it('should match the expected value', function () {
-        const url = composeUrlForCreatingEntries('labels');
-        const answerKey = `${httpUriBase}${homeRepoOwner}/${homeRepoName}/labels`;
-        expect(url).to.deep.equal(answerKey);
+        const uri = composeUriForCreatingEntries('labels');
+        const answerKey = `${apiUriBaseRepos}/${homeRepoOwner}/${homeRepoName}/labels`;
+        expect(uri).to.deep.equal(answerKey);
       });
     });
   });
@@ -49,9 +49,9 @@ describe('Test composeUrlForCreatingEntries', function () {
   describe("with argument 'milestones'", function () {
     describe('the return value', function () {
       it('should match the expected value', function () {
-        const url = composeUrlForCreatingEntries('milestones');
-        const answerKey = `${httpUriBase}${homeRepoOwner}/${homeRepoName}/milestones`;
-        expect(url).to.deep.equal(answerKey);
+        const uri = composeUriForCreatingEntries('milestones');
+        const answerKey = `${apiUriBaseRepos}/${homeRepoOwner}/${homeRepoName}/milestones`;
+        expect(uri).to.deep.equal(answerKey);
       });
     });
   });

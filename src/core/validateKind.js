@@ -1,9 +1,11 @@
+import InvalidKindError from './customErrors/InvalidKindError';
+
 export const validKinds = new Set(['labels', 'milestones']);
 
 export const validateKindOrThrowError = (kind) => {
-  if (validKinds.has(kind)) {
-    return true;
+  if (!validKinds.has(kind)) {
+    throw new InvalidKindError(kind);
   }
 
-  throw new Error('Invalid kind was given.');
+  return true;
 };

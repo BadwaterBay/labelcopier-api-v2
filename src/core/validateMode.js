@@ -1,9 +1,11 @@
+import InvalidModeError from './customErrors/InvalidModeError';
+
 export const validModes = new Set(['list', 'copy']);
 
 export const validateModeOrThrowError = (mode) => {
-  if (validModes.has(mode)) {
-    return true;
+  if (!validModes.has(mode)) {
+    throw new InvalidModeError(mode);
   }
 
-  throw new Error('Invalid mode was given.');
+  return true;
 };

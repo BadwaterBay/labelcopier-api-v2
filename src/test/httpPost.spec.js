@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import nock from 'nock';
 
-import { httpAcceptHeader, httpUriBase } from '../core/apiCallOptions';
+import { httpAcceptHeader, apiUriBase } from '../core/apiCallOptions';
 import { httpPost } from '../core/apiCallToCreate';
 
 describe('Test httpPost', function () {
@@ -10,7 +10,7 @@ describe('Test httpPost', function () {
   });
 
   beforeEach(function () {
-    nock(httpUriBase)
+    nock(apiUriBase)
       .post(/\/.*/)
       .reply(200, function (uri, requestBody) {
         return {

@@ -1,4 +1,4 @@
-const receivedArray = [
+export const dummyResponseBody1 = [
   {
     id: 2352098941,
     node_id: 'MDU6TGFiZWwyMzUyMDk4OTQx',
@@ -29,6 +29,9 @@ const receivedArray = [
     default: true,
     description: 'This issue or pull request already exists',
   },
+];
+
+export const dummyResponseBody2 = [
   {
     id: 2352098944,
     node_id: 'MDU6TGFiZWwyMzUyMDk4OTQ0',
@@ -59,6 +62,9 @@ const receivedArray = [
     default: true,
     description: 'Extra attention is needed',
   },
+];
+
+export const dummyResponseBody3 = [
   {
     id: 2352098949,
     node_id: 'MDU6TGFiZWwyMzUyMDk4OTQ5',
@@ -91,4 +97,21 @@ const receivedArray = [
   },
 ];
 
-export default receivedArray;
+export const dummyResponseBodyOutOfRange = [];
+
+export const dummyResponseBodyAll = [
+  ...dummyResponseBody1,
+  ...dummyResponseBody2,
+  ...dummyResponseBody3,
+];
+
+export const dummyResponseBody = {
+  lastPageNum: 3,
+  body: {
+    1: dummyResponseBody1,
+    2: dummyResponseBody2,
+    3: dummyResponseBody3,
+    outOfRange: dummyResponseBodyOutOfRange,
+    all: dummyResponseBodyAll,
+  },
+};
