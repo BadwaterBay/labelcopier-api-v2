@@ -1,0 +1,4 @@
+{
+  "**/*.js": ["eslint --cache --fix"],
+  "**/*.{js,json,md}": ["prettier --config '.prettierrc.json' --write"]
+}
