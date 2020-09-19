@@ -7,7 +7,7 @@
   "author": "Badwater Bay <badwaterbay@gmail.com>",
   "license": "BSD-3-Clause",
   "scripts": {
-    "format": "prettier '**/*.{js,ts,json}' --write",
+    "format": "prettier --config '.prettierrc.json' --write '**/*.{js,ts,json}'",
     "lint": "eslint '**/*.{js,ts}' --cache --fix",
     "test": "mocha --config '.mocharc.js'",
     "coverage": "nyc yarn test"
