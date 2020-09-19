@@ -12,7 +12,7 @@ export const dummyLinkHeaderOutOfRange =
 
 export const dummyLinkHeader = {
   lastPageNum: 3,
-  header: {
+  data: {
     1: dummyLinkHeader1,
     2: dummyLinkHeader2,
     3: dummyLinkHeader3,

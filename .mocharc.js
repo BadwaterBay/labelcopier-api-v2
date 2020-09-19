@@ -9,7 +9,7 @@ module.exports = {
   parallel: true,
   jobs: 1,
   slow: 50,
-  timeout: 2000,
+  timeout: 3000,
   fullTrace: false,
   exit: true,
   ui: 'bdd',

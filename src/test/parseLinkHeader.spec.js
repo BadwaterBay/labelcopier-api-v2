@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 
-import { parseLinkHeader } from '../core/parseLinkHeader';
+import { parseLinkHeader } from '../core/linkHeaderParser';
 
-describe('Test parseLinkHeader', function () {
+describe('Test linkHeaderParser', function () {
   describe('when passed with an valid Link header', function () {
     let parsedLinkHeader;
 

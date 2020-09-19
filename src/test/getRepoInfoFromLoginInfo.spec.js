@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 
-import { getRepoInfoFromLoginInfo } from '../core/getApiLoginInfo';
+import { getRepoInfoFromLoginInfo } from '../core/loginInfo';
 import {
   loadHomeRepoOwnerFromEnv,
   loadHomeRepoNameFromEnv,
   dummyLoginInfo,
-} from './dummyData';
+} from './dummyData/dummyLoginInfo';
 
 describe('Test getRepoInfoFromLoginInfo', function () {
   describe('with the first argument being loginInfo', function () {

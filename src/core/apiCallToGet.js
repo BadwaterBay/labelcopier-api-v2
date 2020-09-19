@@ -1,22 +1,19 @@
-import fetch from 'node-fetch';
-
 import { apiPaginationLimit, httpAcceptHeader, apiUriBaseRepos } from './apiCallOptions';
 import HttpError from './customErrors/HttpError';
-import { getLoginInfo, getRepoInfoFromLoginInfo } from './getApiLoginInfo';
-import { parseLinkHeaderFromHttpResponse } from './parseLinkHeader';
-import { validateKindOrThrowError } from './validateKind';
-import { validateModeOrThrowError } from './validateMode';
+import { getLoginInfo, getRepoInfoFromLoginInfo } from './loginInfo';
+import { parseLinkHeaderFromHttpResponse } from './linkHeaderParser';
+import { validateKindOrThrowError } from './validations/kindValidation';
+import { validateModeOrThrowError } from './validations/modeValidation';
 
-export const composeUriForGettingEntries = (kind = 'labels', mode = 'list') => {
+export const buildUriForHttpGet = (kind = 'labels', mode = 'list') => {
   const loginInfo = getLoginInfo();
   const repoOwner = getRepoInfoFromLoginInfo(loginInfo, 'owner', mode);
   const repoName = getRepoInfoFromLoginInfo(loginInfo, 'name', mode);
-  const pageNum = 1;
 
   let uri =
     `${apiUriBaseRepos}/${repoOwner}/${repoName}/${kind}` +
     `?per_page=${apiPaginationLimit}` +
-    `&page=${pageNum}`;
+    '&page=1';
 
   if (kind === 'milestones') {
     uri += '&state=all';
@@ -25,7 +22,7 @@ export const composeUriForGettingEntries = (kind = 'labels', mode = 'list') => {
   return uri;
 };
 
-export const httpGet = async (uri) => {
+export const makeHttpGetRequest = async (uri) => {
   const loginInfo = getLoginInfo();
   const { token } = loginInfo;
 
@@ -48,23 +45,12 @@ export const httpGet = async (uri) => {
   return response;
 };
 
-export const makeApiCallToGetEntries = async (
-  kind = 'labels',
-  mode = 'list',
-  uri = null
-) => {
+export const makeApiCallToGet = async (kind = 'labels', mode = 'list', uri = null) => {
   validateKindOrThrowError(kind);
   validateModeOrThrowError(mode);
 
-  let uriForHttpGetFetch;
-
-  if (uri === null) {
-    uriForHttpGetFetch = composeUriForGettingEntries(kind, mode);
-  } else {
-    uriForHttpGetFetch = uri;
-  }
-
-  const response = await httpGet(uriForHttpGetFetch);
+  const uriForHttpGet = uri || buildUriForHttpGet(kind, mode);
+  const response = await makeHttpGetRequest(uriForHttpGet);
   const responseBody = await response.json();
   const parsedLinkHeader = parseLinkHeaderFromHttpResponse(response);
 
@@ -74,5 +60,5 @@ export const makeApiCallToGetEntries = async (
 
   const nextPageUri = parsedLinkHeader.next;
 
-  return responseBody.concat(await makeApiCallToGetEntries(kind, mode, nextPageUri));
+  return responseBody.concat(await makeApiCallToGet(kind, mode, nextPageUri));
 };

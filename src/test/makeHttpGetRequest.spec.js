@@ -2,9 +2,9 @@ import { expect } from 'chai';
 import nock from 'nock';
 
 import { httpAcceptHeader, apiUriBase, apiUriBaseRepos } from '../core/apiCallOptions';
-import { httpGet } from '../core/apiCallToGet';
+import { makeHttpGetRequest } from '../core/apiCallToGet';
 
-describe('Test httpGet', function () {
+describe('Test makeHttpGetRequest', function () {
   const uriForHttpGet = apiUriBaseRepos;
 
   before(function () {
@@ -19,7 +19,7 @@ describe('Test httpGet', function () {
   describe('when simulated with a network failure', function () {
     it('should throw an error', async function () {
       try {
-        await httpGet(uriForHttpGet);
+        await makeHttpGetRequest(uriForHttpGet);
       } catch (error) {
         const errorIsAnInstanceOfError = error instanceof Error;
         expect(errorIsAnInstanceOfError).to.be.true;
@@ -28,7 +28,7 @@ describe('Test httpGet', function () {
 
     it('should contain an expected error message', async function () {
       try {
-        await httpGet(uriForHttpGet);
+        await makeHttpGetRequest(uriForHttpGet);
       } catch (error) {
         const regex = /reason: Nock: Disallowed net connect/;
         expect(error.message).to.match(regex);
@@ -36,12 +36,39 @@ describe('Test httpGet', function () {
     });
   });
 
+  describe('when simulated with failed HTTP responses', function () {
+    const statusCode = 404;
+
+    beforeEach(function () {
+      const mockHttpServer = nock(apiUriBase);
+      mockHttpServer.get(/.*/).reply(statusCode);
+    });
+
+    it('should throw an error', async function () {
+      try {
+        await makeHttpGetRequest(uriForHttpGet);
+      } catch (errorReceived) {
+        expect(errorReceived).to.be.an('error');
+      }
+    });
+
+    it(`should throw an error that has a status code of ${statusCode}`, async function () {
+      try {
+        await makeHttpGetRequest(uriForHttpGet);
+      } catch (errorReceived) {
+        const errorStatusCode = errorReceived.status;
+        expect(errorStatusCode).to.deep.equal(statusCode);
+      }
+    });
+  });
+
   describe('when simulated with successful HTTP responses', function () {
+    const statusCode = 200;
     let response;
 
     beforeEach(async function () {
       const mockHttpServer = nock(apiUriBase);
-      mockHttpServer.get(/.*/).reply(200, function (uri) {
+      mockHttpServer.get(/.*/).reply(statusCode, function (uri) {
         return {
           requestUri: uri,
           method: this.req.method,
@@ -49,7 +76,7 @@ describe('Test httpGet', function () {
         };
       });
 
-      response = await httpGet(uriForHttpGet);
+      response = await makeHttpGetRequest(uriForHttpGet);
     });
 
     it('should receives an OK status', async function () {

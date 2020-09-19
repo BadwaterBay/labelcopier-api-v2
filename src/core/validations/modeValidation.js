@@ -1,4 +1,4 @@
-import InvalidModeError from './customErrors/InvalidModeError';
+import InvalidModeError from '../customErrors/InvalidModeError';
 
 export const validModes = new Set(['list', 'copy']);
 
