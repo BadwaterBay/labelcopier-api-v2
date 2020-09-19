@@ -2,6 +2,7 @@ module.exports = {
   env: {
     browser: true,
     node: true,
+    'shared-node-browser': true,
     es2020: true,
     mocha: true,
   },
@@ -14,9 +15,16 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
-    'func-names': 0,
     'prettier/prettier': 2,
   },
+  overrides: [
+    {
+      files: ['*.spec.js', '*.test.js'],
+      rules: {
+        'func-names': 0,
+      },
+    },
+  ],
   plugins: ['mocha', 'chai-friendly', 'prettier'],
   extends: [
     'airbnb-base',
