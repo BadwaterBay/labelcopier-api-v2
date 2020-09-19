@@ -5,10 +5,10 @@ import {
   loadHomeRepoOwnerFromEnv,
   loadHomeRepoNameFromEnv,
   loadTokenFromEnv,
-} from './dummyData';
+} from './dummyLoginInfo';
 import * as loadEnvVars from './loadEnvVars';
 
-describe('Test module dummyData', function () {
+describe('Test dummyLoginInfo', function () {
   describe('Test loadHomeRepoOwnerFromEnv', function () {
     describe('when .env file is absent', function () {
       it('should return its fallback value', function () {

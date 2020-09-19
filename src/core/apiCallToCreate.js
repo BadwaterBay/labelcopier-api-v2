@@ -1,10 +1,9 @@
-import fetch from 'node-fetch';
-
 import { httpAcceptHeader, apiUriBaseRepos } from './apiCallOptions';
-import { validateKindOrThrowError } from './validateKind';
-import { getLoginInfo, getRepoInfoFromLoginInfo } from './getApiLoginInfo';
+import HttpError from './customErrors/HttpError';
+import { getLoginInfo, getRepoInfoFromLoginInfo } from './loginInfo';
+import { validateKindOrThrowError } from './validations/kindValidation';
 
-export const composeUriForCreatingEntries = (kind = 'labels') => {
+export const buildUriForHttpPost = (kind = 'labels') => {
   const loginInfo = getLoginInfo();
   const repoOwner = getRepoInfoFromLoginInfo(loginInfo, 'owner');
   const repoName = getRepoInfoFromLoginInfo(loginInfo, 'name');
@@ -14,23 +13,36 @@ export const composeUriForCreatingEntries = (kind = 'labels') => {
   return uri;
 };
 
-export const httpPost = (kind = 'labels') => {
-  validateKindOrThrowError(kind);
+export const makeHttpPostRequest = async (uri, body = {}) => {
+  const loginInfo = getLoginInfo();
+  const { token } = loginInfo;
 
   const headers = {
     Accept: httpAcceptHeader,
-    Authorization: 'token',
+    Authorization: `token ${token}`,
   };
-
-  const body = '';
 
   const options = {
     method: 'POST',
     headers,
-    body,
+    body: JSON.stringify(body),
   };
 
-  const uri = composeUriForCreatingEntries(kind);
+  const response = await fetch(uri, options);
 
-  return fetch(uri, options);
+  if (!response.ok) {
+    throw new HttpError(response);
+  }
+
+  return response;
+};
+
+export const makeApiCallToCreate = async (kind = 'labels', uri = null) => {
+  validateKindOrThrowError(kind);
+
+  const uriForHttpPost = uri || buildUriForHttpPost(kind);
+  const response = await makeHttpPostRequest(uriForHttpPost);
+  const responseBody = await response.json();
+
+  return responseBody;
 };

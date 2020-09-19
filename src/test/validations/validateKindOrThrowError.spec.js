@@ -1,8 +1,11 @@
 import { expect } from 'chai';
 
-import { validKinds, validateKindOrThrowError } from '../core/validateKind';
+import {
+  validKinds,
+  validateKindOrThrowError,
+} from '../../core/validations/kindValidation';
 
-describe('Test module validateKind', function () {
+describe('Test kindValidation', function () {
   describe('Test validKinds', function () {
     describe('the return value', function () {
       it('should not be empty', function () {

@@ -1,5 +1,5 @@
-import { dummyLoginInfo } from '../test/dummyData';
-import { validateModeOrThrowError } from './validateMode';
+import { dummyLoginInfo } from '../test/dummyData/dummyLoginInfo';
+import { validateModeOrThrowError } from './validations/modeValidation';
 
 export const getLoginInfo = () => dummyLoginInfo;
 

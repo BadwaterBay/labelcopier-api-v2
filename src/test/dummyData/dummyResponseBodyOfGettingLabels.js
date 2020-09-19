@@ -107,7 +107,7 @@ export const dummyResponseBodyAll = [
 
 export const dummyResponseBody = {
   lastPageNum: 3,
-  body: {
+  data: {
     1: dummyResponseBody1,
     2: dummyResponseBody2,
     3: dummyResponseBody3,

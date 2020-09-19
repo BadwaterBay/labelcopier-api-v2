@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 
-import { composeHttpRequestBody } from '../core/composeHttpRequestBody';
+import { buildHttpRequestBody } from '../core/httpRequestBodyBuilder';
 
-describe('Test composeHttpRequestBody', function () {
+describe('Test buildHttpRequestBody', function () {
   const getParsedBody = (kind) => {
-    const stringifiedBody = composeHttpRequestBody(kind);
+    const stringifiedBody = buildHttpRequestBody(kind);
     return JSON.parse(stringifiedBody);
   };
 
@@ -13,7 +13,7 @@ describe('Test composeHttpRequestBody', function () {
       let body;
 
       before(function () {
-        body = composeHttpRequestBody('labels');
+        body = buildHttpRequestBody('labels');
       });
 
       it('should not be null', function () {
@@ -108,7 +108,7 @@ describe('Test composeHttpRequestBody', function () {
       let body;
 
       before(function () {
-        body = composeHttpRequestBody('milestones');
+        body = buildHttpRequestBody('milestones');
       });
 
       it('should not be null', function () {

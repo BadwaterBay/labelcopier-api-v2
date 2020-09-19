@@ -1,8 +1,11 @@
 import { expect } from 'chai';
 
-import { validModes, validateModeOrThrowError } from '../core/validateMode';
+import {
+  validModes,
+  validateModeOrThrowError,
+} from '../../core/validations/modeValidation';
 
-describe('Test module validateMode', function () {
+describe('Test modeValidation', function () {
   describe('Test validModes', function () {
     describe('the return value', function () {
       it('should not be empty', function () {
