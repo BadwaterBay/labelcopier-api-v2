@@ -27,7 +27,6 @@
   "plugins": ["mocha", "chai-friendly", "prettier"],
   "extends": [
     "airbnb-base",
-    "eslint:recommended",
     "plugin:mocha/recommended",
     "plugin:chai-friendly/recommended",
     "plugin:prettier/recommended",
