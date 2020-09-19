@@ -6,10 +6,6 @@ module.exports = {
     es2020: true,
     mocha: true,
   },
-  globals: {
-    Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly',
-  },
   parserOptions: {
     ecmaVersion: 2020,
     sourceType: 'module',
