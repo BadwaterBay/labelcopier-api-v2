@@ -1,4 +1,4 @@
 {
-  "**/*.js": ["eslint --config '.eslintrc.js' --cache --fix"],
+  "**/*.js": ["eslint --config '.eslintrc.json' --cache --fix"],
   "**/*.{js,json,md}": ["prettier --config '.prettierrc.json' --write"]
 }

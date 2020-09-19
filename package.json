@@ -8,8 +8,8 @@
   "license": "BSD-3-Clause",
   "scripts": {
     "format": "prettier --config '.prettierrc.json' --write '**/*.{js,json,md}'",
-    "lint": "eslint --config '.eslintrc.js' '**/*.js' --cache --fix",
-    "test": "mocha --config '.mocharc.js'",
+    "lint": "eslint --config '.eslintrc.json' '**/*.js' --cache --fix",
+    "test": "mocha --config '.mocharc.json'",
     "coverage": "nyc yarn test"
   },
   "dependencies": {
