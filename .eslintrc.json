@@ -2,7 +2,6 @@
   "env": {
     "browser": true,
     "node": true,
-    "shared-node-browser": true,
     "es2020": true,
     "mocha": true
   },
