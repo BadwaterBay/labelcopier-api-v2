@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { buildHttpRequestBody } from '../core/httpRequestBodyBuilder';
+import { buildHttpRequestBody } from '../../core/httpRequests/httpRequestBodyBuilder';
 
 describe('Test buildHttpRequestBody', function () {
   const getParsedBody = (kind) => {
@@ -17,7 +17,7 @@ describe('Test buildHttpRequestBody', function () {
       });
 
       it('should not be null', function () {
-        expect(body).to.not.be.a('null');
+        expect(body).to.not.be.null;
       });
 
       it('should be a string', function () {
@@ -112,7 +112,7 @@ describe('Test buildHttpRequestBody', function () {
       });
 
       it('should not be null', function () {
-        expect(body).to.not.be.a('null');
+        expect(body).to.not.be.null;
       });
 
       it('should be a string', function () {

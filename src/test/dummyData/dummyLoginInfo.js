@@ -1,11 +1,11 @@
-import loadEnvVars from './loadEnvVars';
+import loadDotEnv from './loadDotEnv';
 
 const loadAndParseEnvVars = (envVarName) => {
-  const envVars = loadEnvVars();
-  const envVarsParsed = envVars.parsed;
+  const envVars = loadDotEnv();
+  const parsedEnvVars = envVars.parsed;
 
-  if (envVarsParsed && envVarsParsed[envVarName]) {
-    return envVarsParsed[envVarName];
+  if (parsedEnvVars && parsedEnvVars[envVarName]) {
+    return parsedEnvVars[envVarName];
   }
 
   return null;
@@ -17,12 +17,16 @@ export const loadHomeRepoOwnerFromEnv = () =>
 export const loadHomeRepoNameFromEnv = () =>
   loadAndParseEnvVars('HOME_REPO_NAME') || 'home-repo-name';
 
+export const loadTemplateRepoOwnerFromEnv = () => 'template-repo-owner';
+
+export const loadTemplateRepoNameFromEnv = () => 'template-repo-name';
+
 export const loadTokenFromEnv = () => loadAndParseEnvVars('LABELCOPIER_TOKEN') || '';
 
 export const dummyLoginInfo = (() => ({
   homeRepoOwner: loadHomeRepoOwnerFromEnv(),
   homeRepoName: loadHomeRepoNameFromEnv(),
-  templateRepoOwner: 'template-repo-owner',
-  templateRepoName: 'template-repo-name',
+  templateRepoOwner: loadTemplateRepoOwnerFromEnv(),
+  templateRepoName: loadTemplateRepoNameFromEnv(),
   token: loadTokenFromEnv(),
 }))();

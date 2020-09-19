@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { apiUriBaseRepos } from '../core/apiCallOptions';
+import { apiUriBaseRepos } from '../../core/httpRequests/httpRequestUriBuilder';
 
 describe('The apiUriBaseRepos', function () {
   it('should be a string', function () {

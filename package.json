@@ -7,33 +7,10 @@
   "author": "Badwater Bay <badwaterbay@gmail.com>",
   "license": "BSD-3-Clause",
   "scripts": {
-    "format": "prettier '**/*.{js,ts,json}' --write",
-    "lint": "eslint '**/*.{js,ts}' --cache --fix",
+    "format": "prettier --config '.prettierrc.json' --write '**/*.{js,json,md}'",
+    "lint": "eslint --config '.eslintrc.json' --no-eslintrc '**/*.js' --cache --fix",
     "test": "mocha --config '.mocharc.js'",
     "coverage": "nyc yarn test"
-  },
-  "babel": {
-    "presets": [
-      [
-        "@babel/preset-env"
-      ]
-    ],
-    "plugins": [
-      "istanbul"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "**/*.{js,ts,json}": [
-      "prettier --write"
-    ],
-    "**/*.{js,ts}": [
-      "eslint --cache --fix"
-    ]
   },
   "dependencies": {
     "dotenv": "^8.2.0"

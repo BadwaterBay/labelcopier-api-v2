@@ -1,11 +1,15 @@
 import { expect } from 'chai';
 import nock from 'nock';
 
-import { httpAcceptHeader, apiUriBase, apiUriBaseRepos } from '../core/apiCallOptions';
-import { makeHttpPostRequest } from '../core/apiCallToCreate';
+import { httpAcceptHeader } from '../../core/httpRequests/httpRequestHeaderBuilder';
+import { makeHttpGetRequest } from '../../core/httpRequests/httpRequestMaker';
+import {
+  apiUriBase,
+  apiUriBaseRepos,
+} from '../../core/httpRequests/httpRequestUriBuilder';
 
-describe('Test makeHttpPostRequest', function () {
-  const uriForHttpPost = apiUriBaseRepos;
+describe('Test makeHttpGetRequest', function () {
+  const uriForHttpGet = apiUriBaseRepos;
 
   before(function () {
     nock.disableNetConnect();
@@ -19,7 +23,7 @@ describe('Test makeHttpPostRequest', function () {
   describe('when simulated with a network failure', function () {
     it('should throw an error', async function () {
       try {
-        await makeHttpPostRequest(uriForHttpPost);
+        await makeHttpGetRequest(uriForHttpGet);
       } catch (error) {
         const errorIsAnInstanceOfError = error instanceof Error;
         expect(errorIsAnInstanceOfError).to.be.true;
@@ -28,7 +32,7 @@ describe('Test makeHttpPostRequest', function () {
 
     it('should contain an expected error message', async function () {
       try {
-        await makeHttpPostRequest(uriForHttpPost);
+        await makeHttpGetRequest(uriForHttpGet);
       } catch (error) {
         const regex = /reason: Nock: Disallowed net connect/;
         expect(error.message).to.match(regex);
@@ -37,16 +41,16 @@ describe('Test makeHttpPostRequest', function () {
   });
 
   describe('when simulated with failed HTTP responses', function () {
-    const statusCode = 403;
+    const statusCode = 404;
 
     beforeEach(function () {
       const mockHttpServer = nock(apiUriBase);
-      mockHttpServer.post(/.*/).reply(statusCode);
+      mockHttpServer.get(/.*/).reply(statusCode);
     });
 
     it('should throw an error', async function () {
       try {
-        await makeHttpPostRequest(uriForHttpPost);
+        await makeHttpGetRequest(uriForHttpGet);
       } catch (errorReceived) {
         expect(errorReceived).to.be.an('error');
       }
@@ -54,7 +58,7 @@ describe('Test makeHttpPostRequest', function () {
 
     it(`should throw an error that has a status code of ${statusCode}`, async function () {
       try {
-        await makeHttpPostRequest(uriForHttpPost);
+        await makeHttpGetRequest(uriForHttpGet);
       } catch (errorReceived) {
         const errorStatusCode = errorReceived.status;
         expect(errorStatusCode).to.deep.equal(statusCode);
@@ -63,24 +67,23 @@ describe('Test makeHttpPostRequest', function () {
   });
 
   describe('when simulated with successful HTTP responses', function () {
-    const statusCode = 201;
+    const statusCode = 200;
     let response;
 
     beforeEach(async function () {
       const mockHttpServer = nock(apiUriBase);
-      mockHttpServer.post(/\/.*/).reply(statusCode, function (uri, requestBody) {
+      mockHttpServer.get(/.*/).reply(statusCode, function (uri) {
         return {
           requestUri: uri,
           method: this.req.method,
           requestHeader: this.req.headers,
-          requestBody,
         };
       });
 
-      response = await makeHttpPostRequest(uriForHttpPost);
+      response = await makeHttpGetRequest(uriForHttpGet);
     });
 
-    it('should receive an OK status', async function () {
+    it('should receives an OK status', async function () {
       const okStatus = response.ok;
       expect(okStatus).to.be.true;
     });
@@ -88,25 +91,20 @@ describe('Test makeHttpPostRequest', function () {
     describe('the parsed response body', function () {
       let responseBody;
 
-      before(async function () {
+      beforeEach(async function () {
         responseBody = await response.json();
       });
 
-      it('should have used the HTTP POST method', function () {
-        const acceptHeaderSent = responseBody.method;
-        const answerKey = 'POST';
-        expect(acceptHeaderSent).to.deep.equal(answerKey);
-      });
-
-      it('should have sent the correct HTTP Accept header', function () {
-        const httpMethodUsed = responseBody.requestHeader.accept[0];
-        const answerKey = httpAcceptHeader;
+      it('should have used the HTTP GET method', function () {
+        const httpMethodUsed = responseBody.method;
+        const answerKey = 'GET';
         expect(httpMethodUsed).to.deep.equal(answerKey);
       });
 
-      it('should have sent the HTTP body as a string', function () {
-        const requestBodySent = responseBody.requestBody;
-        expect(requestBodySent).to.be.a('string');
+      it('should have sent the correct HTTP Accept header', function () {
+        const acceptHeaderSent = responseBody.requestHeader.accept[0];
+        const answerKey = httpAcceptHeader;
+        expect(acceptHeaderSent).to.deep.equal(answerKey);
       });
     });
   });

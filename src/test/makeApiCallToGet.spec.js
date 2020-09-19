@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import nock from 'nock';
 
-import { apiUriBase } from '../core/apiCallOptions';
-import { makeApiCallToGet } from '../core/apiCallToGet';
+import { apiUriBase } from '../core/httpRequests/httpRequestUriBuilder';
+import { makeApiCallToGet } from '../core/apiCalls';
 import { dummyLinkHeader } from './dummyData/dummyLinkHeaderOfGettingLabels';
 import {
   dummyResponseBodyAll,

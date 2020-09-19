@@ -4,90 +4,107 @@ import { getRepoInfoFromLoginInfo } from '../core/loginInfo';
 import {
   loadHomeRepoOwnerFromEnv,
   loadHomeRepoNameFromEnv,
-  dummyLoginInfo,
+  loadTemplateRepoOwnerFromEnv,
+  loadTemplateRepoNameFromEnv,
 } from './dummyData/dummyLoginInfo';
 
 describe('Test getRepoInfoFromLoginInfo', function () {
-  describe('with the first argument being loginInfo', function () {
-    const loginInfo = dummyLoginInfo;
+  let ownerOrName;
+  let homeOrTemplateRepo;
+  let output;
 
-    describe("with the second argument being 'owner'", function () {
-      const ownerOrName = 'owner';
+  beforeEach(function () {
+    output = getRepoInfoFromLoginInfo(ownerOrName, homeOrTemplateRepo);
+  });
 
-      describe("with the third argument being 'list'", function () {
-        const mode = 'list';
-        let homeRepoOwner;
+  afterEach(function () {
+    output = undefined;
+  });
 
-        before(function () {
-          homeRepoOwner = getRepoInfoFromLoginInfo(loginInfo, ownerOrName, mode);
-        });
+  describe("with the first argument being 'owner'", function () {
+    before(function () {
+      ownerOrName = 'owner';
+    });
 
-        it('should be a string', function () {
-          expect(homeRepoOwner).to.be.a('string');
-        });
+    after(function () {
+      ownerOrName = undefined;
+    });
 
-        it('should match the expected value', function () {
-          const answerKey = loadHomeRepoOwnerFromEnv();
-          expect(homeRepoOwner).to.deep.equal(answerKey);
-        });
+    describe("with the second argument being 'home'", function () {
+      before(function () {
+        homeOrTemplateRepo = 'home';
       });
 
-      describe("with the third argument being 'copy'", function () {
-        const mode = 'copy';
-        let templateRepoOwner;
+      after(function () {
+        homeOrTemplateRepo = undefined;
+      });
 
-        before(function () {
-          templateRepoOwner = getRepoInfoFromLoginInfo(loginInfo, ownerOrName, mode);
-        });
+      it('should be a string', function () {
+        expect(output).to.be.a('string');
+      });
 
-        it('should be a string', function () {
-          expect(templateRepoOwner).to.be.a('string');
-        });
-
-        it('should match the expected value', function () {
-          const answerKey = 'template-repo-owner';
-          expect(templateRepoOwner).to.deep.equal(answerKey);
-        });
+      it('should match the expected value', function () {
+        const answerKey = loadHomeRepoOwnerFromEnv();
+        expect(output).to.deep.equal(answerKey);
       });
     });
 
-    describe("with the second argument being 'name'", function () {
-      const ownerOrName = 'name';
-
-      describe("with the third argument being 'list'", function () {
-        const mode = 'list';
-        let homeRepoName;
-
-        before(function () {
-          homeRepoName = getRepoInfoFromLoginInfo(loginInfo, ownerOrName, mode);
-        });
-
-        it('should be a string', function () {
-          expect(homeRepoName).to.be.a('string');
-        });
-
-        it('should match the expected value', function () {
-          const answerKey = loadHomeRepoNameFromEnv();
-          expect(homeRepoName).to.deep.equal(answerKey);
-        });
+    describe("with the second argument being 'template'", function () {
+      before(function () {
+        homeOrTemplateRepo = 'template';
       });
 
-      describe("with the third argument being 'copy'", function () {
-        const mode = 'copy';
-        let templateRepoName;
+      after(function () {
+        homeOrTemplateRepo = undefined;
+      });
 
-        before(function () {
-          templateRepoName = getRepoInfoFromLoginInfo(loginInfo, ownerOrName, mode);
-        });
+      it('should be a string', function () {
+        expect(output).to.be.a('string');
+      });
 
-        it('should be a string', function () {
-          expect(templateRepoName).to.be.a('string');
-        });
+      it('should match the expected value', function () {
+        const answerKey = loadTemplateRepoOwnerFromEnv();
+        expect(output).to.deep.equal(answerKey);
+      });
+    });
+  });
 
-        it('should match the expected value', function () {
-          const answerKey = 'template-repo-name';
-          expect(templateRepoName).to.deep.equal(answerKey);
-        });
+  describe("with the first argument being 'name'", function () {
+    before(function () {
+      ownerOrName = 'name';
+    });
+
+    describe("with the second argument being 'home'", function () {
+      before(function () {
+        homeOrTemplateRepo = 'home';
+      });
+
+      after(function () {
+        homeOrTemplateRepo = undefined;
+      });
+
+      it('should be a string', function () {
+        expect(output).to.be.a('string');
+      });
+
+      it('should match the expected value', function () {
+        const answerKey = loadHomeRepoNameFromEnv();
+        expect(output).to.deep.equal(answerKey);
+      });
+    });
+
+    describe("with the second argument being 'template'", function () {
+      before(function () {
+        homeOrTemplateRepo = 'template';
+      });
+
+      it('should be a string', function () {
+        expect(output).to.be.a('string');
+      });
+
+      it('should match the expected value', function () {
+        const answerKey = loadTemplateRepoNameFromEnv();
+        expect(output).to.deep.equal(answerKey);
       });
     });
   });

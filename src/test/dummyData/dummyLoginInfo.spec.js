@@ -6,7 +6,7 @@ import {
   loadHomeRepoNameFromEnv,
   loadTokenFromEnv,
 } from './dummyLoginInfo';
-import * as loadEnvVars from './loadEnvVars';
+import * as loadDotEnv from './loadDotEnv';
 
 describe('Test dummyLoginInfo', function () {
   describe('Test loadHomeRepoOwnerFromEnv', function () {
@@ -16,14 +16,14 @@ describe('Test dummyLoginInfo', function () {
           error: {},
         };
 
-        const stubloadEnvVars = sinon.stub(loadEnvVars, 'default');
-        stubloadEnvVars.returns(stubEnvVars);
+        const stubloadDotEnv = sinon.stub(loadDotEnv, 'default');
+        stubloadDotEnv.returns(stubEnvVars);
 
         const output = loadHomeRepoOwnerFromEnv();
         const answerKey = 'home-repo-owner';
         expect(output).to.deep.equal(answerKey);
 
-        stubloadEnvVars.restore();
+        stubloadDotEnv.restore();
       });
     });
 
@@ -37,14 +37,14 @@ describe('Test dummyLoginInfo', function () {
           },
         };
 
-        const stubloadEnvVars = sinon.stub(loadEnvVars, 'default');
-        stubloadEnvVars.returns(stubEnvVars);
+        const stubloadDotEnv = sinon.stub(loadDotEnv, 'default');
+        stubloadDotEnv.returns(stubEnvVars);
 
         const output = loadHomeRepoOwnerFromEnv();
         const answerKey = homeRepoOwner;
         expect(output).to.deep.equal(answerKey);
 
-        stubloadEnvVars.restore();
+        stubloadDotEnv.restore();
       });
     });
   });
@@ -56,14 +56,14 @@ describe('Test dummyLoginInfo', function () {
           error: {},
         };
 
-        const stubloadEnvVars = sinon.stub(loadEnvVars, 'default');
-        stubloadEnvVars.returns(stubEnvVars);
+        const stubloadDotEnv = sinon.stub(loadDotEnv, 'default');
+        stubloadDotEnv.returns(stubEnvVars);
 
         const output = loadHomeRepoNameFromEnv();
         const answerKey = 'home-repo-name';
         expect(output).to.deep.equal(answerKey);
 
-        stubloadEnvVars.restore();
+        stubloadDotEnv.restore();
       });
     });
 
@@ -77,14 +77,14 @@ describe('Test dummyLoginInfo', function () {
           },
         };
 
-        const stubloadEnvVars = sinon.stub(loadEnvVars, 'default');
-        stubloadEnvVars.returns(stubEnvVars);
+        const stubloadDotEnv = sinon.stub(loadDotEnv, 'default');
+        stubloadDotEnv.returns(stubEnvVars);
 
         const output = loadHomeRepoNameFromEnv();
         const answerKey = homeRepoName;
         expect(output).to.deep.equal(answerKey);
 
-        stubloadEnvVars.restore();
+        stubloadDotEnv.restore();
       });
     });
   });
@@ -96,14 +96,14 @@ describe('Test dummyLoginInfo', function () {
           error: {},
         };
 
-        const stubloadEnvVars = sinon.stub(loadEnvVars, 'default');
-        stubloadEnvVars.returns(stubEnvVars);
+        const stubloadDotEnv = sinon.stub(loadDotEnv, 'default');
+        stubloadDotEnv.returns(stubEnvVars);
 
         const output = loadTokenFromEnv();
         const answerKey = '';
         expect(output).to.deep.equal(answerKey);
 
-        stubloadEnvVars.restore();
+        stubloadDotEnv.restore();
       });
     });
 
@@ -117,14 +117,14 @@ describe('Test dummyLoginInfo', function () {
           },
         };
 
-        const stubloadEnvVars = sinon.stub(loadEnvVars, 'default');
-        stubloadEnvVars.returns(stubEnvVars);
+        const stubloadDotEnv = sinon.stub(loadDotEnv, 'default');
+        stubloadDotEnv.returns(stubEnvVars);
 
         const output = loadTokenFromEnv();
         const answerKey = token;
         expect(output).to.deep.equal(answerKey);
 
-        stubloadEnvVars.restore();
+        stubloadDotEnv.restore();
       });
     });
   });

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { apiPaginationLimit } from '../core/apiCallOptions';
+import { apiPaginationLimit } from '../../core/httpRequests/httpRequestUriBuilder';
 
 describe('The apiPaginationLimit', function () {
   it('shoud be a number', function () {

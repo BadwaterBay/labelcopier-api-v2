@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { httpAcceptHeader } from '../core/apiCallOptions';
+import { httpAcceptHeader } from '../../core/httpRequests/httpRequestHeaderBuilder';
 
 describe('The httpAcceptHeader', function () {
   it('should be a string', function () {

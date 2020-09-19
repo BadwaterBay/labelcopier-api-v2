@@ -1,23 +1,39 @@
 import { dummyLoginInfo } from '../test/dummyData/dummyLoginInfo';
-import { validateModeOrThrowError } from './validations/modeValidation';
 
 export const getLoginInfo = () => dummyLoginInfo;
 
 export const loginInfoLookupTable = {
-  list: {
+  home: {
     owner: 'homeRepoOwner',
     name: 'homeRepoName',
   },
-  copy: {
+  template: {
     owner: 'templateRepoOwner',
     name: 'templateRepoName',
   },
 };
 
-export const getRepoInfoFromLoginInfo = (loginInfo, ownerOrName, mode = 'list') => {
-  validateModeOrThrowError(mode);
-
-  const key = loginInfoLookupTable[mode][ownerOrName];
+export const getRepoInfoFromLoginInfo = (ownerOrName, homeOrTemplateRepo) => {
+  const loginInfo = getLoginInfo();
+  const key = loginInfoLookupTable[homeOrTemplateRepo][ownerOrName];
 
   return loginInfo[key];
+};
+
+export const getRepoOwnerAndName = (mode = 'list') => {
+  let homeOrTemplateRepo;
+
+  if (mode !== 'copy') {
+    homeOrTemplateRepo = 'home';
+  } else {
+    homeOrTemplateRepo = 'template';
+  }
+
+  const repoOwner = getRepoInfoFromLoginInfo('owner', homeOrTemplateRepo);
+  const repoName = getRepoInfoFromLoginInfo('name', homeOrTemplateRepo);
+
+  return {
+    repoOwner,
+    repoName,
+  };
 };

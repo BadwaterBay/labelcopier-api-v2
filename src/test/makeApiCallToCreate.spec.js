@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import nock from 'nock';
 
-import { apiUriBase } from '../core/apiCallOptions';
-import { makeApiCallToCreate } from '../core/apiCallToCreate';
+import { apiUriBase } from '../core/httpRequests/httpRequestUriBuilder';
+import { makeApiCallToCreate } from '../core/apiCalls';
 
 describe('Test makeApiCallToCreate', function () {
   describe('with a mock HTTP server', function () {

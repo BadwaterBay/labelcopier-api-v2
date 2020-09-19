@@ -12,8 +12,8 @@ describe('Test modeValidation', function () {
         expect(validModes).to.not.be.empty;
       });
 
-      it('should have a size of 2', function () {
-        expect(validModes).to.have.lengthOf(2);
+      it('should have a size of 3', function () {
+        expect(validModes).to.have.lengthOf(3);
       });
 
       it("should contain 'list'", function () {

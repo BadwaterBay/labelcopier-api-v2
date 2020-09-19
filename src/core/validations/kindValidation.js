@@ -1,4 +1,4 @@
-import InvalidKindError from '../customErrors/InvalidKindError';
+import { InvalidKindError } from '../customErrors';
 
 export const validKinds = new Set(['labels', 'milestones']);
 

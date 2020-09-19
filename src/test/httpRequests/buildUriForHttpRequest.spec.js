@@ -1,13 +1,19 @@
 import { expect } from 'chai';
 
-import { apiPaginationLimit, apiUriBaseRepos } from '../core/apiCallOptions';
-import { buildUriForHttpGet } from '../core/apiCallToGet';
+import {
+  apiPaginationLimit,
+  apiUriBaseRepos,
+  buildUriForHttpRequest,
+} from '../../core/httpRequests/httpRequestUriBuilder';
+
 import {
   loadHomeRepoOwnerFromEnv,
   loadHomeRepoNameFromEnv,
-} from './dummyData/dummyLoginInfo';
+  loadTemplateRepoOwnerFromEnv,
+  loadTemplateRepoNameFromEnv,
+} from '../dummyData/dummyLoginInfo';
 
-describe('Test buildUriForHttpGet', function () {
+describe('Test buildUriForHttpRequest', function () {
   let homeRepoOwner;
   let homeRepoName;
   let templateRepoOwner;
@@ -16,24 +22,24 @@ describe('Test buildUriForHttpGet', function () {
   before(function () {
     homeRepoOwner = loadHomeRepoOwnerFromEnv();
     homeRepoName = loadHomeRepoNameFromEnv();
-    templateRepoOwner = 'template-repo-owner';
-    templateRepoName = 'template-repo-name';
+    templateRepoOwner = loadTemplateRepoOwnerFromEnv();
+    templateRepoName = loadTemplateRepoNameFromEnv();
   });
 
   describe('with no arguments specified', function () {
     describe('the return value', function () {
       it('should be a string', function () {
-        const output = buildUriForHttpGet();
+        const output = buildUriForHttpRequest();
         expect(output).to.be.a('string');
       });
 
       it('should have a length > 56', function () {
-        const output = buildUriForHttpGet();
+        const output = buildUriForHttpRequest();
         expect(output).to.have.lengthOf.above(56);
       });
 
       it('should match the expected value', function () {
-        const output = buildUriForHttpGet();
+        const output = buildUriForHttpRequest();
 
         const answerKey = `${apiUriBaseRepos}/${homeRepoOwner}/${homeRepoName}/labels?per_page=${apiPaginationLimit}&page=1`;
 
@@ -47,7 +53,7 @@ describe('Test buildUriForHttpGet', function () {
     const kind = firstArgument;
 
     it('should match the expected value', function () {
-      const output = buildUriForHttpGet(firstArgument);
+      const output = buildUriForHttpRequest(firstArgument);
 
       const answerKey = `${apiUriBaseRepos}/${homeRepoOwner}/${homeRepoName}/${kind}?per_page=${apiPaginationLimit}&page=1`;
 
@@ -57,7 +63,7 @@ describe('Test buildUriForHttpGet', function () {
     describe("with the second argument being 'list'", function () {
       it('should match the expected value', function () {
         const secondArgument = 'list';
-        const output = buildUriForHttpGet(firstArgument, secondArgument);
+        const output = buildUriForHttpRequest(firstArgument, secondArgument);
 
         const answerKey = `${apiUriBaseRepos}/${homeRepoOwner}/${homeRepoName}/${kind}?per_page=${apiPaginationLimit}&page=1`;
 
@@ -68,7 +74,7 @@ describe('Test buildUriForHttpGet', function () {
     describe("with the second argument being 'copy'", function () {
       it('should match the expected value', function () {
         const secondArgument = 'copy';
-        const output = buildUriForHttpGet(firstArgument, secondArgument);
+        const output = buildUriForHttpRequest(firstArgument, secondArgument);
 
         const answerKey = `${apiUriBaseRepos}/${templateRepoOwner}/${templateRepoName}/${kind}?per_page=${apiPaginationLimit}&page=1`;
 
@@ -82,7 +88,7 @@ describe('Test buildUriForHttpGet', function () {
     const kind = firstArgument;
 
     it('should match the expected value', function () {
-      const output = buildUriForHttpGet(firstArgument);
+      const output = buildUriForHttpRequest(firstArgument);
 
       const answerKey = `${apiUriBaseRepos}/${homeRepoOwner}/${homeRepoName}/${kind}?per_page=${apiPaginationLimit}&page=1&state=all`;
 
@@ -92,7 +98,7 @@ describe('Test buildUriForHttpGet', function () {
     describe("with the second argument being 'list'", function () {
       it('should match the expected value', function () {
         const secondArgument = 'list';
-        const output = buildUriForHttpGet(firstArgument, secondArgument);
+        const output = buildUriForHttpRequest(firstArgument, secondArgument);
 
         const answerKey = `${apiUriBaseRepos}/${homeRepoOwner}/${homeRepoName}/${kind}?per_page=${apiPaginationLimit}&page=1&state=all`;
 
@@ -103,7 +109,7 @@ describe('Test buildUriForHttpGet', function () {
     describe("with the second argument being 'copy'", function () {
       it('should match the expected value', function () {
         const secondArgument = 'copy';
-        const output = buildUriForHttpGet(firstArgument, secondArgument);
+        const output = buildUriForHttpRequest(firstArgument, secondArgument);
 
         const answerKey = `${apiUriBaseRepos}/${templateRepoOwner}/${templateRepoName}/${kind}?per_page=${apiPaginationLimit}&page=1&state=all`;
 
