@@ -1,15 +1,14 @@
 version: 2
 updates:
-- package-ecosystem: npm
-  directory: "/"
-  schedule:
-    interval: daily
-    time: "14:00"
-    timezone: America/Chicago
-  labels:
-    - "dependencies"
-  rebase-strategy: "auto"
-  open-pull-requests-limit: 16
-  reviewers:
-      - "BadwaterBay/maintainers"
-
+  - package-ecosystem: npm
+    directory: '/'
+    schedule:
+      interval: daily
+      time: '14:00'
+      timezone: America/Chicago
+    labels:
+      - 'dependencies'
+    rebase-strategy: 'auto'
+    open-pull-requests-limit: 16
+    reviewers:
+      - 'BadwaterBay/maintainers'
