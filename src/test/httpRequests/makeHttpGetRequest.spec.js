@@ -89,20 +89,20 @@ describe('Test makeHttpGetRequest', function () {
     });
 
     describe('the parsed response body', function () {
-      let responseBody;
+      let body;
 
       beforeEach(async function () {
-        responseBody = await response.json();
+        body = await response.json();
       });
 
       it('should have used the HTTP GET method', function () {
-        const httpMethodUsed = responseBody.method;
+        const httpMethodUsed = body.method;
         const answerKey = 'GET';
         expect(httpMethodUsed).to.deep.equal(answerKey);
       });
 
       it('should have sent the correct HTTP Accept header', function () {
-        const acceptHeaderSent = responseBody.requestHeader.accept[0];
+        const acceptHeaderSent = body.requestHeader.accept[0];
         const answerKey = httpAcceptHeader;
         expect(acceptHeaderSent).to.deep.equal(answerKey);
       });

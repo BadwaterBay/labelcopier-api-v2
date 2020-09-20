@@ -26,15 +26,15 @@ describe('Test buildHttpRequestBody', function () {
     });
 
     describe('the parsed body', function () {
-      let parsedBody;
+      let body;
 
       before(function () {
-        parsedBody = getParsedBody('labels');
+        body = getParsedBody('labels');
       });
 
       describe("a key called 'name' in the request body", function () {
         it('should exist', function () {
-          const keyNameExists = 'name' in parsedBody;
+          const keyNameExists = 'name' in body;
           expect(keyNameExists).to.be.true;
         });
       });
@@ -43,7 +43,7 @@ describe('Test buildHttpRequestBody', function () {
         let nameValue;
 
         before(function () {
-          nameValue = parsedBody.name;
+          nameValue = body.name;
         });
 
         it('should be a string', function () {
@@ -57,7 +57,7 @@ describe('Test buildHttpRequestBody', function () {
 
       describe("a key called 'color' in the request body", function () {
         it('should exist', function () {
-          const colorExists = 'color' in parsedBody;
+          const colorExists = 'color' in body;
           expect(colorExists).to.be.true;
         });
       });
@@ -66,7 +66,7 @@ describe('Test buildHttpRequestBody', function () {
         let hexColorCode;
 
         before(function () {
-          hexColorCode = parsedBody.color;
+          hexColorCode = body.color;
         });
 
         it('should be a string', function () {
@@ -89,14 +89,14 @@ describe('Test buildHttpRequestBody', function () {
 
       describe("a key called 'description' in the request body", function () {
         it('should exist', function () {
-          const descriptionExists = 'description' in parsedBody;
+          const descriptionExists = 'description' in body;
           expect(descriptionExists).to.be.true;
         });
       });
 
       describe("the value of key 'description'", function () {
         it('should be a string', function () {
-          const descriptionValue = parsedBody.description;
+          const descriptionValue = body.description;
           expect(descriptionValue).to.be.a('string');
         });
       });
@@ -121,15 +121,15 @@ describe('Test buildHttpRequestBody', function () {
     });
 
     describe('the parsed body', function () {
-      let parsedBody;
+      let body;
 
       before(function () {
-        parsedBody = getParsedBody('milestones');
+        body = getParsedBody('milestones');
       });
 
       describe("a key called 'title' in the request body", function () {
         it('should exist', function () {
-          const titleExists = 'title' in parsedBody;
+          const titleExists = 'title' in body;
           expect(titleExists).to.be.true;
         });
       });
@@ -138,7 +138,7 @@ describe('Test buildHttpRequestBody', function () {
         let titleValue;
 
         before(function () {
-          titleValue = parsedBody.title;
+          titleValue = body.title;
         });
 
         it('should be a string', function () {
@@ -152,7 +152,7 @@ describe('Test buildHttpRequestBody', function () {
 
       describe("a key called 'state' in the request body", function () {
         it('should exist', function () {
-          const stateExists = 'state' in parsedBody;
+          const stateExists = 'state' in body;
           expect(stateExists).to.be.true;
         });
       });
@@ -161,7 +161,7 @@ describe('Test buildHttpRequestBody', function () {
         let stateValue;
 
         before(function () {
-          stateValue = parsedBody.state;
+          stateValue = body.state;
         });
 
         it('should be a string', function () {
@@ -183,21 +183,21 @@ describe('Test buildHttpRequestBody', function () {
 
       describe("a key called 'description' in the request body", function () {
         it('should exist', function () {
-          const descriptionExists = 'description' in parsedBody;
+          const descriptionExists = 'description' in body;
           expect(descriptionExists).to.be.true;
         });
       });
 
       describe("the value of key 'description'", function () {
         it('should be a string', function () {
-          const descriptionValue = parsedBody.description;
+          const descriptionValue = body.description;
           expect(descriptionValue).to.be.a('string');
         });
       });
 
       describe("a key called 'due_on' in the request body", function () {
         it('should exist', function () {
-          const dueOnExists = 'due_on' in parsedBody;
+          const dueOnExists = 'due_on' in body;
           expect(dueOnExists).to.be.true;
         });
       });
@@ -206,7 +206,7 @@ describe('Test buildHttpRequestBody', function () {
         let dueOnValue;
 
         before(function () {
-          dueOnValue = parsedBody.due_on;
+          dueOnValue = body.due_on;
         });
 
         it('should be a string', function () {

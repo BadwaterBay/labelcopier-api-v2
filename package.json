@@ -7,10 +7,17 @@
   "author": "Badwater Bay <badwaterbay@gmail.com>",
   "license": "BSD-3-Clause",
   "scripts": {
-    "format": "prettier --config '.prettierrc.yml' --write '**/*.{js,json,yaml,yml,md}'",
+    "format": "prettier --config '.prettierrc.yml' --write '**/*.{js,json,md,yml,yaml}'",
+    "f": "yarn format",
     "lint": "eslint --config '.eslintrc.yml' --no-eslintrc '**/*.js' --cache --fix",
+    "ln": "yarn ln",
     "test": "mocha --config '.mocharc.yml'",
-    "coverage": "nyc yarn test"
+    "t": "yarn test",
+    "coverage": "nyc yarn test",
+    "c": "yarn coverage",
+    "show-coverage-report": "serve coverage/lcov-report",
+    "scr": "yarn show-coverage-report",
+    "refresh": "rm -rf node_modules && yarn --frozen-lockfile"
   },
   "dependencies": {
     "dotenv": "^8.2.0"
@@ -38,6 +45,7 @@
     "nyc": "^15.1.0",
     "prettier": "^2.1.2",
     "regenerator-runtime": "^0.13.7",
+    "serve": "^11.3.2",
     "sinon": "^9.0.3"
   }
 }
