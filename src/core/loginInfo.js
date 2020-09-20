@@ -14,19 +14,19 @@ export const loginInfoLookupTable = {
 };
 
 export const getRepoInfoFromLoginInfo = (ownerOrName, homeOrTemplateRepo) => {
-  const loginInfo = getLoginInfo();
   const key = loginInfoLookupTable[homeOrTemplateRepo][ownerOrName];
+  const loginInfo = getLoginInfo();
 
   return loginInfo[key];
 };
 
-export const getRepoOwnerAndName = (mode = 'list') => {
+export const getRepoOwnerAndName = (mode) => {
   let homeOrTemplateRepo;
 
-  if (mode !== 'copy') {
-    homeOrTemplateRepo = 'home';
-  } else {
+  if (mode === 'copy') {
     homeOrTemplateRepo = 'template';
+  } else {
+    homeOrTemplateRepo = 'home';
   }
 
   const repoOwner = getRepoInfoFromLoginInfo('owner', homeOrTemplateRepo);

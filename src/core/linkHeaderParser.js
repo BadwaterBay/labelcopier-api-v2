@@ -10,9 +10,7 @@ export const parseLinkHeader = (linkHeader = '') => {
       return accumulator;
     }
 
-    const { uri } = matched.groups;
-    const { rel } = matched.groups;
-
+    const { uri, rel } = matched.groups;
     accumulator[rel] = uri;
 
     return accumulator;
@@ -28,5 +26,6 @@ export const parseLinkHeaderFromHttpResponse = (response) => {
   const { headers } = response;
   const linkHeader = headers.get('link');
   const parsedLinkHeader = parseLinkHeader(linkHeader);
+
   return parsedLinkHeader;
 };

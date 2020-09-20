@@ -1,16 +1,16 @@
 ---
 extends: '@istanbuljs/nyc-config-babel'
+report-dir: ./coverage
+timeout: 6000
+check-coverage: true
 all: true
 include:
+  - index.js
   - src
 exclude:
-  - '**/*.spec.ts'
   - '**/*.spec.js'
-  - '**/*.test.ts'
   - '**/*.test.js'
-check-coverage: true
+  - '**/test/**/*.js'
 reporter:
   - text
   - lcov
-report-dir: './coverage'
-timeout: 6000

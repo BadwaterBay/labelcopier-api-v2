@@ -90,26 +90,26 @@ describe('Test makeHttpPostRequest', function () {
     });
 
     describe('the parsed response body', function () {
-      let responseBody;
+      let body;
 
       before(async function () {
-        responseBody = await response.json();
+        body = await response.json();
       });
 
       it('should have used the HTTP POST method', function () {
-        const acceptHeaderSent = responseBody.method;
+        const acceptHeaderSent = body.method;
         const answerKey = 'POST';
         expect(acceptHeaderSent).to.deep.equal(answerKey);
       });
 
       it('should have sent the correct HTTP Accept header', function () {
-        const httpMethodUsed = responseBody.requestHeader.accept[0];
+        const httpMethodUsed = body.requestHeader.accept[0];
         const answerKey = httpAcceptHeader;
         expect(httpMethodUsed).to.deep.equal(answerKey);
       });
 
       it('should have sent the HTTP body as a string', function () {
-        const requestBodySent = responseBody.requestBody;
+        const requestBodySent = body.requestBody;
         expect(requestBodySent).to.be.a('string');
       });
     });

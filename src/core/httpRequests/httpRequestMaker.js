@@ -24,5 +24,5 @@ export const makeHttpRequest = async (method, uri, body = {}) => {
 
 export const makeHttpGetRequest = async (uri) => makeHttpRequest('GET', uri);
 
-export const makeHttpPostRequest = async (uri, body = {}) =>
+export const makeHttpPostRequest = async (uri, body) =>
   makeHttpRequest('POST', uri, body);

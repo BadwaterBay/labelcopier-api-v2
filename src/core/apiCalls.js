@@ -6,6 +6,9 @@ import {
 import { parseLinkHeaderFromHttpResponse } from './linkHeaderParser';
 import { validateKindOrThrowError, validateModeOrThrowError } from './validations';
 
+/**
+ * Recursively make API calls (GET method) to fetch responses from a paginated API
+ */
 export const makeApiCallToGet = async (kind = 'labels', mode = 'list', uri = null) => {
   validateKindOrThrowError(kind);
   validateModeOrThrowError(mode);
@@ -13,21 +16,23 @@ export const makeApiCallToGet = async (kind = 'labels', mode = 'list', uri = nul
   const uriForHttpRequest = uri || buildUriForHttpRequest(kind, mode);
   const response = await makeHttpGetRequest(uriForHttpRequest);
   const responseBody = await response.json();
-  const parsedLinkHeader = parseLinkHeaderFromHttpResponse(response);
+  const linkHeader = parseLinkHeaderFromHttpResponse(response);
+  const nextPage = 'next';
 
-  if (!('next' in parsedLinkHeader)) {
+  if (!(nextPage in linkHeader)) {
     return responseBody;
   }
 
-  const nextPageUri = parsedLinkHeader.next;
+  const uriOfNextPage = linkHeader[nextPage];
+  const responseBodyOfNextPage = await makeApiCallToGet(kind, mode, uriOfNextPage);
 
-  return responseBody.concat(await makeApiCallToGet(kind, mode, nextPageUri));
+  return [...responseBody, ...responseBodyOfNextPage];
 };
 
-export const makeApiCallToCreate = async (kind = 'labels', body = {}, uri = null) => {
+export const makeApiCallToCreate = async (kind = 'labels', body = {}) => {
   validateKindOrThrowError(kind);
 
-  const uriForHttpRequest = uri || buildUriForHttpRequest(kind, 'create');
+  const uriForHttpRequest = buildUriForHttpRequest(kind, 'create');
   const response = await makeHttpPostRequest(uriForHttpRequest, body);
   const responseBody = await response.json();
 
