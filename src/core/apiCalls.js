@@ -1,39 +1,59 @@
 import {
-  buildUriForHttpRequest,
-  makeHttpGetRequest,
-  makeHttpPostRequest,
+  buildUriForHttpRequestGET,
+  buildUriForHttpRequestPOST,
+  makeHttpRequestGET,
+  makeHttpRequestPOST,
+  parseLinkHeaderFromHttpResponse,
 } from './httpRequests';
-import { parseLinkHeaderFromHttpResponse } from './linkHeaderParser';
-import { validateKindOrThrowError, validateModeOrThrowError } from './validations';
+import { validateEntryTypeOrThrow } from './validations';
 
 /**
  * Recursively make API calls (GET method) to fetch responses from a paginated API
  */
-export const makeApiCallToGet = async (kind = 'labels', mode = 'list', uri = null) => {
-  validateKindOrThrowError(kind);
-  validateModeOrThrowError(mode);
-
-  const uriForHttpRequest = uri || buildUriForHttpRequest(kind, mode);
-  const response = await makeHttpGetRequest(uriForHttpRequest);
+export const makeApiCallsToGetRecursively = async (entryType, action, uri = null) => {
+  const uriForHttpRequest = uri || buildUriForHttpRequestGET(entryType, action);
+  const response = await makeHttpRequestGET(uriForHttpRequest);
   const responseBody = await response.json();
+
   const linkHeader = parseLinkHeaderFromHttpResponse(response);
   const nextPage = 'next';
+  const thereIsNoNextPage = !(nextPage in linkHeader);
 
-  if (!(nextPage in linkHeader)) {
+  if (thereIsNoNextPage) {
     return responseBody;
   }
 
   const uriOfNextPage = linkHeader[nextPage];
-  const responseBodyOfNextPage = await makeApiCallToGet(kind, mode, uriOfNextPage);
+  const responseBodyOfNextPage = await makeApiCallsToGetRecursively(
+    entryType,
+    action,
+    uriOfNextPage
+  );
 
-  return [...responseBody, ...responseBodyOfNextPage];
+  const combinedResponseBody = [...responseBody, ...responseBodyOfNextPage];
+
+  return combinedResponseBody;
 };
 
-export const makeApiCallToCreate = async (kind = 'labels', body = {}) => {
-  validateKindOrThrowError(kind);
+export const makeApiCallToList = async (entryType) => {
+  validateEntryTypeOrThrow(entryType);
+  const action = 'list';
 
-  const uriForHttpRequest = buildUriForHttpRequest(kind, 'create');
-  const response = await makeHttpPostRequest(uriForHttpRequest, body);
+  return makeApiCallsToGetRecursively(entryType, action);
+};
+
+export const makeApiCallToCopy = async (entryType) => {
+  validateEntryTypeOrThrow(entryType);
+  const action = 'copy';
+
+  return makeApiCallsToGetRecursively(entryType, action);
+};
+
+export const makeApiCallToCreate = async (entryType, body = {}) => {
+  validateEntryTypeOrThrow(entryType);
+
+  const uriForHttpRequest = buildUriForHttpRequestPOST(entryType);
+  const response = await makeHttpRequestPOST(uriForHttpRequest, body);
   const responseBody = await response.json();
 
   return responseBody;

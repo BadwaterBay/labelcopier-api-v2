@@ -1,24 +1,24 @@
 import { expect } from 'chai';
 
-import { getRepoOwnerAndName } from '../core/loginInfo';
+import { getRepoOwnerAndRepoName } from '../core/loginInfo';
 import {
-  loadHomeRepoOwnerFromEnv,
-  loadHomeRepoNameFromEnv,
-  loadTemplateRepoOwnerFromEnv,
-  loadTemplateRepoNameFromEnv,
+  loadHomeRepoOwnerFromDotEnv,
+  loadHomeRepoNameFromDotEnv,
+  loadOtherRepoOwnerFromDotEnv,
+  loadOtherRepoNameFromDotEnv,
 } from './dummyData/dummyLoginInfo';
 
-describe('Test getRepoOwnerAndName', function () {
-  let mode;
+describe('Test getRepoOwnerAndRepoName', function () {
+  let action;
   let output;
 
   beforeEach(function () {
-    output = getRepoOwnerAndName(mode);
+    output = getRepoOwnerAndRepoName(action);
   });
 
   describe("with argument 'list'", function () {
     before(function () {
-      mode = 'list';
+      action = 'list';
     });
 
     it('should be an object', function () {
@@ -33,7 +33,7 @@ describe('Test getRepoOwnerAndName', function () {
     describe("the value of 'repoOwner'", function () {
       it('should match the expected value', function () {
         const value = output.repoOwner;
-        const answerKey = loadHomeRepoOwnerFromEnv();
+        const answerKey = loadHomeRepoOwnerFromDotEnv();
         expect(value).to.deep.equal(answerKey);
       });
     });
@@ -46,7 +46,7 @@ describe('Test getRepoOwnerAndName', function () {
     describe("the value of 'repoName'", function () {
       it('should match the expected value', function () {
         const value = output.repoName;
-        const answerKey = loadHomeRepoNameFromEnv();
+        const answerKey = loadHomeRepoNameFromDotEnv();
         expect(value).to.deep.equal(answerKey);
       });
     });
@@ -54,7 +54,7 @@ describe('Test getRepoOwnerAndName', function () {
 
   describe("with argument 'copy'", function () {
     before(function () {
-      mode = 'copy';
+      action = 'copy';
     });
 
     it('should be an object', function () {
@@ -69,7 +69,7 @@ describe('Test getRepoOwnerAndName', function () {
     describe("the value of 'repoOwner'", function () {
       it('should match the expected value', function () {
         const value = output.repoOwner;
-        const answerKey = loadTemplateRepoOwnerFromEnv();
+        const answerKey = loadOtherRepoOwnerFromDotEnv();
         expect(value).to.deep.equal(answerKey);
       });
     });
@@ -82,7 +82,7 @@ describe('Test getRepoOwnerAndName', function () {
     describe("the value of 'repoName'", function () {
       it('should match the expected value', function () {
         const value = output.repoName;
-        const answerKey = loadTemplateRepoNameFromEnv();
+        const answerKey = loadOtherRepoNameFromDotEnv();
         expect(value).to.deep.equal(answerKey);
       });
     });

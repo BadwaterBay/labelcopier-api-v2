@@ -1,42 +1,42 @@
 import { expect } from 'chai';
 
 import {
-  validKinds,
-  validateKindOrThrowError,
-} from '../../core/validations/kindValidation';
+  getValidEntryTypes,
+  validateEntryTypeOrThrow,
+} from '../../core/validations/validationOfEntryType';
 
-describe('Test kindValidation', function () {
-  describe('Test validKinds', function () {
+describe('Test module validationOfEntryType', function () {
+  describe('Test getValidEntryTypes', function () {
     describe('the return value', function () {
       it('should not be empty', function () {
-        expect(validKinds).to.not.be.empty;
+        expect(getValidEntryTypes()).to.not.be.empty;
       });
 
       it('should have a size of 2', function () {
-        expect(validKinds).to.have.lengthOf(2);
+        expect(getValidEntryTypes()).to.have.lengthOf(2);
       });
 
       it("should contain 'labels'", function () {
-        expect(validKinds).to.include('labels');
+        expect(getValidEntryTypes()).to.include('labels');
       });
 
       it("should contain 'milestones'", function () {
-        expect(validKinds).to.include('milestones');
+        expect(getValidEntryTypes()).to.include('milestones');
       });
     });
 
     describe('when tested against an invalid value', function () {
       it('should throw an error', function () {
-        expect(validKinds).to.not.include('nonexistence-kind');
+        expect(getValidEntryTypes()).to.not.include('nonexistence-entryType');
       });
     });
   });
 
-  describe('Test validateKindOrThrowError', function () {
+  describe('Test validateEntryTypeOrThrow', function () {
     describe("with 'labels'", function () {
       it('should be valid', function () {
         const input = 'labels';
-        const output = validateKindOrThrowError(input);
+        const output = validateEntryTypeOrThrow(input);
         expect(output).to.be.true;
       });
     });
@@ -44,15 +44,15 @@ describe('Test kindValidation', function () {
     describe("with 'milestones'", function () {
       it('should be valid', function () {
         const input = 'milestones';
-        const output = validateKindOrThrowError(input);
+        const output = validateEntryTypeOrThrow(input);
         expect(output).to.be.true;
       });
     });
 
     describe('with an invalid value', function () {
       it('should throw an error', function () {
-        const input = 'nonexistence-kind';
-        expect(() => validateKindOrThrowError(input)).to.throw();
+        const input = 'nonexistence-entryType';
+        expect(() => validateEntryTypeOrThrow(input)).to.throw();
       });
     });
   });

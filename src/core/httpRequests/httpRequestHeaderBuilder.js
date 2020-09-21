@@ -1,13 +1,16 @@
 import { getLoginInfo } from '../loginInfo';
 
-export const httpAcceptHeader = 'application/vnd.github.v3+json';
+export const buildAcceptHeaderForHttpRequest = () => 'application/vnd.github.v3+json';
+
+export const buildAuthorizationHeaderForHttpRequest = () => {
+  const { token } = getLoginInfo();
+  return `token ${token}`;
+};
 
 export const buildHttpRequestHeader = () => {
-  const { token } = getLoginInfo();
-
   const headers = {
-    Accept: httpAcceptHeader,
-    Authorization: `token ${token}`,
+    Accept: buildAcceptHeaderForHttpRequest(),
+    Authorization: buildAuthorizationHeaderForHttpRequest(),
   };
 
   return headers;

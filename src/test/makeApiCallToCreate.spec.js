@@ -1,65 +1,104 @@
 import { expect } from 'chai';
-import nock from 'nock';
 
-import { apiUriBase } from '../core/httpRequests/httpRequestUriBuilder';
 import { makeApiCallToCreate } from '../core/apiCalls';
+import { dummyLabel as dummyRequestBody } from './dummyData/dummyLabel.setup.test';
+import {
+  mockHttpServerSetup,
+  mockHttpServerCleanup,
+  mockHttpServerForPOSTOnSuccess,
+  mockHttpServerForPOSTOnFailure,
+} from './mockHttpServer';
 
 describe('Test makeApiCallToCreate', function () {
   describe('with a mock HTTP server', function () {
     before(function () {
-      nock.disableNetConnect();
+      mockHttpServerSetup();
     });
 
     after(function () {
-      nock.cleanAll();
-      nock.enableNetConnect();
+      mockHttpServerCleanup();
     });
 
     describe('when simulated with failed HTTP responses', function () {
-      const statusCode = 403;
+      const entryType = 'labels';
+      const failureStatusCode = 403;
 
       beforeEach(function () {
-        const mockHttpServer = nock(apiUriBase);
-        mockHttpServer.post(/.*/).reply(statusCode);
+        mockHttpServerForPOSTOnFailure();
       });
 
       it('should throw an error', async function () {
         try {
-          await makeApiCallToCreate();
+          await makeApiCallToCreate(entryType);
         } catch (errorReceived) {
           expect(errorReceived).to.be.an('error');
         }
       });
 
-      it(`should throw an error that has a status code of ${statusCode}`, async function () {
+      it(`should throw an error that has a status code of ${failureStatusCode}`, async function () {
         try {
-          await makeApiCallToCreate();
+          await makeApiCallToCreate(entryType);
         } catch (errorReceived) {
           const errorStatusCode = errorReceived.status;
-          expect(errorStatusCode).to.deep.equal(statusCode);
+          expect(errorStatusCode).to.deep.equal(failureStatusCode);
         }
       });
     });
 
     describe('when simulated with successful HTTP responses', function () {
-      const statusCode = 201;
+      const entryType = 'labels';
+      let responseBody;
 
-      beforeEach(function () {
-        const mockHttpServer = nock(apiUriBase);
-        mockHttpServer.post(/.*/).reply(statusCode, {});
+      beforeEach(async function () {
+        mockHttpServerForPOSTOnSuccess();
+
+        responseBody = await makeApiCallToCreate(entryType, dummyRequestBody);
       });
 
-      it('should not throw an error', function () {
-        expect(() => makeApiCallToCreate()).to.not.throw();
-      });
+      describe('in the received response', function () {
+        describe("a key-value pair with key 'name'", function () {
+          const key = 'name';
 
-      describe('the return value', function () {
-        const kind = 'labels';
-        let responseBody;
+          it('key should exist', function () {
+            const keyExists = key in responseBody;
+            expect(keyExists).to.be.true;
+          });
 
-        it('should be an array', async function () {
-          responseBody = await makeApiCallToCreate(kind);
-          expect(responseBody).to.be.an('object');
+          it('its value should match the expected value', function () {
+            const receivedValue = responseBody[key];
+            const answerKey = dummyRequestBody[key];
+            expect(receivedValue).to.deep.equal(answerKey);
+          });
+        });
+
+        describe("a key-value pair with key 'color'", function () {
+          const key = 'color';
+
+          it('key should exist', function () {
+            const keyExists = key in responseBody;
+            expect(keyExists).to.be.true;
+          });
+
+          it('its value should match the expected value', function () {
+            const receivedValue = responseBody[key];
+            const answerKey = dummyRequestBody[key];
+            expect(receivedValue).to.deep.equal(answerKey);
+          });
+        });
+
+        describe("a key-value pair with key 'description'", function () {
+          const key = 'description';
+
+          it('key should exist', function () {
+            const keyExists = key in responseBody;
+            expect(keyExists).to.be.true;
+          });
+
+          it('its value should match the expected value', function () {
+            const receivedValue = responseBody[key];
+            const answerKey = dummyRequestBody[key];
+            expect(receivedValue).to.deep.equal(answerKey);
+          });
         });
       });
     });

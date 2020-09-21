@@ -1,7 +1,7 @@
 ---
 require:
   - '@babel/register'
-  - src/test/setup.test.js
+  - src/test/initial.setup.test.js
 extension:
   - js
 spec:
@@ -10,7 +10,7 @@ recursive: false
 sort: false
 watch: false
 ignore:
-  - src/test/setup.test.js
+  - src/test/**/*.setup.test.js
 parallel: true
 jobs: 1
 slow: 75

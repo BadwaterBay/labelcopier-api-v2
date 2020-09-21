@@ -1,36 +1,42 @@
-import { dummyLoginInfo } from '../test/dummyData/dummyLoginInfo';
+import { getDummyLoginInfo } from '../test/dummyData/dummyLoginInfo';
 
-export const getLoginInfo = () => dummyLoginInfo;
+export const getLoginInfo = () => getDummyLoginInfo();
 
-export const loginInfoLookupTable = {
-  home: {
-    owner: 'homeRepoOwner',
-    name: 'homeRepoName',
-  },
-  template: {
-    owner: 'templateRepoOwner',
-    name: 'templateRepoName',
-  },
+export const getKeyToLoginInfo = (repoOwnerOrRepoName, homeRepoOrOtherRepo) => {
+  const keys = {
+    home: {
+      owner: 'homeRepoOwner',
+      name: 'homeRepoName',
+    },
+    other: {
+      owner: 'otherRepoOwner',
+      name: 'otherRepoName',
+    },
+  };
+
+  return keys[homeRepoOrOtherRepo][repoOwnerOrRepoName];
 };
 
-export const getRepoInfoFromLoginInfo = (ownerOrName, homeOrTemplateRepo) => {
-  const key = loginInfoLookupTable[homeOrTemplateRepo][ownerOrName];
+export const getRepoInfoFromLoginInfo = (repoOwnerOrRepoName, homeRepoOrOtherRepo) => {
+  const key = getKeyToLoginInfo(repoOwnerOrRepoName, homeRepoOrOtherRepo);
   const loginInfo = getLoginInfo();
 
   return loginInfo[key];
 };
 
-export const getRepoOwnerAndName = (mode) => {
-  let homeOrTemplateRepo;
+export const getRepoOwnerAndRepoName = (action) => {
+  let homeRepoOrOtherRepo;
 
-  if (mode === 'copy') {
-    homeOrTemplateRepo = 'template';
+  const actionIsToCopyEntriesFromAnotherRepo = action === 'copy';
+
+  if (actionIsToCopyEntriesFromAnotherRepo) {
+    homeRepoOrOtherRepo = 'other';
   } else {
-    homeOrTemplateRepo = 'home';
+    homeRepoOrOtherRepo = 'home';
   }
 
-  const repoOwner = getRepoInfoFromLoginInfo('owner', homeOrTemplateRepo);
-  const repoName = getRepoInfoFromLoginInfo('name', homeOrTemplateRepo);
+  const repoOwner = getRepoInfoFromLoginInfo('owner', homeRepoOrOtherRepo);
+  const repoName = getRepoInfoFromLoginInfo('name', homeRepoOrOtherRepo);
 
   return {
     repoOwner,

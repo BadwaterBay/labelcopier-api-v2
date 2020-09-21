@@ -1,28 +1,45 @@
 import { HttpError } from '../customErrors';
 import { buildHttpRequestHeader } from './httpRequestHeaderBuilder';
 
-export const makeHttpRequest = async (method, uri, body = {}) => {
-  const headers = buildHttpRequestHeader();
+export const getHttpMethodsThatDoNotHaveBody = () => new Set().add('GET');
 
+export const checkIfGivenHttpRequestShouldHaveBody = (method) => {
+  const httpMethodsThatDoNotHaveBody = getHttpMethodsThatDoNotHaveBody();
+  const noNeedToAddBody = httpMethodsThatDoNotHaveBody.has(method);
+
+  return noNeedToAddBody;
+};
+
+export const buildHttpRequestOptionsForFetch = (method, body = {}) => {
   const options = {
     method,
-    headers,
+    headers: buildHttpRequestHeader(),
   };
 
-  if (method === 'POST') {
-    options.body = JSON.stringify(body);
+  const noNeedToAddBody = checkIfGivenHttpRequestShouldHaveBody(method);
+
+  if (noNeedToAddBody) {
+    return options;
   }
 
-  const response = await fetch(uri, options);
+  options.body = JSON.stringify(body);
 
-  if (!response.ok) {
+  return options;
+};
+
+export const makeHttpRequest = async (method, uri, body = {}) => {
+  const options = buildHttpRequestOptionsForFetch(method, body);
+  const response = await fetch(uri, options);
+  const httpRequestFailed = !response.ok;
+
+  if (httpRequestFailed) {
     throw new HttpError(response);
   }
 
   return response;
 };
 
-export const makeHttpGetRequest = async (uri) => makeHttpRequest('GET', uri);
+export const makeHttpRequestGET = async (uri) => makeHttpRequest('GET', uri);
 
-export const makeHttpPostRequest = async (uri, body) =>
+export const makeHttpRequestPOST = async (uri, body) =>
   makeHttpRequest('POST', uri, body);

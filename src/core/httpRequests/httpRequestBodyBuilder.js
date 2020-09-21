@@ -1,4 +1,4 @@
-import { validateKindOrThrowError } from '../validations';
+import { validateEntryTypeOrThrow } from '../validations';
 
 export const buildHttpRequestBodyForLabels = () => {
   const body = {
@@ -21,12 +21,12 @@ export const buildHttpRequestBodyForMilestones = () => {
   return body;
 };
 
-export const buildHttpRequestBody = (kind) => {
-  validateKindOrThrowError(kind);
+export const buildHttpRequestBody = (entryType) => {
+  validateEntryTypeOrThrow(entryType);
 
   let body = {};
 
-  if (kind === 'labels') {
+  if (entryType === 'labels') {
     body = buildHttpRequestBodyForLabels();
   } else {
     body = buildHttpRequestBodyForMilestones();
