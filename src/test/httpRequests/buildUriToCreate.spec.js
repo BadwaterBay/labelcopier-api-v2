@@ -6,7 +6,7 @@ describe('The buildUriToCreate', function () {
   const input = 'https://api.github.com';
   let output;
 
-  beforeEach(function () {
+  before(function () {
     output = buildUriToCreate(input);
   });
 

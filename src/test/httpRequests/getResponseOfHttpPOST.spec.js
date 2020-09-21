@@ -1,43 +1,34 @@
 import { expect } from 'chai';
-import nock from 'nock';
 
 import { buildAcceptHeaderForHttpRequest } from '../../core/httpRequests/httpRequestHeaderBuilder';
-import { makeHttpRequestPOST } from '../../core/httpRequests/httpRequestMaker';
+import { getResponseOfHttpPOST } from '../../core/httpRequests/httpRequestResponseGetter';
+import { getBaseApiUriSlashRepos } from '../../core/httpRequests/httpRequestUriBuilder';
 import {
-  getBaseApiUri,
-  getBaseApiUriSlashRepos,
-} from '../../core/httpRequests/httpRequestUriBuilder';
+  mockHttpServerSetup,
+  mockHttpServerCleanup,
+  mockHttpServerForPOSTOnSuccess,
+} from '../mockHttpServer';
 
-describe('Test makeHttpRequestPOST', function () {
+describe('Test getResponseOfHttpPOST', function () {
   let uriForHttpPost;
 
   before(function () {
+    mockHttpServerSetup();
     uriForHttpPost = getBaseApiUriSlashRepos();
-    nock.disableNetConnect();
   });
 
   after(function () {
-    nock.cleanAll();
-    nock.enableNetConnect();
+    mockHttpServerCleanup();
   });
 
-  describe('when simulated with successful HTTP responses', function () {
-    const statusCode = 201;
+  describe('with HTTP responses on success', function () {
     let response;
 
     describe('the HTTP request sent', function () {
       beforeEach(async function () {
-        const mockHttpServer = nock(getBaseApiUri());
-        mockHttpServer.post(/\/.*/).reply(statusCode, function (uri, requestBody) {
-          return {
-            requestUri: uri,
-            method: this.req.method,
-            requestHeader: this.req.headers,
-            requestBody,
-          };
-        });
+        mockHttpServerForPOSTOnSuccess();
 
-        response = await makeHttpRequestPOST(uriForHttpPost);
+        response = await getResponseOfHttpPOST(uriForHttpPost);
       });
 
       it('should receive an OK status', async function () {

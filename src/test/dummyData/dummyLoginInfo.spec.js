@@ -5,10 +5,10 @@ import {
   loadHomeRepoOwnerFromDotEnv,
   loadHomeRepoNameFromDotEnv,
   loadTokenFromDotEnv,
-} from './dummyLoginInfo';
+} from './dummyLoginInfo.setup.test';
 import * as loadDotEnv from './loadDotEnv.setup.test';
 
-describe('Test module dummyLoginInfo', function () {
+describe('Test module dummyLoginInfo.setup.test', function () {
   describe('Test loadHomeRepoOwnerFromDotEnv', function () {
     describe('when .env file is absent', function () {
       it('should return its fallback value', function () {

@@ -1,4 +1,4 @@
-export { makeHttpRequestGET, makeHttpRequestPOST } from './httpRequestMaker';
+export { getResponseOfHttpGET, getResponseOfHttpPOST } from './httpRequestResponseGetter';
 export {
   buildUriForHttpRequestGET,
   buildUriForHttpRequestPOST,

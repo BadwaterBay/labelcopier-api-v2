@@ -6,7 +6,7 @@ import {
   loadHomeRepoNameFromDotEnv,
   loadOtherRepoOwnerFromDotEnv,
   loadOtherRepoNameFromDotEnv,
-} from './dummyData/dummyLoginInfo';
+} from './dummyData/dummyLoginInfo.setup.test';
 
 describe('Test getRepoOwnerAndRepoName', function () {
   let action;
