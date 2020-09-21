@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 
 import { makeApiCallToCopy } from '../core/apiCalls';
-import { dummyResponseBodyAll } from './dummyData/dummyResponseBodyOfListingLabels';
+import { dummyResponseBodyAll } from './dummyData/dummyResponseBodyOfListingLabels.setup.test';
 import {
   mockHttpServerSetup,
   mockHttpServerCleanup,
-  mockHttpServerForGETOnSuccess,
+  mockHttpServerForListingOnSuccess,
 } from './mockHttpServer';
 
 describe('Test makeApiCallToCopy', function () {
@@ -18,9 +18,9 @@ describe('Test makeApiCallToCopy', function () {
       mockHttpServerCleanup();
     });
 
-    describe('when simulated with successful HTTP responses', function () {
+    describe('with HTTP responses on success', function () {
       beforeEach(function () {
-        mockHttpServerForGETOnSuccess();
+        mockHttpServerForListingOnSuccess();
       });
 
       describe("the return value with argument 'labels'", function () {

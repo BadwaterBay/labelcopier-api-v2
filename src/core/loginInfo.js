@@ -1,4 +1,4 @@
-import { getDummyLoginInfo } from '../test/dummyData/dummyLoginInfo';
+import { getDummyLoginInfo } from '../test/dummyData/dummyLoginInfo.setup.test';
 
 export const getLoginInfo = () => getDummyLoginInfo();
 

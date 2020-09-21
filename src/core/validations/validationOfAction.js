@@ -1,15 +1,11 @@
+import validateOrThrow from './validationMethods';
 import { InvalidActionError } from '../customErrors';
 
 export const getValidActions = () =>
   new Set().add('list').add('copy').add('create').add('update');
 
 export const validateActionOrThrow = (action) => {
-  const validActions = getValidActions();
-  const givenActionIsInvalid = !validActions.has(action);
+  const isValid = validateOrThrow(action, getValidActions, InvalidActionError);
 
-  if (givenActionIsInvalid) {
-    throw new InvalidActionError(action);
-  }
-
-  return true;
+  return isValid;
 };

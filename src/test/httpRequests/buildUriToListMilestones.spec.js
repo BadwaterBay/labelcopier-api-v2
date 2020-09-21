@@ -6,7 +6,7 @@ describe('The buildUriToListMilestones', function () {
   const input = 'https://api.github.com';
   let output;
 
-  beforeEach(function () {
+  before(function () {
     output = buildUriToListMilestones(input);
   });
 

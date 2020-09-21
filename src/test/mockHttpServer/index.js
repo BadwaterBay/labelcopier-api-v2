@@ -1,10 +1,17 @@
 export { default as mockHttpServerSetup } from './mockHttpServerSetup.setup.test';
+
 export { default as mockHttpServerCleanup } from './mockHttpServerCleanup.setup.test';
+
+export { default as mockHttpServerForGETOnSuccess } from './mockHttpServerForGET.setup.test';
+
+export { default as mockHttpServerForPOSTOnSuccess } from './mockHttpServerForPOST.setup.test';
+
 export {
-  mockHttpServerForGETOnSuccess,
-  mockHttpServerForGETOnFailure,
-} from './mockHttpServerGET.setup.test';
+  mockHttpServerForListingOnSuccess,
+  mockHttpServerForListingOnFailure,
+} from './mockHttpServerForListing.setup.test';
+
 export {
-  mockHttpServerForPOSTOnSuccess,
-  mockHttpServerForPOSTOnFailure,
-} from './mockHttpServerPOST.setup.test';
+  mockHttpServerForCreationOnSuccess,
+  mockHttpServerForCreationOnFailure,
+} from './mockHttpServerForCreation.setup.test';

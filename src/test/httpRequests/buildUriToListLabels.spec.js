@@ -6,7 +6,7 @@ describe('The buildUriToListLabels', function () {
   const input = 'https://api.github.com';
   let output;
 
-  beforeEach(function () {
+  before(function () {
     output = buildUriToListLabels(input);
   });
 

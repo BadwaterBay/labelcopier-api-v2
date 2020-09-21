@@ -5,8 +5,8 @@ import { dummyLabel as dummyRequestBody } from './dummyData/dummyLabel.setup.tes
 import {
   mockHttpServerSetup,
   mockHttpServerCleanup,
-  mockHttpServerForPOSTOnSuccess,
-  mockHttpServerForPOSTOnFailure,
+  mockHttpServerForCreationOnSuccess,
+  mockHttpServerForCreationOnFailure,
 } from './mockHttpServer';
 
 describe('Test makeApiCallToCreate', function () {
@@ -19,12 +19,12 @@ describe('Test makeApiCallToCreate', function () {
       mockHttpServerCleanup();
     });
 
-    describe('when simulated with failed HTTP responses', function () {
+    describe('with HTTP responses on failure', function () {
       const entryType = 'labels';
       const failureStatusCode = 403;
 
       beforeEach(function () {
-        mockHttpServerForPOSTOnFailure();
+        mockHttpServerForCreationOnFailure();
       });
 
       it('should throw an error', async function () {
@@ -45,12 +45,12 @@ describe('Test makeApiCallToCreate', function () {
       });
     });
 
-    describe('when simulated with successful HTTP responses', function () {
+    describe('with HTTP responses on success', function () {
       const entryType = 'labels';
       let responseBody;
 
       beforeEach(async function () {
-        mockHttpServerForPOSTOnSuccess();
+        mockHttpServerForCreationOnSuccess();
 
         responseBody = await makeApiCallToCreate(entryType, dummyRequestBody);
       });

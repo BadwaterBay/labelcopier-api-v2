@@ -1,10 +1,10 @@
-import nock from 'nock';
+import mockHttpServer from './mockHttpServerInitiation.setup.test';
 
-import { getBaseApiUri } from '../../core/httpRequests/httpRequestUriBuilder';
-import { dummyLinkHeader } from '../dummyData/dummyLinkHeaderOfListingLabels';
-import { dummyResponseBody } from '../dummyData/dummyResponseBodyOfListingLabels';
+import { dummyLinkHeader } from '../dummyData/dummyLinkHeaderOfListingLabels.setup.test';
+import { dummyResponseBody } from '../dummyData/dummyResponseBodyOfListingLabels.setup.test';
 
 const getSuccessStatusCode = () => 200;
+
 const getFailureStatusCode = () => 404;
 
 export const buildResponseBodyFromDummyData = (dataSource, uri = '') => {
@@ -49,15 +49,13 @@ export const buildResponseForHttpGETOnSuccess = (uri) => {
   return [statusCode, body, header];
 };
 
-const mockHttpServer = () => nock(getBaseApiUri());
-
-export const mockHttpServerForGETOnSuccess = () =>
+export const mockHttpServerForListingOnSuccess = () =>
   mockHttpServer()
     .persist()
     .get(/.*/)
     .reply((uri) => buildResponseForHttpGETOnSuccess(uri));
 
-export const mockHttpServerForGETOnFailure = () => {
+export const mockHttpServerForListingOnFailure = () => {
   const statusCode = getFailureStatusCode();
   return mockHttpServer().get(/.*/).reply(statusCode);
 };

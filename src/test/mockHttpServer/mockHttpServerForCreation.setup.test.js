@@ -1,12 +1,10 @@
-import nock from 'nock';
-
-import { getBaseApiUri } from '../../core/httpRequests/httpRequestUriBuilder';
+import mockHttpServer from './mockHttpServerInitiation.setup.test';
 
 const getSuccessStatusCode = () => 201;
 
 const getFailureStatusCode = () => 403;
 
-export const buildResponseForSuccessfulPOST = (uri, requestBody) => {
+export const buildResponseForPOSTOnSuccess = (uri, requestBody) => {
   const parsedRequestBody = JSON.parse(requestBody);
   const { name, color, description } = parsedRequestBody;
   const id = 123456789;
@@ -28,14 +26,12 @@ export const buildResponseForSuccessfulPOST = (uri, requestBody) => {
   return [statusCode, body];
 };
 
-const mockHttpServer = () => nock(getBaseApiUri());
-
-export const mockHttpServerForPOSTOnSuccess = () =>
+export const mockHttpServerForCreationOnSuccess = () =>
   mockHttpServer()
     .post(/.*/)
-    .reply((uri, requestBody) => buildResponseForSuccessfulPOST(uri, requestBody));
+    .reply((uri, requestBody) => buildResponseForPOSTOnSuccess(uri, requestBody));
 
-export const mockHttpServerForPOSTOnFailure = () => {
+export const mockHttpServerForCreationOnFailure = () => {
   const statusCode = getFailureStatusCode();
   return mockHttpServer().post(/.*/).reply(statusCode);
 };

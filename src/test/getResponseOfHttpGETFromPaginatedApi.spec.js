@@ -1,15 +1,15 @@
 import { expect } from 'chai';
 
-import { makeApiCallsToGetRecursively } from '../core/apiCalls';
-import { dummyResponseBodyAll } from './dummyData/dummyResponseBodyOfListingLabels';
+import { getResponseOfHttpGETFromPaginatedApi } from '../core/apiCalls';
+import { dummyResponseBodyAll } from './dummyData/dummyResponseBodyOfListingLabels.setup.test';
 import {
   mockHttpServerSetup,
   mockHttpServerCleanup,
-  mockHttpServerForGETOnSuccess,
-  mockHttpServerForGETOnFailure,
+  mockHttpServerForListingOnSuccess,
+  mockHttpServerForListingOnFailure,
 } from './mockHttpServer';
 
-describe('Test makeApiCallsToGetRecursively', function () {
+describe('Test getResponseOfHttpGETFromPaginatedApi', function () {
   describe('with a mock HTTP server', function () {
     before(function () {
       mockHttpServerSetup();
@@ -19,10 +19,11 @@ describe('Test makeApiCallsToGetRecursively', function () {
       mockHttpServerCleanup();
     });
 
-    describe('when simulated with failed HTTP responses', function () {
+    describe('with HTTP responses on failure', function () {
       beforeEach(function () {
-        mockHttpServerForGETOnFailure();
+        mockHttpServerForListingOnFailure();
       });
+
       describe("the return value with argument 'labels'", function () {
         const entryType = 'labels';
         const action = 'list';
@@ -30,7 +31,7 @@ describe('Test makeApiCallsToGetRecursively', function () {
 
         it('should throw an error', async function () {
           try {
-            await makeApiCallsToGetRecursively(entryType, action);
+            await getResponseOfHttpGETFromPaginatedApi(entryType, action);
           } catch (errorReceived) {
             expect(errorReceived).to.be.an('error');
           }
@@ -38,7 +39,7 @@ describe('Test makeApiCallsToGetRecursively', function () {
 
         it(`should throw an error that has a status code of ${failureStatusCode}`, async function () {
           try {
-            await makeApiCallsToGetRecursively(entryType, action);
+            await getResponseOfHttpGETFromPaginatedApi(entryType, action);
           } catch (errorReceived) {
             const errorfailureStatusCode = errorReceived.status;
             expect(errorfailureStatusCode).to.deep.equal(failureStatusCode);
@@ -47,9 +48,9 @@ describe('Test makeApiCallsToGetRecursively', function () {
       });
     });
 
-    describe('when simulated with successful HTTP responses', function () {
+    describe('with HTTP responses on success', function () {
       beforeEach(function () {
-        mockHttpServerForGETOnSuccess();
+        mockHttpServerForListingOnSuccess();
       });
 
       describe("the return value with argument 'labels'", function () {
@@ -59,7 +60,7 @@ describe('Test makeApiCallsToGetRecursively', function () {
         let responseBody;
 
         beforeEach(async function () {
-          responseBody = await makeApiCallsToGetRecursively(entryType, action);
+          responseBody = await getResponseOfHttpGETFromPaginatedApi(entryType, action);
         });
 
         it('should be an array', function () {

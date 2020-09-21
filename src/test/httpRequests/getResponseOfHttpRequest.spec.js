@@ -1,30 +1,30 @@
 import { expect } from 'chai';
-import nock from 'nock';
 
-import { makeHttpRequest } from '../../core/httpRequests/httpRequestMaker';
+import { getResponseOfHttpRequest } from '../../core/httpRequests/httpRequestResponseGetter';
+import { getBaseApiUriSlashRepos } from '../../core/httpRequests/httpRequestUriBuilder';
 import {
-  getBaseApiUri,
-  getBaseApiUriSlashRepos,
-} from '../../core/httpRequests/httpRequestUriBuilder';
+  mockHttpServerSetup,
+  mockHttpServerCleanup,
+  mockHttpServerForListingOnFailure,
+} from '../mockHttpServer';
 
-describe('Test makeHttpRequest', function () {
+describe('Test getResponseOfHttpRequest', function () {
   const method = 'GET';
   let uriForHttpRequest;
 
   before(function () {
+    mockHttpServerSetup();
     uriForHttpRequest = getBaseApiUriSlashRepos();
-    nock.disableNetConnect();
   });
 
   after(function () {
-    nock.cleanAll();
-    nock.enableNetConnect();
+    mockHttpServerCleanup();
   });
 
-  describe('when simulated with a network failure', function () {
+  describe('with a network failure', function () {
     it('should throw an error', async function () {
       try {
-        await makeHttpRequest(method, uriForHttpRequest);
+        await getResponseOfHttpRequest(method, uriForHttpRequest);
       } catch (error) {
         const errorIsAnInstanceOfError = error instanceof Error;
         expect(errorIsAnInstanceOfError).to.be.true;
@@ -33,7 +33,7 @@ describe('Test makeHttpRequest', function () {
 
     it('should contain an expected error message', async function () {
       try {
-        await makeHttpRequest(method, uriForHttpRequest);
+        await getResponseOfHttpRequest(method, uriForHttpRequest);
       } catch (error) {
         const regex = /reason: Nock: Disallowed net connect/;
         expect(error.message).to.match(regex);
@@ -41,17 +41,16 @@ describe('Test makeHttpRequest', function () {
     });
   });
 
-  describe('when simulated with failed HTTP responses', function () {
+  describe('with HTTP responses on failure', function () {
     const statusCode = 404;
 
     beforeEach(function () {
-      const mockHttpServer = nock(getBaseApiUri());
-      mockHttpServer.get(/.*/).reply(statusCode);
+      mockHttpServerForListingOnFailure();
     });
 
     it('should throw an error', async function () {
       try {
-        await makeHttpRequest(method, uriForHttpRequest);
+        await getResponseOfHttpRequest(method, uriForHttpRequest);
       } catch (errorReceived) {
         expect(errorReceived).to.be.an('error');
       }
@@ -59,7 +58,7 @@ describe('Test makeHttpRequest', function () {
 
     it(`should throw an error that has a status code of ${statusCode}`, async function () {
       try {
-        await makeHttpRequest(method, uriForHttpRequest);
+        await getResponseOfHttpRequest(method, uriForHttpRequest);
       } catch (errorReceived) {
         const errorStatusCode = errorReceived.status;
         expect(errorStatusCode).to.deep.equal(statusCode);

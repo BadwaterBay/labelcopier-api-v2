@@ -5,7 +5,7 @@ import { getApiPaginationLimit } from '../../core/httpRequests/httpRequestUriBui
 describe('The getApiPaginationLimit', function () {
   let output;
 
-  beforeEach(function () {
+  before(function () {
     output = getApiPaginationLimit();
   });
 
