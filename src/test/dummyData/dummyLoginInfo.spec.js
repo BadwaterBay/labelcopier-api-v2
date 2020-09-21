@@ -2,14 +2,14 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
-  loadHomeRepoOwnerFromEnv,
-  loadHomeRepoNameFromEnv,
-  loadTokenFromEnv,
+  loadHomeRepoOwnerFromDotEnv,
+  loadHomeRepoNameFromDotEnv,
+  loadTokenFromDotEnv,
 } from './dummyLoginInfo';
-import * as loadDotEnv from './loadDotEnv';
+import * as loadDotEnv from './loadDotEnv.setup.test';
 
-describe('Test dummyLoginInfo', function () {
-  describe('Test loadHomeRepoOwnerFromEnv', function () {
+describe('Test module dummyLoginInfo', function () {
+  describe('Test loadHomeRepoOwnerFromDotEnv', function () {
     describe('when .env file is absent', function () {
       it('should return its fallback value', function () {
         const stubEnvVars = {
@@ -19,7 +19,7 @@ describe('Test dummyLoginInfo', function () {
         const stubloadDotEnv = sinon.stub(loadDotEnv, 'default');
         stubloadDotEnv.returns(stubEnvVars);
 
-        const output = loadHomeRepoOwnerFromEnv();
+        const output = loadHomeRepoOwnerFromDotEnv();
         const answerKey = 'home-repo-owner';
         expect(output).to.deep.equal(answerKey);
 
@@ -40,7 +40,7 @@ describe('Test dummyLoginInfo', function () {
         const stubloadDotEnv = sinon.stub(loadDotEnv, 'default');
         stubloadDotEnv.returns(stubEnvVars);
 
-        const output = loadHomeRepoOwnerFromEnv();
+        const output = loadHomeRepoOwnerFromDotEnv();
         const answerKey = homeRepoOwner;
         expect(output).to.deep.equal(answerKey);
 
@@ -49,7 +49,7 @@ describe('Test dummyLoginInfo', function () {
     });
   });
 
-  describe('Test loadHomeRepoNameFromEnv', function () {
+  describe('Test loadHomeRepoNameFromDotEnv', function () {
     describe('when .env file is absent', function () {
       it('should return its fallback value', function () {
         const stubEnvVars = {
@@ -59,7 +59,7 @@ describe('Test dummyLoginInfo', function () {
         const stubloadDotEnv = sinon.stub(loadDotEnv, 'default');
         stubloadDotEnv.returns(stubEnvVars);
 
-        const output = loadHomeRepoNameFromEnv();
+        const output = loadHomeRepoNameFromDotEnv();
         const answerKey = 'home-repo-name';
         expect(output).to.deep.equal(answerKey);
 
@@ -80,7 +80,7 @@ describe('Test dummyLoginInfo', function () {
         const stubloadDotEnv = sinon.stub(loadDotEnv, 'default');
         stubloadDotEnv.returns(stubEnvVars);
 
-        const output = loadHomeRepoNameFromEnv();
+        const output = loadHomeRepoNameFromDotEnv();
         const answerKey = homeRepoName;
         expect(output).to.deep.equal(answerKey);
 
@@ -89,7 +89,7 @@ describe('Test dummyLoginInfo', function () {
     });
   });
 
-  describe('Test loadTokenFromEnv', function () {
+  describe('Test loadTokenFromDotEnv', function () {
     describe('when .env file is absent', function () {
       it('should return its fallback value', function () {
         const stubEnvVars = {
@@ -99,7 +99,7 @@ describe('Test dummyLoginInfo', function () {
         const stubloadDotEnv = sinon.stub(loadDotEnv, 'default');
         stubloadDotEnv.returns(stubEnvVars);
 
-        const output = loadTokenFromEnv();
+        const output = loadTokenFromDotEnv();
         const answerKey = '';
         expect(output).to.deep.equal(answerKey);
 
@@ -120,7 +120,7 @@ describe('Test dummyLoginInfo', function () {
         const stubloadDotEnv = sinon.stub(loadDotEnv, 'default');
         stubloadDotEnv.returns(stubEnvVars);
 
-        const output = loadTokenFromEnv();
+        const output = loadTokenFromDotEnv();
         const answerKey = token;
         expect(output).to.deep.equal(answerKey);
 

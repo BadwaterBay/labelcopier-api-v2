@@ -2,5 +2,5 @@
 '**/*.js':
   - eslint --config '.eslintrc.yml' --no-eslintrc --cache --fix
 
-'**/*.{js,json,md,yml,yaml}':
+'**/*.{js,json,md,yaml,yml}':
   - prettier --config '.prettierrc.yml' --write

@@ -1,3 +1,3 @@
 export { default as HttpError } from './HttpError';
-export { default as InvalidKindError } from './InvalidKindError';
-export { default as InvalidModeError } from './InvalidModeError';
+export { default as InvalidEntryTypeError } from './InvalidEntryTypeError';
+export { default as InvalidActionError } from './InvalidActionError';

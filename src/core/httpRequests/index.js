@@ -1,2 +1,6 @@
-export { buildUriForHttpRequest } from './httpRequestUriBuilder';
-export { makeHttpGetRequest, makeHttpPostRequest } from './httpRequestMaker';
+export { makeHttpRequestGET, makeHttpRequestPOST } from './httpRequestMaker';
+export {
+  buildUriForHttpRequestGET,
+  buildUriForHttpRequestPOST,
+} from './httpRequestUriBuilder';
+export { parseLinkHeaderFromHttpResponse } from './linkHeaderParser';

@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import { buildHttpRequestBody } from '../../core/httpRequests/httpRequestBodyBuilder';
 
 describe('Test buildHttpRequestBody', function () {
-  const getParsedBody = (kind) => {
-    const stringifiedBody = buildHttpRequestBody(kind);
+  const getParsedBody = (entryType) => {
+    const stringifiedBody = buildHttpRequestBody(entryType);
     return JSON.parse(stringifiedBody);
   };
 
@@ -34,8 +34,8 @@ describe('Test buildHttpRequestBody', function () {
 
       describe("a key called 'name' in the request body", function () {
         it('should exist', function () {
-          const keyNameExists = 'name' in body;
-          expect(keyNameExists).to.be.true;
+          const keyExists = 'name' in body;
+          expect(keyExists).to.be.true;
         });
       });
 
@@ -57,8 +57,8 @@ describe('Test buildHttpRequestBody', function () {
 
       describe("a key called 'color' in the request body", function () {
         it('should exist', function () {
-          const colorExists = 'color' in body;
-          expect(colorExists).to.be.true;
+          const keyExists = 'color' in body;
+          expect(keyExists).to.be.true;
         });
       });
 
@@ -89,8 +89,8 @@ describe('Test buildHttpRequestBody', function () {
 
       describe("a key called 'description' in the request body", function () {
         it('should exist', function () {
-          const descriptionExists = 'description' in body;
-          expect(descriptionExists).to.be.true;
+          const keyExists = 'description' in body;
+          expect(keyExists).to.be.true;
         });
       });
 
@@ -129,8 +129,8 @@ describe('Test buildHttpRequestBody', function () {
 
       describe("a key called 'title' in the request body", function () {
         it('should exist', function () {
-          const titleExists = 'title' in body;
-          expect(titleExists).to.be.true;
+          const keyExists = 'title' in body;
+          expect(keyExists).to.be.true;
         });
       });
 
@@ -152,8 +152,8 @@ describe('Test buildHttpRequestBody', function () {
 
       describe("a key called 'state' in the request body", function () {
         it('should exist', function () {
-          const stateExists = 'state' in body;
-          expect(stateExists).to.be.true;
+          const keyExists = 'state' in body;
+          expect(keyExists).to.be.true;
         });
       });
 
@@ -183,8 +183,8 @@ describe('Test buildHttpRequestBody', function () {
 
       describe("a key called 'description' in the request body", function () {
         it('should exist', function () {
-          const descriptionExists = 'description' in body;
-          expect(descriptionExists).to.be.true;
+          const keyExists = 'description' in body;
+          expect(keyExists).to.be.true;
         });
       });
 
@@ -197,8 +197,8 @@ describe('Test buildHttpRequestBody', function () {
 
       describe("a key called 'due_on' in the request body", function () {
         it('should exist', function () {
-          const dueOnExists = 'due_on' in body;
-          expect(dueOnExists).to.be.true;
+          const keyExists = 'due_on' in body;
+          expect(keyExists).to.be.true;
         });
       });
 

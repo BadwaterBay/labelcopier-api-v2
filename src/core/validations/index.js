@@ -1,2 +1,2 @@
-export { validateKindOrThrowError } from './kindValidation';
-export { validateModeOrThrowError } from './modeValidation';
+export { validateEntryTypeOrThrow } from './validationOfEntryType';
+export { validateActionOrThrow } from './validationOfAction';

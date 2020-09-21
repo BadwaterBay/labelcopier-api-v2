@@ -1,32 +1,33 @@
-import loadDotEnv from './loadDotEnv';
+import loadDotEnv from './loadDotEnv.setup.test';
 
-const loadAndParseEnvVars = (envVarName) => {
-  const envVars = loadDotEnv();
-  const parsedEnvVars = envVars.parsed;
+const loadEnvVarIfDefined = (envVarName) => {
+  const loadedEnvVars = loadDotEnv();
+  const parsedEnvVars = loadedEnvVars.parsed;
+  const envVarIsDefined = parsedEnvVars && parsedEnvVars[envVarName];
 
-  if (parsedEnvVars && parsedEnvVars[envVarName]) {
+  if (envVarIsDefined) {
     return parsedEnvVars[envVarName];
   }
 
   return null;
 };
 
-export const loadHomeRepoOwnerFromEnv = () =>
-  loadAndParseEnvVars('HOME_REPO_OWNER') || 'home-repo-owner';
+export const loadHomeRepoOwnerFromDotEnv = () =>
+  loadEnvVarIfDefined('HOME_REPO_OWNER') || 'home-repo-owner';
 
-export const loadHomeRepoNameFromEnv = () =>
-  loadAndParseEnvVars('HOME_REPO_NAME') || 'home-repo-name';
+export const loadHomeRepoNameFromDotEnv = () =>
+  loadEnvVarIfDefined('HOME_REPO_NAME') || 'home-repo-name';
 
-export const loadTemplateRepoOwnerFromEnv = () => 'template-repo-owner';
+export const loadOtherRepoOwnerFromDotEnv = () => 'other-repo-owner';
 
-export const loadTemplateRepoNameFromEnv = () => 'template-repo-name';
+export const loadOtherRepoNameFromDotEnv = () => 'other-repo-name';
 
-export const loadTokenFromEnv = () => loadAndParseEnvVars('LABELCOPIER_TOKEN') || '';
+export const loadTokenFromDotEnv = () => loadEnvVarIfDefined('LABELCOPIER_TOKEN') || '';
 
-export const dummyLoginInfo = (() => ({
-  homeRepoOwner: loadHomeRepoOwnerFromEnv(),
-  homeRepoName: loadHomeRepoNameFromEnv(),
-  templateRepoOwner: loadTemplateRepoOwnerFromEnv(),
-  templateRepoName: loadTemplateRepoNameFromEnv(),
-  token: loadTokenFromEnv(),
-}))();
+export const getDummyLoginInfo = () => ({
+  homeRepoOwner: loadHomeRepoOwnerFromDotEnv(),
+  homeRepoName: loadHomeRepoNameFromDotEnv(),
+  otherRepoOwner: loadOtherRepoOwnerFromDotEnv(),
+  otherRepoName: loadOtherRepoNameFromDotEnv(),
+  token: loadTokenFromDotEnv(),
+});

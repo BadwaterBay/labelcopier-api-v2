@@ -1,1 +1,1 @@
-export { makeApiCallToGet, makeApiCallToCreate } from './src/core';
+export { makeApiCallToList, makeApiCallToCopy, makeApiCallToCreate } from './src/core';

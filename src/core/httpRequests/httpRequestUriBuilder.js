@@ -1,23 +1,53 @@
-import { getRepoOwnerAndName } from '../loginInfo';
+import { getRepoOwnerAndRepoName } from '../loginInfo';
 
-export const apiUriBase = 'https://api.github.com';
+export const getBaseApiUri = () => 'https://api.github.com';
 
-export const apiUriBaseRepos = `${apiUriBase}/repos`;
+export const getBaseApiUriSlashRepos = () => `${getBaseApiUri()}/repos`;
 
-export const apiPaginationLimit = 100;
+export const getApiPaginationLimit = () => 100;
 
-export const buildUriForHttpRequest = (kind = 'labels', mode = 'list') => {
-  const { repoOwner, repoName } = getRepoOwnerAndName(mode);
+export const buildUriToListLabels = (uri) => uri;
 
-  let uri = `${apiUriBaseRepos}/${repoOwner}/${repoName}/${kind}`;
+export const buildUriToListMilestones = (uri) => `${uri}&state=all`;
 
-  if (mode === 'list' || mode === 'copy') {
-    uri += `?per_page=${apiPaginationLimit}&page=1`;
+export const buildUriToCreate = (uri) => uri;
+
+export const buildUriToList = (baseUri) => {
+  const uri = `${baseUri}?per_page=${getApiPaginationLimit()}&page=1`;
+
+  const regex = /\/labels$/;
+  const uriIsForListingLabels = regex.test(baseUri);
+
+  if (uriIsForListingLabels) {
+    return buildUriToListLabels(uri);
   }
 
-  if (kind === 'milestones') {
-    uri += '&state=all';
-  }
+  return buildUriToListMilestones(uri);
+};
 
-  return uri;
+export const getUriBuilderFunction = (action) => {
+  const uriBuilderFunctions = {
+    list: (baseUri) => buildUriToList(baseUri),
+    copy: (baseUri) => buildUriToList(baseUri),
+    create: (baseUri) => buildUriToCreate(baseUri),
+  };
+
+  return uriBuilderFunctions[action];
+};
+
+export const buildUriForHttpRequest = (entryType, action, entryIdentifier = null) => {
+  const { repoOwner, repoName } = getRepoOwnerAndRepoName(action);
+  const baseUri = `${getBaseApiUriSlashRepos()}/${repoOwner}/${repoName}/${entryType}`;
+  const buildUri = getUriBuilderFunction(action);
+
+  return buildUri(baseUri, entryIdentifier);
+};
+
+export const buildUriForHttpRequestGET = (entryType, action) =>
+  buildUriForHttpRequest(entryType, action);
+
+export const buildUriForHttpRequestPOST = (entryType) => {
+  const action = 'create';
+
+  return buildUriForHttpRequest(entryType, action);
 };

@@ -7,4 +7,5 @@
 import 'regenerator-runtime';
 import fetch from 'node-fetch';
 
+// Simulate window.fetch object in browsers
 global.fetch = fetch;
