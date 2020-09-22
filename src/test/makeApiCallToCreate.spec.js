@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { makeApiCallToCreate } from '../core/apiCalls';
+import { makeApiCallToCreate } from '../core/communicationsWithApi';
 import { dummyLabel as dummyRequestBody } from './dummyData/dummyLabel.setup.test';
 import {
   mockHttpServerSetup,

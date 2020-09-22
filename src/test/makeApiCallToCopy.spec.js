@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { makeApiCallToCopy } from '../core/apiCalls';
+import { makeApiCallToCopy } from '../core/communicationsWithApi';
 import { dummyResponseBodyAll } from './dummyData/dummyResponseBodyOfListingLabels.setup.test';
 import {
   mockHttpServerSetup,

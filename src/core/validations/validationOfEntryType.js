@@ -1,7 +1,7 @@
 import validateOrThrow from './validationMethods';
-import { InvalidEntryTypeError } from '../customErrors';
+import { InvalidEntryTypeError } from './validationErrorClasses';
 
-export const getValidEntryTypes = () => new Set().add('labels').add('milestones');
+export const getValidEntryTypes = () => new Set(['labels', 'milestones']);
 
 export const validateEntryTypeOrThrow = (entryType) => {
   const isValid = validateOrThrow(entryType, getValidEntryTypes, InvalidEntryTypeError);

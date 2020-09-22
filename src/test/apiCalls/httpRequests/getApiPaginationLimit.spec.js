@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 
-import { getApiPaginationLimit } from '../../core/httpRequests/httpRequestUriBuilder';
+import { getApiPaginationLimit } from '../../../core/apiCalls/httpRequests/httpRequestUriBuilder';
 
 describe('The getApiPaginationLimit', function () {
   let output;
 
-  before(function () {
+  beforeEach(function () {
     output = getApiPaginationLimit();
   });
 

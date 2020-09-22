@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 
-import { getResponseOfHttpRequest } from '../../core/httpRequests/httpRequestResponseGetter';
-import { getBaseApiUriSlashRepos } from '../../core/httpRequests/httpRequestUriBuilder';
+import { getResponseOfHttpRequest } from '../../../core/apiCalls/httpRequests/httpRequestResponseGetter';
+import { getBaseApiUriSlashRepos } from '../../../core/apiCalls/httpRequests/httpRequestUriBuilder';
 import {
   mockHttpServerSetup,
   mockHttpServerCleanup,
   mockHttpServerForListingOnFailure,
-} from '../mockHttpServer';
+} from '../../mockHttpServer';
 
 describe('Test getResponseOfHttpRequest', function () {
   const method = 'GET';

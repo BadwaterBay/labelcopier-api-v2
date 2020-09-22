@@ -1,8 +1,7 @@
 import validateOrThrow from './validationMethods';
-import { InvalidActionError } from '../customErrors';
+import { InvalidActionError } from './validationErrorClasses';
 
-export const getValidActions = () =>
-  new Set().add('list').add('copy').add('create').add('update');
+export const getValidActions = () => new Set(['list', 'copy', 'create', 'update']);
 
 export const validateActionOrThrow = (action) => {
   const isValid = validateOrThrow(action, getValidActions, InvalidActionError);

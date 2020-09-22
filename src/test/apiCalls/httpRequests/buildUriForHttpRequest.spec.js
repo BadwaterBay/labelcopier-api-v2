@@ -4,14 +4,14 @@ import {
   getApiPaginationLimit,
   getBaseApiUriSlashRepos,
   buildUriForHttpRequest,
-} from '../../core/httpRequests/httpRequestUriBuilder';
+} from '../../../core/apiCalls/httpRequests/httpRequestUriBuilder';
 
 import {
   loadHomeRepoOwnerFromDotEnv,
   loadHomeRepoNameFromDotEnv,
   loadOtherRepoOwnerFromDotEnv,
   loadOtherRepoNameFromDotEnv,
-} from '../dummyData/dummyLoginInfo.setup.test';
+} from '../../dummyData/dummyLoginInfo.setup.test';
 
 describe('Test buildUriForHttpRequest', function () {
   let homeRepoOwner;

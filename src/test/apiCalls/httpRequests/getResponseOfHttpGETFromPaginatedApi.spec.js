@@ -1,13 +1,13 @@
 import { expect } from 'chai';
 
-import { getResponseOfHttpGETFromPaginatedApi } from '../core/apiCalls';
-import { dummyResponseBodyAll } from './dummyData/dummyResponseBodyOfListingLabels.setup.test';
+import { getResponseOfHttpGETFromPaginatedApi } from '../../../core/apiCalls/httpRequests/httpRequestResponseGetter';
+import { dummyResponseBodyAll } from '../../dummyData/dummyResponseBodyOfListingLabels.setup.test';
 import {
   mockHttpServerSetup,
   mockHttpServerCleanup,
   mockHttpServerForListingOnSuccess,
   mockHttpServerForListingOnFailure,
-} from './mockHttpServer';
+} from '../../mockHttpServer';
 
 describe('Test getResponseOfHttpGETFromPaginatedApi', function () {
   describe('with a mock HTTP server', function () {

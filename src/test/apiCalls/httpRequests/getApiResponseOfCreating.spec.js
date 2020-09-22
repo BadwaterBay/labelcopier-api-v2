@@ -1,15 +1,15 @@
 import { expect } from 'chai';
 
-import { buildAcceptHeaderForHttpRequest } from '../../core/httpRequests/httpRequestHeaderBuilder';
-import { getResponseOfHttpPOST } from '../../core/httpRequests/httpRequestResponseGetter';
-import { getBaseApiUriSlashRepos } from '../../core/httpRequests/httpRequestUriBuilder';
+import { buildAcceptHeaderForHttpRequest } from '../../../core/apiCalls/httpRequests/httpRequestHeaderBuilder';
+import { getApiResponseOfCreating } from '../../../core/apiCalls/apiResponseGetter';
+import { getBaseApiUriSlashRepos } from '../../../core/apiCalls/httpRequests/httpRequestUriBuilder';
 import {
   mockHttpServerSetup,
   mockHttpServerCleanup,
   mockHttpServerForPOSTOnSuccess,
-} from '../mockHttpServer';
+} from '../../mockHttpServer';
 
-describe('Test getResponseOfHttpPOST', function () {
+describe('Test getApiResponseOfCreating', function () {
   let uriForHttpPost;
 
   before(function () {
@@ -22,27 +22,17 @@ describe('Test getResponseOfHttpPOST', function () {
   });
 
   describe('with HTTP responses on success', function () {
-    let response;
+    let body;
+    // let response;
 
     describe('the HTTP request sent', function () {
       beforeEach(async function () {
         mockHttpServerForPOSTOnSuccess();
 
-        response = await getResponseOfHttpPOST(uriForHttpPost);
-      });
-
-      it('should receive an OK status', async function () {
-        const okStatus = response.ok;
-        expect(okStatus).to.be.true;
+        body = await getApiResponseOfCreating(uriForHttpPost, {});
       });
 
       describe('the HTTP request sent', function () {
-        let body;
-
-        before(async function () {
-          body = await response.json();
-        });
-
         it('should have used the HTTP POST method', function () {
           const acceptHeaderSent = body.method;
           const answerKey = 'POST';

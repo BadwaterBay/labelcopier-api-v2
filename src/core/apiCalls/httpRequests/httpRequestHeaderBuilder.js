@@ -1,9 +1,10 @@
-import { getLoginInfo } from '../loginInfo';
+import { getLoginInfo } from '../../loginInfo';
 
 export const buildAcceptHeaderForHttpRequest = () => 'application/vnd.github.v3+json';
 
 export const buildAuthorizationHeaderForHttpRequest = () => {
   const { token } = getLoginInfo();
+
   return `token ${token}`;
 };
 

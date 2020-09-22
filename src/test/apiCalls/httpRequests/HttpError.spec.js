@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { HttpError } from '../../core/customErrors';
+import HttpError from '../../../core/apiCalls/httpRequests/HttpError';
 
 describe('Test HttpError', function () {
   describe('the returned error', function () {

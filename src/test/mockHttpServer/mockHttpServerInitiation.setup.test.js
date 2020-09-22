@@ -1,6 +1,6 @@
 import nock from 'nock';
 
-import { getBaseApiUri } from '../../core/httpRequests/httpRequestUriBuilder';
+import { getBaseApiUri } from '../../core/apiCalls/httpRequests/httpRequestUriBuilder';
 
 const mockHttpServer = () => nock(getBaseApiUri());
 
