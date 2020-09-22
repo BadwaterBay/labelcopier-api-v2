@@ -1,16 +1,18 @@
 import { expect } from 'chai';
 
-import { buildAcceptHeaderForHttpRequest } from '../../core/httpRequests/httpRequestHeaderBuilder';
-import { getResponseOfHttpGET } from '../../core/httpRequests/httpRequestResponseGetter';
-import { getBaseApiUriSlashRepos } from '../../core/httpRequests/httpRequestUriBuilder';
+import { buildAcceptHeaderForHttpRequest } from '../../../core/apiCalls/httpRequests/httpRequestHeaderBuilder';
+import { getResponseOfHttpGET } from '../../../core/apiCalls/httpRequests/httpRequestResponseGetter';
+import { getBaseApiUriSlashRepos } from '../../../core/apiCalls/httpRequests/httpRequestUriBuilder';
 import {
   mockHttpServerSetup,
   mockHttpServerCleanup,
   mockHttpServerForGETOnSuccess,
-} from '../mockHttpServer';
+} from '../../mockHttpServer';
 
 describe('Test getResponseOfHttpGET', function () {
   let uriForHttpGet;
+  const entryType = 'labels';
+  const action = 'list';
 
   before(function () {
     mockHttpServerSetup();
@@ -27,7 +29,7 @@ describe('Test getResponseOfHttpGET', function () {
     beforeEach(async function () {
       mockHttpServerForGETOnSuccess();
 
-      response = await getResponseOfHttpGET(uriForHttpGet);
+      response = await getResponseOfHttpGET(entryType, action, uriForHttpGet);
     });
 
     it('should receives an OK status', async function () {

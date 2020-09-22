@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 
-import { buildAcceptHeaderForHttpRequest } from '../../core/httpRequests/httpRequestHeaderBuilder';
+import { buildAcceptHeaderForHttpRequest } from '../../../core/apiCalls/httpRequests/httpRequestHeaderBuilder';
 
 describe('The buildAcceptHeaderForHttpRequest', function () {
   let output;
 
-  before(function () {
+  beforeEach(function () {
     output = buildAcceptHeaderForHttpRequest();
   });
 

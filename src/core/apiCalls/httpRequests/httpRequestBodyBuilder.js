@@ -1,4 +1,4 @@
-import { validateEntryTypeOrThrow } from '../validations';
+import { validateEntryTypeOrThrow } from '../../validations';
 
 export const buildHttpRequestBodyForLabels = () => {
   const body = {

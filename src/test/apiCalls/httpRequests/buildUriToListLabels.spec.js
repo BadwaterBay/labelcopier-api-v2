@@ -1,13 +1,13 @@
 import { expect } from 'chai';
 
-import { buildUriToCreate } from '../../core/httpRequests/httpRequestUriBuilder';
+import { buildUriToListLabels } from '../../../core/apiCalls/httpRequests/httpRequestUriBuilder';
 
-describe('The buildUriToCreate', function () {
+describe('The buildUriToListLabels', function () {
   const input = 'https://api.github.com';
   let output;
 
-  before(function () {
-    output = buildUriToCreate(input);
+  beforeEach(function () {
+    output = buildUriToListLabels(input);
   });
 
   it('should return a string', function () {

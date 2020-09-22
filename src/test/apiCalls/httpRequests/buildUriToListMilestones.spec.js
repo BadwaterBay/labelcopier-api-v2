@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 
-import { buildUriToListMilestones } from '../../core/httpRequests/httpRequestUriBuilder';
+import { buildUriToListMilestones } from '../../../core/apiCalls/httpRequests/httpRequestUriBuilder';
 
 describe('The buildUriToListMilestones', function () {
   const input = 'https://api.github.com';
   let output;
 
-  before(function () {
+  beforeEach(function () {
     output = buildUriToListMilestones(input);
   });
 

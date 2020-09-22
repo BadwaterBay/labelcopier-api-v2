@@ -8,18 +8,25 @@ const reducerForParsingLinkHeader = (parsedLinkHeader, rawLinkHeader) => {
   }
 
   const { rel, uri } = matched.groups;
-  const parsedLinkHeaderCopy = { ...parsedLinkHeader };
-  parsedLinkHeaderCopy[rel] = uri;
 
-  return parsedLinkHeaderCopy;
+  const newRelation = {};
+  newRelation[rel] = uri;
+
+  const updatedParsedLinkHeader = {
+    ...parsedLinkHeader,
+    ...newRelation,
+  };
+
+  return updatedParsedLinkHeader;
 };
 
 export const parseLinkHeader = (rawLinkHeader = '') => {
   // Example link header (a string):
   // '<https://api.github.com/repositories/295931557/labels?per_page=3&page=2>; rel="next", <https://api.github.com/repositories/295931557/labels?per_page=3&page=3>; rel="last"'
 
-  const splitedLinkHeader = rawLinkHeader.split(',');
-  const parsedLinkHeader = splitedLinkHeader.reduce(reducerForParsingLinkHeader, {});
+  const parsedLinkHeader = rawLinkHeader
+    .split(',')
+    .reduce(reducerForParsingLinkHeader, {});
 
   return parsedLinkHeader;
 };

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { buildHttpRequestBody } from '../../core/httpRequests/httpRequestBodyBuilder';
+import { buildHttpRequestBody } from '../../../core/apiCalls/httpRequests/httpRequestBodyBuilder';
 
 describe('Test buildHttpRequestBody', function () {
   const getParsedBody = (entryType) => {
