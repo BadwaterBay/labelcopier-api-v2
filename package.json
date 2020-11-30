@@ -42,7 +42,7 @@
     "nock": "^13.0.5",
     "node-fetch": "^2.6.1",
     "nyc": "^15.1.0",
-    "prettier": "^2.2.0",
+    "prettier": "^2.2.1",
     "regenerator-runtime": "^0.13.7",
     "serve": "^11.3.2",
     "sinon": "^9.2.1"
