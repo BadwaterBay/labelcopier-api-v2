@@ -4,17 +4,17 @@ import { getRepoInfoFromLoginInfo } from '../core/loginInfo';
 import {
   loadHomeRepoOwnerFromDotEnv,
   loadHomeRepoNameFromDotEnv,
-  loadOtherRepoOwnerFromDotEnv,
-  loadOtherRepoNameFromDotEnv,
+  loadTemplateRepoOwnerFromDotEnv,
+  loadTemplateRepoNameFromDotEnv,
 } from './dummyData/dummyLoginInfo.setup.test';
 
 describe('Test getRepoInfoFromLoginInfo', function () {
   let repoOwnerOrRepoName;
-  let homeRepoOrOtherRepo;
+  let homeRepoOrTemplateRepo;
   let output;
 
   beforeEach(function () {
-    output = getRepoInfoFromLoginInfo(repoOwnerOrRepoName, homeRepoOrOtherRepo);
+    output = getRepoInfoFromLoginInfo(repoOwnerOrRepoName, homeRepoOrTemplateRepo);
   });
 
   describe("with the first argument being 'owner'", function () {
@@ -24,7 +24,7 @@ describe('Test getRepoInfoFromLoginInfo', function () {
 
     describe("with the second argument being 'home'", function () {
       before(function () {
-        homeRepoOrOtherRepo = 'home';
+        homeRepoOrTemplateRepo = 'home';
       });
 
       it('should be a string', function () {
@@ -39,7 +39,7 @@ describe('Test getRepoInfoFromLoginInfo', function () {
 
     describe("with the second argument being 'other'", function () {
       before(function () {
-        homeRepoOrOtherRepo = 'other';
+        homeRepoOrTemplateRepo = 'other';
       });
 
       it('should be a string', function () {
@@ -47,7 +47,7 @@ describe('Test getRepoInfoFromLoginInfo', function () {
       });
 
       it('should match the expected value', function () {
-        const answerKey = loadOtherRepoOwnerFromDotEnv();
+        const answerKey = loadTemplateRepoOwnerFromDotEnv();
         expect(output).to.deep.equal(answerKey);
       });
     });
@@ -60,7 +60,7 @@ describe('Test getRepoInfoFromLoginInfo', function () {
 
     describe("with the second argument being 'home'", function () {
       before(function () {
-        homeRepoOrOtherRepo = 'home';
+        homeRepoOrTemplateRepo = 'home';
       });
 
       it('should be a string', function () {
@@ -75,7 +75,7 @@ describe('Test getRepoInfoFromLoginInfo', function () {
 
     describe("with the second argument being 'other'", function () {
       before(function () {
-        homeRepoOrOtherRepo = 'other';
+        homeRepoOrTemplateRepo = 'other';
       });
 
       it('should be a string', function () {
@@ -83,7 +83,7 @@ describe('Test getRepoInfoFromLoginInfo', function () {
       });
 
       it('should match the expected value', function () {
-        const answerKey = loadOtherRepoNameFromDotEnv();
+        const answerKey = loadTemplateRepoNameFromDotEnv();
         expect(output).to.deep.equal(answerKey);
       });
     });

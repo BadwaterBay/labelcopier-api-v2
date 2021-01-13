@@ -2,41 +2,41 @@ import { getDummyLoginInfo } from '../test/dummyData/dummyLoginInfo.setup.test';
 
 export const getLoginInfo = () => getDummyLoginInfo();
 
-export const getKeyToLoginInfo = (repoOwnerOrRepoName, homeRepoOrOtherRepo) => {
+export const getKeyToLoginInfo = (repoOwnerOrRepoName, homeRepoOrTemplateRepo) => {
   const keys = {
     home: {
       owner: 'homeRepoOwner',
       name: 'homeRepoName',
     },
     other: {
-      owner: 'otherRepoOwner',
-      name: 'otherRepoName',
+      owner: 'templateRepoOwner',
+      name: 'templateRepoName',
     },
   };
 
-  return keys[homeRepoOrOtherRepo][repoOwnerOrRepoName];
+  return keys[homeRepoOrTemplateRepo][repoOwnerOrRepoName];
 };
 
-export const getRepoInfoFromLoginInfo = (repoOwnerOrRepoName, homeRepoOrOtherRepo) => {
-  const key = getKeyToLoginInfo(repoOwnerOrRepoName, homeRepoOrOtherRepo);
+export const getRepoInfoFromLoginInfo = (repoOwnerOrRepoName, homeRepoOrTemplateRepo) => {
+  const key = getKeyToLoginInfo(repoOwnerOrRepoName, homeRepoOrTemplateRepo);
   const loginInfo = getLoginInfo();
 
   return loginInfo[key];
 };
 
 export const getRepoOwnerAndRepoName = (action) => {
-  let homeRepoOrOtherRepo;
+  let homeRepoOrTemplateRepo;
 
-  const actionIsToCopyEntriesFromAnotherRepo = action === 'copy';
+  const actionIsToCopyEntriesFromAntemplateRepo = action === 'copy';
 
-  if (actionIsToCopyEntriesFromAnotherRepo) {
-    homeRepoOrOtherRepo = 'other';
+  if (actionIsToCopyEntriesFromAntemplateRepo) {
+    homeRepoOrTemplateRepo = 'other';
   } else {
-    homeRepoOrOtherRepo = 'home';
+    homeRepoOrTemplateRepo = 'home';
   }
 
-  const repoOwner = getRepoInfoFromLoginInfo('owner', homeRepoOrOtherRepo);
-  const repoName = getRepoInfoFromLoginInfo('name', homeRepoOrOtherRepo);
+  const repoOwner = getRepoInfoFromLoginInfo('owner', homeRepoOrTemplateRepo);
+  const repoName = getRepoInfoFromLoginInfo('name', homeRepoOrTemplateRepo);
 
   return {
     repoOwner,
