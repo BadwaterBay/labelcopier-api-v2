@@ -18,16 +18,16 @@ export const loadHomeRepoOwnerFromDotEnv = () =>
 export const loadHomeRepoNameFromDotEnv = () =>
   loadEnvVarIfDefined('HOME_REPO_NAME') || 'home-repo-name';
 
-export const loadOtherRepoOwnerFromDotEnv = () => 'other-repo-owner';
+export const loadTemplateRepoOwnerFromDotEnv = () => 'other-repo-owner';
 
-export const loadOtherRepoNameFromDotEnv = () => 'other-repo-name';
+export const loadTemplateRepoNameFromDotEnv = () => 'other-repo-name';
 
 export const loadTokenFromDotEnv = () => loadEnvVarIfDefined('LABELCOPIER_TOKEN') || '';
 
 export const getDummyLoginInfo = () => ({
   homeRepoOwner: loadHomeRepoOwnerFromDotEnv(),
   homeRepoName: loadHomeRepoNameFromDotEnv(),
-  otherRepoOwner: loadOtherRepoOwnerFromDotEnv(),
-  otherRepoName: loadOtherRepoNameFromDotEnv(),
+  templateRepoOwner: loadTemplateRepoOwnerFromDotEnv(),
+  templateRepoName: loadTemplateRepoNameFromDotEnv(),
   token: loadTokenFromDotEnv(),
 });

@@ -4,8 +4,8 @@ import { getRepoOwnerAndRepoName } from '../core/loginInfo';
 import {
   loadHomeRepoOwnerFromDotEnv,
   loadHomeRepoNameFromDotEnv,
-  loadOtherRepoOwnerFromDotEnv,
-  loadOtherRepoNameFromDotEnv,
+  loadTemplateRepoOwnerFromDotEnv,
+  loadTemplateRepoNameFromDotEnv,
 } from './dummyData/dummyLoginInfo.setup.test';
 
 describe('Test getRepoOwnerAndRepoName', function () {
@@ -69,7 +69,7 @@ describe('Test getRepoOwnerAndRepoName', function () {
     describe("the value of 'repoOwner'", function () {
       it('should match the expected value', function () {
         const value = output.repoOwner;
-        const answerKey = loadOtherRepoOwnerFromDotEnv();
+        const answerKey = loadTemplateRepoOwnerFromDotEnv();
         expect(value).to.deep.equal(answerKey);
       });
     });
@@ -82,7 +82,7 @@ describe('Test getRepoOwnerAndRepoName', function () {
     describe("the value of 'repoName'", function () {
       it('should match the expected value', function () {
         const value = output.repoName;
-        const answerKey = loadOtherRepoNameFromDotEnv();
+        const answerKey = loadTemplateRepoNameFromDotEnv();
         expect(value).to.deep.equal(answerKey);
       });
     });

@@ -9,21 +9,21 @@ import {
 import {
   loadHomeRepoOwnerFromDotEnv,
   loadHomeRepoNameFromDotEnv,
-  loadOtherRepoOwnerFromDotEnv,
-  loadOtherRepoNameFromDotEnv,
+  loadTemplateRepoOwnerFromDotEnv,
+  loadTemplateRepoNameFromDotEnv,
 } from '../../dummyData/dummyLoginInfo.setup.test';
 
 describe('Test buildUriForHttpRequest', function () {
   let homeRepoOwner;
   let homeRepoName;
-  let otherRepoOwner;
-  let otherRepoName;
+  let templateRepoOwner;
+  let templateRepoName;
 
   before(function () {
     homeRepoOwner = loadHomeRepoOwnerFromDotEnv();
     homeRepoName = loadHomeRepoNameFromDotEnv();
-    otherRepoOwner = loadOtherRepoOwnerFromDotEnv();
-    otherRepoName = loadOtherRepoNameFromDotEnv();
+    templateRepoOwner = loadTemplateRepoOwnerFromDotEnv();
+    templateRepoName = loadTemplateRepoNameFromDotEnv();
   });
 
   describe("with the first argument being 'labels'", function () {
@@ -46,7 +46,7 @@ describe('Test buildUriForHttpRequest', function () {
         const secondArgument = 'copy';
         const output = buildUriForHttpRequest(firstArgument, secondArgument);
 
-        const answerKey = `${getBaseApiUriSlashRepos()}/${otherRepoOwner}/${otherRepoName}/${entryType}?per_page=${getApiPaginationLimit()}&page=1`;
+        const answerKey = `${getBaseApiUriSlashRepos()}/${templateRepoOwner}/${templateRepoName}/${entryType}?per_page=${getApiPaginationLimit()}&page=1`;
 
         expect(output).to.deep.equal(answerKey);
       });
@@ -73,7 +73,7 @@ describe('Test buildUriForHttpRequest', function () {
         const secondArgument = 'copy';
         const output = buildUriForHttpRequest(firstArgument, secondArgument);
 
-        const answerKey = `${getBaseApiUriSlashRepos()}/${otherRepoOwner}/${otherRepoName}/${entryType}?per_page=${getApiPaginationLimit()}&page=1&state=all`;
+        const answerKey = `${getBaseApiUriSlashRepos()}/${templateRepoOwner}/${templateRepoName}/${entryType}?per_page=${getApiPaginationLimit()}&page=1&state=all`;
 
         expect(output).to.deep.equal(answerKey);
       });
