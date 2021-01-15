@@ -1,18 +1,22 @@
 import { expect } from 'chai';
 
-import { getResponseOfHttpGETFromPaginatedApi } from '../../../core/apiCalls/httpRequests/httpRequestResponseGetter';
-import { dummyResponseBodyAll } from '../../dummyData/dummyResponseBodyOfListingLabels.setup.test';
+import { getResponseOfHttpGETFromPaginatedApi } from '../../../../core/apiCalls/httpRequests/httpRequestResponseGetter';
+import { dummyResponseBodyAll } from '../../../dummyData/dummyResponseBodyOfListingLabels.setup.test';
 import {
   mockHttpServerSetup,
   mockHttpServerCleanup,
   mockHttpServerForListingOnSuccess,
   mockHttpServerForListingOnFailure,
-} from '../../mockHttpServer';
+} from '../../../mockHttpServer';
+import { getDummyLoginInfo } from '../../../dummyData/dummyLoginInfo.setup.test';
 
 describe('Test getResponseOfHttpGETFromPaginatedApi', function () {
   describe('with a mock HTTP server', function () {
+    let loginInfo;
+
     before(function () {
       mockHttpServerSetup();
+      loginInfo = getDummyLoginInfo();
     });
 
     after(function () {
@@ -31,7 +35,7 @@ describe('Test getResponseOfHttpGETFromPaginatedApi', function () {
 
         it('should throw an error', async function () {
           try {
-            await getResponseOfHttpGETFromPaginatedApi(entryType, action);
+            await getResponseOfHttpGETFromPaginatedApi(loginInfo, entryType, action);
           } catch (errorReceived) {
             expect(errorReceived).to.be.an('error');
           }
@@ -39,7 +43,7 @@ describe('Test getResponseOfHttpGETFromPaginatedApi', function () {
 
         it(`should throw an error that has a status code of ${failureStatusCode}`, async function () {
           try {
-            await getResponseOfHttpGETFromPaginatedApi(entryType, action);
+            await getResponseOfHttpGETFromPaginatedApi(loginInfo, entryType, action);
           } catch (errorReceived) {
             const errorfailureStatusCode = errorReceived.status;
             expect(errorfailureStatusCode).to.deep.equal(failureStatusCode);
@@ -60,7 +64,11 @@ describe('Test getResponseOfHttpGETFromPaginatedApi', function () {
         let responseBody;
 
         beforeEach(async function () {
-          responseBody = await getResponseOfHttpGETFromPaginatedApi(entryType, action);
+          responseBody = await getResponseOfHttpGETFromPaginatedApi(
+            loginInfo,
+            entryType,
+            action
+          );
         });
 
         it('should be an array', function () {

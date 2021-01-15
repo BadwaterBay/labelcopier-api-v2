@@ -8,11 +8,15 @@ import {
   mockHttpServerForCreationOnSuccess,
   mockHttpServerForCreationOnFailure,
 } from './mockHttpServer';
+import { getDummyLoginInfo } from './dummyData/dummyLoginInfo.setup.test';
 
 describe('Test makeApiCallToCreate', function () {
   describe('with a mock HTTP server', function () {
+    let loginInfo;
+
     before(function () {
       mockHttpServerSetup();
+      loginInfo = getDummyLoginInfo();
     });
 
     after(function () {
@@ -29,7 +33,7 @@ describe('Test makeApiCallToCreate', function () {
 
       it('should throw an error', async function () {
         try {
-          await makeApiCallToCreate(entryType);
+          await makeApiCallToCreate(loginInfo, entryType);
         } catch (errorReceived) {
           expect(errorReceived).to.be.an('error');
         }
@@ -37,7 +41,7 @@ describe('Test makeApiCallToCreate', function () {
 
       it(`should throw an error that has a status code of ${failureStatusCode}`, async function () {
         try {
-          await makeApiCallToCreate(entryType);
+          await makeApiCallToCreate(loginInfo, entryType);
         } catch (errorReceived) {
           const errorStatusCode = errorReceived.status;
           expect(errorStatusCode).to.deep.equal(failureStatusCode);
@@ -52,7 +56,7 @@ describe('Test makeApiCallToCreate', function () {
       beforeEach(async function () {
         mockHttpServerForCreationOnSuccess();
 
-        responseBody = await makeApiCallToCreate(entryType, dummyRequestBody);
+        responseBody = await makeApiCallToCreate(loginInfo, entryType, dummyRequestBody);
       });
 
       describe('in the received response', function () {

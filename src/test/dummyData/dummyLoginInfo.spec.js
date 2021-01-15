@@ -100,7 +100,7 @@ describe('Test module dummyLoginInfo.setup.test', function () {
         stubloadDotEnv.returns(stubEnvVars);
 
         const output = loadTokenFromDotEnv();
-        const answerKey = '';
+        const answerKey = 'randomstring';
         expect(output).to.deep.equal(answerKey);
 
         stubloadDotEnv.restore();

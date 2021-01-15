@@ -1,22 +1,25 @@
 import { expect } from 'chai';
 
-import { getRepoOwnerAndRepoName } from '../core/loginInfo';
+import { getRepoOwnerAndRepoName } from '../../core/loginInfo';
 import {
   loadHomeRepoOwnerFromDotEnv,
   loadHomeRepoNameFromDotEnv,
   loadTemplateRepoOwnerFromDotEnv,
   loadTemplateRepoNameFromDotEnv,
-} from './dummyData/dummyLoginInfo.setup.test';
+  getDummyLoginInfo,
+} from '../dummyData/dummyLoginInfo.setup.test';
 
 describe('Test getRepoOwnerAndRepoName', function () {
+  let loginInfo;
   let action;
   let output;
 
   beforeEach(function () {
-    output = getRepoOwnerAndRepoName(action);
+    loginInfo = getDummyLoginInfo();
+    output = getRepoOwnerAndRepoName(loginInfo, action);
   });
 
-  describe("with argument 'list'", function () {
+  describe("with action being 'list'", function () {
     before(function () {
       action = 'list';
     });
@@ -52,7 +55,7 @@ describe('Test getRepoOwnerAndRepoName', function () {
     });
   });
 
-  describe("with argument 'copy'", function () {
+  describe("with action being 'copy'", function () {
     before(function () {
       action = 'copy';
     });

@@ -1,13 +1,12 @@
 import { expect } from 'chai';
 
-import { buildUriToCreate } from '../../../core/apiCalls/httpRequests/httpRequestUriBuilder';
+import { getBaseApiUri } from '../../../../core/apiCalls/httpRequests/httpRequestUriBuilder';
 
-describe('The buildUriToCreate', function () {
-  const input = 'https://api.github.com';
+describe('The getBaseApiUri', function () {
   let output;
 
   beforeEach(function () {
-    output = buildUriToCreate(input);
+    output = getBaseApiUri();
   });
 
   it('should return a string', function () {
@@ -15,7 +14,7 @@ describe('The buildUriToCreate', function () {
   });
 
   it('should return a string that matches the expected value', function () {
-    const answerKey = input;
+    const answerKey = 'https://api.github.com';
     expect(output).to.deep.equal(answerKey);
   });
 });

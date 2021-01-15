@@ -9,17 +9,15 @@ export const returnTrueIfNoNeedToAddHttpRequestBody = (method) => {
   return noNeedToAddBody;
 };
 
-export const buildOptionsForFetchApi = (method, body = {}) => {
+export const buildOptionsForFetchApi = (loginInfo, method, body = {}) => {
   const optionsWithoutBody = {
     method,
-    headers: buildHttpRequestHeader(),
+    headers: buildHttpRequestHeader(loginInfo),
   };
 
   const noNeedToAddBody = returnTrueIfNoNeedToAddHttpRequestBody(method);
 
-  if (noNeedToAddBody) {
-    return optionsWithoutBody;
-  }
+  if (noNeedToAddBody) return optionsWithoutBody;
 
   const optionsWithBody = {
     ...optionsWithoutBody,
@@ -29,7 +27,7 @@ export const buildOptionsForFetchApi = (method, body = {}) => {
   return optionsWithBody;
 };
 
-export const makeHttpRequest = (method, uri, body) => {
-  const options = buildOptionsForFetchApi(method, body);
+export const makeHttpRequest = (loginInfo, method, uri, body) => {
+  const options = buildOptionsForFetchApi(loginInfo, method, body);
   return fetch(uri, options);
 };

@@ -4,7 +4,6 @@ const getSuccessStatusCode = () => 201;
 
 const mockHttpServerForPOSTOnSuccess = () => {
   const statusCode = getSuccessStatusCode();
-
   return mockHttpServer()
     .post(/.*/)
     .reply(statusCode, function (uri, requestBody) {

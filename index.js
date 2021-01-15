@@ -1,6 +1,7 @@
-export { makeApiCallToList, makeApiCallToCopy, makeApiCallToCreate } from './src/core';
-
 export {
+  makeApiCallToList,
+  makeApiCallToCopy,
+  makeApiCallToCreate,
   generateDefaultLabel,
   generateDefaultMilestone,
-} from './src/core/defaultEntries';
+} from './src/core';

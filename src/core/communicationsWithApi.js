@@ -1,20 +1,13 @@
 import { getApiResponseOfListing, getApiResponseOfCreating } from './apiCalls';
-import { validateEntryTypeOrThrow } from './validations';
 
-export const makeApiCallToList = async (entryType) => {
-  validateEntryTypeOrThrow(entryType);
-
-  return getApiResponseOfListing(entryType, 'list');
+export const makeApiCallToList = async (loginInfo, entryType) => {
+  return getApiResponseOfListing(loginInfo, entryType, 'list');
 };
 
-export const makeApiCallToCopy = async (entryType) => {
-  validateEntryTypeOrThrow(entryType);
-
-  return getApiResponseOfListing(entryType, 'copy');
+export const makeApiCallToCopy = async (loginInfo, entryType) => {
+  return getApiResponseOfListing(loginInfo, entryType, 'copy');
 };
 
-export const makeApiCallToCreate = async (entryType, body) => {
-  validateEntryTypeOrThrow(entryType);
-
-  return getApiResponseOfCreating(entryType, body);
+export const makeApiCallToCreate = async (loginInfo, entryType, body) => {
+  return getApiResponseOfCreating(loginInfo, entryType, body);
 };

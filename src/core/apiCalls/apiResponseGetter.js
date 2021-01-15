@@ -3,8 +3,8 @@ import {
   getResponseOfHttpPOST,
 } from './httpRequests/httpRequestResponseGetter';
 
-export const getApiResponseOfListing = (entryType, action) =>
-  getResponseOfHttpGETFromPaginatedApi(entryType, action);
+export const getApiResponseOfListing = (loginInfo, entryType, action) =>
+  getResponseOfHttpGETFromPaginatedApi(loginInfo, entryType, action);
 
-export const getApiResponseOfCreating = (entryType, body) =>
-  getResponseOfHttpPOST(entryType, body);
+export const getApiResponseOfCreating = (loginInfo, entryType, body) =>
+  getResponseOfHttpPOST(loginInfo, entryType, body);
