@@ -7,13 +7,16 @@ import {
   mockHttpServerCleanup,
   mockHttpServerForListingOnFailure,
 } from '../../mockHttpServer';
+import { getDummyLoginInfo } from '../../dummyData/dummyLoginInfo.setup.test';
 
 describe('Test getResponseOfHttpRequest', function () {
+  let loginInfo;
   const method = 'GET';
   let uriForHttpRequest;
 
   before(function () {
     mockHttpServerSetup();
+    loginInfo = getDummyLoginInfo();
     uriForHttpRequest = getBaseApiUriSlashRepos();
   });
 
@@ -24,7 +27,7 @@ describe('Test getResponseOfHttpRequest', function () {
   describe('with a network failure', function () {
     it('should throw an error', async function () {
       try {
-        await getResponseOfHttpRequest(method, uriForHttpRequest);
+        await getResponseOfHttpRequest(loginInfo, method, uriForHttpRequest);
       } catch (error) {
         const errorIsAnInstanceOfError = error instanceof Error;
         expect(errorIsAnInstanceOfError).to.be.true;
@@ -33,7 +36,7 @@ describe('Test getResponseOfHttpRequest', function () {
 
     it('should contain an expected error message', async function () {
       try {
-        await getResponseOfHttpRequest(method, uriForHttpRequest);
+        await getResponseOfHttpRequest(loginInfo, method, uriForHttpRequest);
       } catch (error) {
         const regex = /reason: Nock: Disallowed net connect/;
         expect(error.message).to.match(regex);
@@ -50,7 +53,7 @@ describe('Test getResponseOfHttpRequest', function () {
 
     it('should throw an error', async function () {
       try {
-        await getResponseOfHttpRequest(method, uriForHttpRequest);
+        await getResponseOfHttpRequest(loginInfo, method, uriForHttpRequest);
       } catch (errorReceived) {
         expect(errorReceived).to.be.an('error');
       }
@@ -58,7 +61,7 @@ describe('Test getResponseOfHttpRequest', function () {
 
     it(`should throw an error that has a status code of ${statusCode}`, async function () {
       try {
-        await getResponseOfHttpRequest(method, uriForHttpRequest);
+        await getResponseOfHttpRequest(loginInfo, method, uriForHttpRequest);
       } catch (errorReceived) {
         const errorStatusCode = errorReceived.status;
         expect(errorStatusCode).to.deep.equal(statusCode);

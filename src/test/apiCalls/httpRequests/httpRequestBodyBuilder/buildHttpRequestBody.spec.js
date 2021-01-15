@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { buildHttpRequestBody } from '../../../core/apiCalls/httpRequests/httpRequestBodyBuilder';
+import { buildHttpRequestBody } from '../../../../core/apiCalls/httpRequests/httpRequestBodyBuilder';
 
 describe('Test buildHttpRequestBody', function () {
   const getParsedBody = (entryType) => {
@@ -71,14 +71,6 @@ describe('Test buildHttpRequestBody', function () {
 
         it('should be a string', function () {
           expect(hexColorCode).to.be.a('string');
-        });
-
-        it('should have a length > 0', function () {
-          expect(hexColorCode).to.have.lengthOf.above(0);
-        });
-
-        it('should have a length of 6', function () {
-          expect(hexColorCode).to.have.lengthOf(6);
         });
 
         it('should be a valid hexadecimal color code without the leading hash', function () {
@@ -166,14 +158,6 @@ describe('Test buildHttpRequestBody', function () {
 
         it('should be a string', function () {
           expect(stateValue).to.be.a('string');
-        });
-
-        it('should have a length > 0', function () {
-          expect(stateValue).to.have.lengthOf.above(0);
-        });
-
-        it('should have a length of 4 or 6', function () {
-          expect(stateValue).to.match(/^.{4}$|^.{6}$/);
         });
 
         it("should be either either 'open' or 'closed'", function () {

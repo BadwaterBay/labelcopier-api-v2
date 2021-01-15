@@ -1,20 +1,27 @@
 import { expect } from 'chai';
 
-import { getRepoInfoFromLoginInfo } from '../core/loginInfo';
+import { getRepoInfoFromLoginInfo } from '../../core/loginInfo';
 import {
   loadHomeRepoOwnerFromDotEnv,
   loadHomeRepoNameFromDotEnv,
   loadTemplateRepoOwnerFromDotEnv,
   loadTemplateRepoNameFromDotEnv,
-} from './dummyData/dummyLoginInfo.setup.test';
+  getDummyLoginInfo,
+} from '../dummyData/dummyLoginInfo.setup.test';
 
 describe('Test getRepoInfoFromLoginInfo', function () {
+  let loginInfo;
   let repoOwnerOrRepoName;
   let homeRepoOrTemplateRepo;
   let output;
 
   beforeEach(function () {
-    output = getRepoInfoFromLoginInfo(repoOwnerOrRepoName, homeRepoOrTemplateRepo);
+    loginInfo = getDummyLoginInfo();
+    output = getRepoInfoFromLoginInfo(
+      loginInfo,
+      repoOwnerOrRepoName,
+      homeRepoOrTemplateRepo
+    );
   });
 
   describe("with the first argument being 'owner'", function () {

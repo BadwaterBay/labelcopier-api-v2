@@ -1,13 +1,13 @@
 import { expect } from 'chai';
 
-import { buildUriToListMilestones } from '../../../core/apiCalls/httpRequests/httpRequestUriBuilder';
+import { buildUriToCreate } from '../../../../core/apiCalls/httpRequests/httpRequestUriBuilder';
 
-describe('The buildUriToListMilestones', function () {
+describe('The buildUriToCreate', function () {
   const input = 'https://api.github.com';
   let output;
 
   beforeEach(function () {
-    output = buildUriToListMilestones(input);
+    output = buildUriToCreate(input);
   });
 
   it('should return a string', function () {
@@ -15,7 +15,7 @@ describe('The buildUriToListMilestones', function () {
   });
 
   it('should return a string that matches the expected value', function () {
-    const answerKey = `${input}&state=all`;
+    const answerKey = input;
     expect(output).to.deep.equal(answerKey);
   });
 });

@@ -1,35 +1,20 @@
 import { getRepoOwnerAndRepoName } from '../../loginInfo';
 
-export const getBaseApiUri = () => 'https://api.github.com';
-
-export const getBaseApiUriSlashRepos = () => `${getBaseApiUri()}/repos`;
-
-export const getApiPaginationLimit = () => 100;
-
-export const appendPaginationToUri = (uri) =>
-  `${uri}?per_page=${getApiPaginationLimit()}&page=1`;
-
-export const buildUriToListLabels = (uri) => uri;
-
-export const buildUriToListMilestones = (uri) => `${uri}&state=all`;
-
 export const getUriBuilderOfListing = (entryType) => {
   const uriBuilders = {
-    labels: (uri) => buildUriToListLabels(uri),
-    milestones: (uri) => buildUriToListMilestones(uri),
+    labels: (uri) => uri,
+    milestones: (uri) => `${uri}&state=all`,
   };
-
   return uriBuilders[entryType];
 };
 
-export const buildUriToList = (uri) => {
+export const buildUriToList = (uri, entryType) => {
+  const appendPaginationToUri = (uri1) => {
+    const apiPaginationLimit = 100;
+    return `${uri1}?per_page=${apiPaginationLimit}&page=1`;
+  };
   const uriWithParams = appendPaginationToUri(uri);
-
-  const regex = /\/(?<entryType>labels|milestones)$/;
-  const { entryType } = uri.match(regex).groups;
-
   const buildUri = getUriBuilderOfListing(entryType);
-
   return buildUri(uriWithParams);
 };
 
@@ -37,24 +22,27 @@ export const buildUriToCreate = (uri) => uri;
 
 export const getUriBuilderOfAction = (action) => {
   const uriBuilderFunctions = {
-    list: (uri) => buildUriToList(uri),
-    copy: (uri) => buildUriToList(uri),
+    list: (uri, entryType) => buildUriToList(uri, entryType),
+    copy: (uri, entryType) => buildUriToList(uri, entryType),
     create: (uri) => buildUriToCreate(uri),
   };
-
-  return uriBuilderFunctions[action];
+  const buildFunc = uriBuilderFunctions[action];
+  return buildFunc;
 };
 
-export const buildUriForHttpRequest = (entryType, action, entryIdentifier = null) => {
-  const { repoOwner, repoName } = getRepoOwnerAndRepoName(action);
+export const getBaseApiUri = () => 'https://api.github.com';
+
+export const getBaseApiUriSlashRepos = () => `${getBaseApiUri()}/repos`;
+
+export const buildUriForHttpRequest = (loginInfo, entryType, action) => {
+  const { repoOwner, repoName } = getRepoOwnerAndRepoName(loginInfo, action);
   const uri = `${getBaseApiUriSlashRepos()}/${repoOwner}/${repoName}/${entryType}`;
   const buildUri = getUriBuilderOfAction(action);
-
-  return buildUri(uri, entryIdentifier);
+  return buildUri(uri, entryType);
 };
 
-export const buildUriForHttpRequestGET = (entryType, action) =>
-  buildUriForHttpRequest(entryType, action);
+export const buildUriForHttpRequestGET = (loginInfo, entryType, action) =>
+  buildUriForHttpRequest(loginInfo, entryType, action);
 
-export const buildUriForHttpRequestPOST = (entryType) =>
-  buildUriForHttpRequest(entryType, 'create');
+export const buildUriForHttpRequestPOST = (loginInfo, entryType) =>
+  buildUriForHttpRequest(loginInfo, entryType, 'create');

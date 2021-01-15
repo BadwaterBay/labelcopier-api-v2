@@ -1,21 +1,24 @@
 import { expect } from 'chai';
 
-import { buildAcceptHeaderForHttpRequest } from '../../../core/apiCalls/httpRequests/httpRequestHeaderBuilder';
-import { getResponseOfHttpGET } from '../../../core/apiCalls/httpRequests/httpRequestResponseGetter';
-import { getBaseApiUriSlashRepos } from '../../../core/apiCalls/httpRequests/httpRequestUriBuilder';
+import { buildAcceptHeaderForHttpRequest } from '../../../../core/apiCalls/httpRequests/httpRequestHeaderBuilder';
+import { getResponseOfHttpGET } from '../../../../core/apiCalls/httpRequests/httpRequestResponseGetter';
+import { getBaseApiUriSlashRepos } from '../../../../core/apiCalls/httpRequests/httpRequestUriBuilder';
 import {
   mockHttpServerSetup,
   mockHttpServerCleanup,
   mockHttpServerForGETOnSuccess,
-} from '../../mockHttpServer';
+} from '../../../mockHttpServer';
+import { getDummyLoginInfo } from '../../../dummyData/dummyLoginInfo.setup.test';
 
 describe('Test getResponseOfHttpGET', function () {
+  let loginInfo;
   let uriForHttpGet;
   const entryType = 'labels';
   const action = 'list';
 
   before(function () {
     mockHttpServerSetup();
+    loginInfo = getDummyLoginInfo();
     uriForHttpGet = getBaseApiUriSlashRepos();
   });
 
@@ -28,8 +31,7 @@ describe('Test getResponseOfHttpGET', function () {
 
     beforeEach(async function () {
       mockHttpServerForGETOnSuccess();
-
-      response = await getResponseOfHttpGET(entryType, action, uriForHttpGet);
+      response = await getResponseOfHttpGET(loginInfo, entryType, action, uriForHttpGet);
     });
 
     it('should receives an OK status', async function () {

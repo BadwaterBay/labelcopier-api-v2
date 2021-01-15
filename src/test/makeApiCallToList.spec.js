@@ -7,11 +7,15 @@ import {
   mockHttpServerCleanup,
   mockHttpServerForListingOnSuccess,
 } from './mockHttpServer';
+import { getDummyLoginInfo } from './dummyData/dummyLoginInfo.setup.test';
 
 describe('Test makeApiCallToList', function () {
   describe('with a mock HTTP server', function () {
+    let loginInfo;
+
     before(function () {
       mockHttpServerSetup();
+      loginInfo = getDummyLoginInfo();
     });
 
     after(function () {
@@ -29,7 +33,7 @@ describe('Test makeApiCallToList', function () {
         let responseBody;
 
         beforeEach(async function () {
-          responseBody = await makeApiCallToList(entryType);
+          responseBody = await makeApiCallToList(loginInfo, entryType);
         });
 
         it('should be an array', function () {
@@ -47,7 +51,7 @@ describe('Test makeApiCallToList', function () {
         let responseBody;
 
         beforeEach(async function () {
-          responseBody = await makeApiCallToList(entryType);
+          responseBody = await makeApiCallToList(loginInfo, entryType);
         });
 
         it('should be an array', function () {

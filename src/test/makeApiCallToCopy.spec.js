@@ -7,6 +7,7 @@ import {
   mockHttpServerCleanup,
   mockHttpServerForListingOnSuccess,
 } from './mockHttpServer';
+import { getDummyLoginInfo } from './dummyData/dummyLoginInfo.setup.test';
 
 describe('Test makeApiCallToCopy', function () {
   describe('with a mock HTTP server', function () {
@@ -24,12 +25,14 @@ describe('Test makeApiCallToCopy', function () {
       });
 
       describe("the return value with argument 'labels'", function () {
+        let loginInfo;
         const entryType = 'labels';
         const responseBodyAnswerKey = dummyResponseBodyAll;
         let responseBody;
 
         beforeEach(async function () {
-          responseBody = await makeApiCallToCopy(entryType);
+          loginInfo = getDummyLoginInfo();
+          responseBody = await makeApiCallToCopy(loginInfo, entryType);
         });
 
         it('should be an array', function () {

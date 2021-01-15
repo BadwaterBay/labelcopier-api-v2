@@ -10,7 +10,6 @@ export const buildResponseForPOSTOnSuccess = (uri, requestBody) => {
   const id = 123456789;
   const nodeId = 'RHVtbXkgbm9kZSBpZA==';
   const url = 'https://api.github.com/repos';
-
   const body = {
     id,
     node_id: nodeId,
@@ -20,9 +19,7 @@ export const buildResponseForPOSTOnSuccess = (uri, requestBody) => {
     color,
     default: true,
   };
-
   const statusCode = getSuccessStatusCode();
-
   return [statusCode, body];
 };
 
