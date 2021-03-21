@@ -1,11 +1,9 @@
 import { buildHttpRequestHeader } from './httpRequestHeaderBuilder';
 
-export const obtainHttpMethodsThatDoNotHaveBody = () => new Set().add('GET');
-
 export const returnTrueIfNoNeedToAddHttpRequestBody = (method) => {
+  const obtainHttpMethodsThatDoNotHaveBody = () => new Set().add('GET').add('DELETE');
   const httpMethodsThatDoNotHaveBody = obtainHttpMethodsThatDoNotHaveBody();
   const noNeedToAddBody = httpMethodsThatDoNotHaveBody.has(method);
-
   return noNeedToAddBody;
 };
 
@@ -17,7 +15,9 @@ export const buildOptionsForFetchApi = (loginInfo, method, body = {}) => {
 
   const noNeedToAddBody = returnTrueIfNoNeedToAddHttpRequestBody(method);
 
-  if (noNeedToAddBody) return optionsWithoutBody;
+  if (noNeedToAddBody) {
+    return optionsWithoutBody;
+  }
 
   const optionsWithBody = {
     ...optionsWithoutBody,

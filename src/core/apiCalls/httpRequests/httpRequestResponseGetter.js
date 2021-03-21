@@ -1,4 +1,5 @@
 import HttpError from './HttpError';
+import { buildHttpRequestBody } from './httpRequestBodyBuilder';
 import { makeHttpRequest } from './httpRequestMaker';
 import {
   buildUriForHttpRequestGET,
@@ -9,13 +10,18 @@ import { parseLinkHeaderFromHttpResponse } from './linkHeaderParser';
 export const getResponseOfHttpRequest = async (loginInfo, method, uri, body = {}) => {
   const response = await makeHttpRequest(loginInfo, method, uri, body);
   const httpRequestFailed = !response.ok;
-  if (httpRequestFailed) throw new HttpError(response);
+
+  if (httpRequestFailed) {
+    throw new HttpError(response);
+  }
+
   return response;
 };
 
 export const getResponseOfHttpGET = async (loginInfo, entryType, action, uri) => {
   const uriForHttpRequest =
     uri || buildUriForHttpRequestGET(loginInfo, entryType, action);
+
   const response = await getResponseOfHttpRequest(loginInfo, 'GET', uriForHttpRequest);
   return response;
 };
@@ -43,7 +49,9 @@ export const getResponseOfHttpGETFromPaginatedApi = async (
     uriOfNextPage,
   } = await parseResponseOfHttpGETFromPaginatedApi(response);
 
-  if (thereIsNoNextPage) return responseBody;
+  if (thereIsNoNextPage) {
+    return responseBody;
+  }
 
   const combineResponseBodyWithNextPage = async () => [
     ...responseBody,
@@ -59,8 +67,9 @@ export const getResponseOfHttpGETFromPaginatedApi = async (
   return responseBodyCombinedWithNextPage;
 };
 
-export const getResponseOfHttpPOST = async (loginInfo, entryType, body) => {
+export const getResponseOfHttpPOST = async (loginInfo, entryType, entry) => {
   const uri = buildUriForHttpRequestPOST(loginInfo, entryType);
+  const body = buildHttpRequestBody(loginInfo, entryType, entry);
   const response = await getResponseOfHttpRequest(loginInfo, 'POST', uri, body);
   const responseBody = await response.json();
   return responseBody;

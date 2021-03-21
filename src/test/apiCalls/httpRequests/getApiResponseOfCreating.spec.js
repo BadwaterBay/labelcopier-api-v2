@@ -2,19 +2,22 @@ import { expect } from 'chai';
 
 import { buildAcceptHeaderForHttpRequest } from '../../../core/apiCalls/httpRequests/httpRequestHeaderBuilder';
 import { getApiResponseOfCreating } from '../../../core/apiCalls/apiResponseGetter';
-import { getBaseApiUriSlashRepos } from '../../../core/apiCalls/httpRequests/httpRequestUriBuilder';
 import {
   mockHttpServerSetup,
   mockHttpServerCleanup,
   mockHttpServerForPOSTOnSuccess,
 } from '../../mockHttpServer';
+import { getDummyNewLabel } from '../../dummyData/dummyLabel.setup.test';
+import { getDummyLoginInfo } from '../../dummyData/dummyLoginInfo.setup.test';
 
 describe('Test getApiResponseOfCreating', function () {
-  let uriForHttpPost;
+  let loginInfo;
+  let dummyLabel;
 
   before(function () {
     mockHttpServerSetup();
-    uriForHttpPost = getBaseApiUriSlashRepos();
+    loginInfo = getDummyLoginInfo();
+    dummyLabel = getDummyNewLabel();
   });
 
   after(function () {
@@ -23,13 +26,11 @@ describe('Test getApiResponseOfCreating', function () {
 
   describe('with HTTP responses on success', function () {
     let body;
-    // let response;
 
     describe('the HTTP request sent', function () {
       beforeEach(async function () {
         mockHttpServerForPOSTOnSuccess();
-
-        body = await getApiResponseOfCreating(uriForHttpPost, {});
+        body = await getApiResponseOfCreating(loginInfo, 'labels', dummyLabel);
       });
 
       describe('the HTTP request sent', function () {

@@ -27,4 +27,5 @@ export const getDummyLoginInfo = () => ({
   templateRepoOwner: loadTemplateRepoOwnerFromDotEnv(),
   templateRepoName: loadTemplateRepoNameFromDotEnv(),
   token: loadTokenFromDotEnv(),
+  domain: 'github',
 });

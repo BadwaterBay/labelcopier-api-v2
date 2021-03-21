@@ -35,6 +35,5 @@ export const parseLinkHeaderFromHttpResponse = (response) => {
   const { headers } = response;
   const rawLinkHeader = headers.get('link');
   const parsedLinkHeader = parseLinkHeader(rawLinkHeader);
-
   return parsedLinkHeader;
 };
