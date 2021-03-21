@@ -11,24 +11,6 @@ export const buildHttpRequestBodyForLabelToBeCreatedOnGithub = (label) => {
   return body;
 };
 
-export const buildHttpRequestBodyForLabelToBeDeletedOnGithub = () => {
-  return null;
-};
-
-export const buildHttpRequestBodyForLabelToBeUpdatedOnGithub = (label) => {
-  const { name, description, color, originalName } = label;
-  const colorWithoutLeadingHex = color.substring(1);
-
-  const body = {
-    name: originalName,
-    new_name: name,
-    color: colorWithoutLeadingHex,
-    description,
-  };
-
-  return body;
-};
-
 export const buildHttpRequestBodyForLabel = (loginInfo, label) => {
   const { domain } = loginInfo;
   const { action } = label;
@@ -36,8 +18,6 @@ export const buildHttpRequestBodyForLabel = (loginInfo, label) => {
   const funcToBuildHttpRequestBodyForLabelToBe = {
     github: {
       create: (_label) => buildHttpRequestBodyForLabelToBeCreatedOnGithub(_label),
-      update: (_label) => buildHttpRequestBodyForLabelToBeUpdatedOnGithub(_label),
-      delete: () => buildHttpRequestBodyForLabelToBeDeletedOnGithub(),
     },
   };
 
@@ -61,23 +41,6 @@ export const buildHttpRequestBodyForMilestoneToBeCreatedOnGithub = (milestone) =
   return body;
 };
 
-export const buildHttpRequestBodyForMilestoneToBeDeletedOnGithub = () => {
-  return null;
-};
-
-export const buildHttpRequestBodyForMilestoneToBeUpdatedOnGithub = (milestone) => {
-  const { title, state, description, dueOn } = milestone;
-
-  const body = {
-    title,
-    state,
-    description,
-    due_on: dueOn,
-  };
-
-  return body;
-};
-
 export const buildHttpRequestBodyForMilestone = (loginInfo, milestone) => {
   const { domain } = loginInfo;
   const { action } = milestone;
@@ -86,9 +49,6 @@ export const buildHttpRequestBodyForMilestone = (loginInfo, milestone) => {
     github: {
       create: (_milestone) =>
         buildHttpRequestBodyForMilestoneToBeCreatedOnGithub(_milestone),
-      update: (_milestone) =>
-        buildHttpRequestBodyForMilestoneToBeUpdatedOnGithub(_milestone),
-      delete: () => buildHttpRequestBodyForMilestoneToBeDeletedOnGithub(),
     },
   };
 
