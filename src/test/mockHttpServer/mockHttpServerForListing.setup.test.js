@@ -17,12 +17,16 @@ export const buildResponseBodyFromDummyData = (dataSource, uri = '') => {
   const matched = uri.match(uriRegex);
   const noMatchesWereFound = matched === null;
 
-  if (noMatchesWereFound) return data.outOfRange;
+  if (noMatchesWereFound) {
+    return data.outOfRange;
+  }
 
   const { pageNum } = matched.groups;
   const pageNumIsOutOfRange = pageNum > lastPageNum;
 
-  if (pageNumIsOutOfRange) return data.outOfRange;
+  if (pageNumIsOutOfRange) {
+    return data.outOfRange;
+  }
 
   return data[pageNum];
 };

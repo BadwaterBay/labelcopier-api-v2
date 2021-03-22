@@ -1,45 +1,43 @@
 import { expect } from 'chai';
 
 import { buildHttpRequestBody } from '../../../../core/apiCalls/httpRequests/httpRequestBodyBuilder';
+import { getDummyLoginInfo } from '../../../dummyData/dummyLoginInfo.setup.test';
+import { getDummyNewLabel } from '../../../dummyData/dummyLabel.setup.test';
+import { getDummyNewMilestone } from '../../../dummyData/dummyMilestone.setup.test';
 
 describe('Test buildHttpRequestBody', function () {
-  const getParsedBody = (entryType) => {
-    const stringifiedBody = buildHttpRequestBody(entryType);
-    return JSON.parse(stringifiedBody);
-  };
+  let loginInfo;
 
-  describe("with argument 'labels'", function () {
-    describe('the return value as a whole', function () {
-      let body;
+  before(function () {
+    loginInfo = getDummyLoginInfo();
+  });
 
-      before(function () {
-        body = buildHttpRequestBody('labels');
-      });
+  describe("with entryType being 'labels'", function () {
+    let dummyLabel;
+    let body;
 
+    before(function () {
+      dummyLabel = getDummyNewLabel();
+      body = buildHttpRequestBody(loginInfo, 'labels', dummyLabel);
+    });
+
+    describe('the return value', function () {
       it('should not be null', function () {
         expect(body).to.not.be.null;
       });
 
-      it('should be a string', function () {
-        expect(body).to.be.a('string');
+      it('should not be stringified', function () {
+        expect(body).to.not.be.a('string');
       });
     });
 
-    describe('the parsed body', function () {
-      let body;
-
-      before(function () {
-        body = getParsedBody('labels');
+    describe("in the key-value pair whose key is 'name'", function () {
+      it('the key should exist', function () {
+        const keyExists = 'name' in body;
+        expect(keyExists).to.be.true;
       });
 
-      describe("a key called 'name' in the request body", function () {
-        it('should exist', function () {
-          const keyExists = 'name' in body;
-          expect(keyExists).to.be.true;
-        });
-      });
-
-      describe("the value of key 'name'", function () {
+      describe('the value', function () {
         let nameValue;
 
         before(function () {
@@ -54,15 +52,15 @@ describe('Test buildHttpRequestBody', function () {
           expect(nameValue).to.have.lengthOf.above(0);
         });
       });
+    });
 
-      describe("a key called 'color' in the request body", function () {
-        it('should exist', function () {
-          const keyExists = 'color' in body;
-          expect(keyExists).to.be.true;
-        });
+    describe("in the key-value pair whose key is 'color'", function () {
+      it('the key should exist', function () {
+        const keyExists = 'color' in body;
+        expect(keyExists).to.be.true;
       });
 
-      describe("the value of key 'color'", function () {
+      describe('the value', function () {
         let hexColorCode;
 
         before(function () {
@@ -78,55 +76,47 @@ describe('Test buildHttpRequestBody', function () {
           expect(hexColorCode).to.match(hexColorCodeRegex);
         });
       });
+    });
 
-      describe("a key called 'description' in the request body", function () {
-        it('should exist', function () {
-          const keyExists = 'description' in body;
-          expect(keyExists).to.be.true;
-        });
+    describe("in the key-value pair whose key is 'description'", function () {
+      it('the key should exist', function () {
+        const keyExists = 'description' in body;
+        expect(keyExists).to.be.true;
       });
 
-      describe("the value of key 'description'", function () {
-        it('should be a string', function () {
-          const descriptionValue = body.description;
-          expect(descriptionValue).to.be.a('string');
-        });
+      it('the value should be a string', function () {
+        const descriptionValue = body.description;
+        expect(descriptionValue).to.be.a('string');
       });
     });
   });
 
   describe("with argument 'milestones'", function () {
-    describe('the return value as a whole', function () {
-      let body;
+    let dummyMilestone;
+    let body;
 
-      before(function () {
-        body = buildHttpRequestBody('milestones');
-      });
+    before(function () {
+      dummyMilestone = getDummyNewMilestone();
+      body = buildHttpRequestBody(loginInfo, 'milestones', dummyMilestone);
+    });
 
+    describe('the return value', function () {
       it('should not be null', function () {
         expect(body).to.not.be.null;
       });
 
-      it('should be a string', function () {
-        expect(body).to.be.a('string');
+      it('should not be stringified', function () {
+        expect(body).to.not.be.a('string');
       });
     });
 
-    describe('the parsed body', function () {
-      let body;
-
-      before(function () {
-        body = getParsedBody('milestones');
+    describe("a key-value pair whose key is 'title'", function () {
+      it('the key should exist', function () {
+        const keyExists = 'title' in body;
+        expect(keyExists).to.be.true;
       });
 
-      describe("a key called 'title' in the request body", function () {
-        it('should exist', function () {
-          const keyExists = 'title' in body;
-          expect(keyExists).to.be.true;
-        });
-      });
-
-      describe("the value of key 'title'", function () {
+      describe('the value', function () {
         let titleValue;
 
         before(function () {
@@ -141,15 +131,15 @@ describe('Test buildHttpRequestBody', function () {
           expect(titleValue).to.have.lengthOf.above(0);
         });
       });
+    });
 
-      describe("a key called 'state' in the request body", function () {
-        it('should exist', function () {
-          const keyExists = 'state' in body;
-          expect(keyExists).to.be.true;
-        });
+    describe("a key-value pair whose key is 'state'", function () {
+      it('the key exist', function () {
+        const keyExists = 'state' in body;
+        expect(keyExists).to.be.true;
       });
 
-      describe("the value of key 'state'", function () {
+      describe('the value', function () {
         let stateValue;
 
         before(function () {
@@ -164,29 +154,27 @@ describe('Test buildHttpRequestBody', function () {
           expect(stateValue).to.match(/^open$|^closed$/);
         });
       });
+    });
 
-      describe("a key called 'description' in the request body", function () {
-        it('should exist', function () {
-          const keyExists = 'description' in body;
-          expect(keyExists).to.be.true;
-        });
+    describe("a key-value pair whose key is 'description'", function () {
+      it('the key should exist', function () {
+        const keyExists = 'description' in body;
+        expect(keyExists).to.be.true;
       });
 
-      describe("the value of key 'description'", function () {
-        it('should be a string', function () {
-          const descriptionValue = body.description;
-          expect(descriptionValue).to.be.a('string');
-        });
+      it('the value should be a string', function () {
+        const descriptionValue = body.description;
+        expect(descriptionValue).to.be.a('string');
+      });
+    });
+
+    describe("a key-value pair whose key is 'due_on'", function () {
+      it('the key should exist', function () {
+        const keyExists = 'due_on' in body;
+        expect(keyExists).to.be.true;
       });
 
-      describe("a key called 'due_on' in the request body", function () {
-        it('should exist', function () {
-          const keyExists = 'due_on' in body;
-          expect(keyExists).to.be.true;
-        });
-      });
-
-      describe("the value of key 'due_on'", function () {
+      describe('the value', function () {
         let dueOnValue;
 
         before(function () {

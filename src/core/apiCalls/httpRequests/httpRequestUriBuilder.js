@@ -5,6 +5,7 @@ export const getUriBuilderOfListing = (entryType) => {
     labels: (uri) => uri,
     milestones: (uri) => `${uri}&state=all`,
   };
+
   return uriBuilders[entryType];
 };
 
@@ -13,6 +14,7 @@ export const buildUriToList = (uri, entryType) => {
     const apiPaginationLimit = 100;
     return `${uri1}?per_page=${apiPaginationLimit}&page=1`;
   };
+
   const uriWithParams = appendPaginationToUri(uri);
   const buildUri = getUriBuilderOfListing(entryType);
   return buildUri(uriWithParams);
@@ -21,12 +23,13 @@ export const buildUriToList = (uri, entryType) => {
 export const buildUriToCreate = (uri) => uri;
 
 export const getUriBuilderOfAction = (action) => {
-  const uriBuilderFunctions = {
+  const funcToBuildUri = {
     list: (uri, entryType) => buildUriToList(uri, entryType),
     copy: (uri, entryType) => buildUriToList(uri, entryType),
     create: (uri) => buildUriToCreate(uri),
   };
-  const buildFunc = uriBuilderFunctions[action];
+
+  const buildFunc = funcToBuildUri[action];
   return buildFunc;
 };
 

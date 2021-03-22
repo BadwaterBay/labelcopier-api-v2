@@ -1,13 +1,13 @@
 import { expect } from 'chai';
 
-import { makeApiCallToList } from '../core/communicationsWithApi';
-import { dummyResponseBodyAll } from './dummyData/dummyResponseBodyOfListingLabels.setup.test';
+import { makeApiCallToList } from '../../core/communicationsWithApi';
+import { dummyResponseBodyAll } from '../dummyData/dummyResponseBodyOfListingLabels.setup.test';
 import {
   mockHttpServerSetup,
   mockHttpServerCleanup,
   mockHttpServerForListingOnSuccess,
-} from './mockHttpServer';
-import { getDummyLoginInfo } from './dummyData/dummyLoginInfo.setup.test';
+} from '../mockHttpServer';
+import { getDummyLoginInfo } from '../dummyData/dummyLoginInfo.setup.test';
 
 describe('Test makeApiCallToList', function () {
   describe('with a mock HTTP server', function () {

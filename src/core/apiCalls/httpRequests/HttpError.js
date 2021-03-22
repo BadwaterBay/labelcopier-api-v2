@@ -1,6 +1,7 @@
 export default class HttpError extends Error {
   constructor(response = {}) {
     let message = 'HTTP request failed';
+
     const responseStatus = response.status;
 
     if (responseStatus) {

@@ -8,6 +8,14 @@ export const makeApiCallToCopy = async (loginInfo, entryType) => {
   return getApiResponseOfListing(loginInfo, entryType, 'copy');
 };
 
-export const makeApiCallToCreate = async (loginInfo, entryType, body) => {
-  return getApiResponseOfCreating(loginInfo, entryType, body);
+export const makeApiCallToCreate = async (loginInfo, entryType, entry) => {
+  return getApiResponseOfCreating(loginInfo, entryType, entry);
 };
+
+// export const commitChangesByMakingApiCalls = (inputFromFrontEnd) => {
+// const { loginInfo, labels, milestones } = inputFromFrontEnd;
+
+// // parse labels for next step
+// const processedLabelsForApiCalls = processLabelsForApiCalls(loginInfo, labels);
+// const processedMilestonesForApiCalls = processMilestonesForApiCalls(loginInfo, labels);
+// };

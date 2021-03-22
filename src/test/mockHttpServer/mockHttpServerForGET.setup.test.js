@@ -4,6 +4,7 @@ const getSuccessStatusCode = () => 200;
 
 const mockHttpServerForGETOnSuccess = () => {
   const statusCode = getSuccessStatusCode();
+
   return mockHttpServer()
     .get(/.*/)
     .reply(statusCode, function (uri) {

@@ -10,5 +10,6 @@ export const buildHttpRequestHeader = (loginInfo) => {
     Accept: buildAcceptHeaderForHttpRequest(),
     Authorization: buildAuthorizationHeaderForHttpRequest(loginInfo),
   };
+
   return headers;
 };

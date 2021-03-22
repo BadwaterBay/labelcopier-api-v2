@@ -9,6 +9,7 @@ export const getKeyToLoginInfo = (repoOwnerOrRepoName, homeRepoOrTemplateRepo) =
       name: 'templateRepoName',
     },
   };
+
   return keys[homeRepoOrTemplateRepo][repoOwnerOrRepoName];
 };
 
@@ -22,17 +23,9 @@ export const getRepoInfoFromLoginInfo = (
 };
 
 export const getRepoOwnerAndRepoName = (loginInfo, action) => {
-  let homeRepoOrTemplateRepo;
-  const actionIsToCopyEntriesFromAntemplateRepo = action === 'copy';
-
-  if (actionIsToCopyEntriesFromAntemplateRepo) {
-    homeRepoOrTemplateRepo = 'other';
-  } else {
-    homeRepoOrTemplateRepo = 'home';
-  }
-
+  const actionIsToCopyEntriesFromTemplateRepo = action === 'copy';
+  const homeRepoOrTemplateRepo = actionIsToCopyEntriesFromTemplateRepo ? 'other' : 'home';
   const repoOwner = getRepoInfoFromLoginInfo(loginInfo, 'owner', homeRepoOrTemplateRepo);
   const repoName = getRepoInfoFromLoginInfo(loginInfo, 'name', homeRepoOrTemplateRepo);
-
   return { repoOwner, repoName };
 };

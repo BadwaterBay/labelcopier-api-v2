@@ -3,20 +3,22 @@ import { expect } from 'chai';
 import generateUniqueId from '../../core/defaultEntries/generateUniqueId';
 
 describe('Test generateUniqueId', function () {
+  const numOfTests = 100000;
+
   it('should be a string', function () {
     const output = generateUniqueId();
     expect(output).to.be.a('string');
   });
 
-  describe('when 100000 random IDs are generated, each ID...', function () {
+  describe(`when ${numOfTests} random IDs are generated consecutively, each ID...`, function () {
     it('should be unique', function () {
-      const output = new Array(100000).fill().map(() => generateUniqueId());
-      const arrayLength = output.length;
+      const randomIds = new Array(numOfTests).fill().map(() => generateUniqueId());
+      const numOfIds = randomIds.length;
 
-      const set = new Set(output);
-      const setSize = set.size;
+      const set = new Set(randomIds);
+      const numOfUniqueIds = set.size;
 
-      expect(arrayLength).to.deep.equal(setSize);
+      expect(numOfIds).to.deep.equal(numOfUniqueIds);
     });
   });
 });
